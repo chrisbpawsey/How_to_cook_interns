@@ -149,7 +149,17 @@ For MPI , we used fortran and c compilers. We ran the jobs on cray, gnu and inte
 
 \Subsection{Zeus}
 
-Zeus is a 
+According to Pawsey system descriptions is an SGI Linux cluster that is principally utilized for pre and post-preparing of information, extensive shared memory calculations and remote visualization work.
+It is diverse group with 30 nodes in different layouts.It shares the same /home,/scratch and /group file systems with Magnus. 
+To access all the 30 nodes, the client has to ssh to zeus.pawsey.org.au.
+Zeus contains one large-memory nodes known as Zythos, which is SGI UV2000 system. 
+Zythos contains 24 UV blades which show up as a solitary framework with large amounts of shared memory of 6TB.Out of 24 blades, 20 of them contain two 6-core Intel Xeon E5-4610 CPUs and the remnant contain only one of these CPUs and one other Nvidia Tesla K20 GPU. 
+Numerous clients are allowed to keep running on Zythos simultaneously.
+Aside from Zythos, the other 29 nodes of Zeus all have two 8-core Intel Xeon E5-2670 CPUs. 
+GPUs are also featured in 27 of these with the 20 containing each one of them Nvidia Tesla K20 GPU. 
+Only one user is allowed to work on each of the nodes at a time.
+Zeus is part of the arrangement of Pawsey Project assets and it is located at the Pawsey Supercomputing Center and it is incorporated with the rest of the infrastructure which permits a different scope of work.
+ 
 
 
 
