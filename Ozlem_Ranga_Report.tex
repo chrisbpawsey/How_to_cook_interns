@@ -3,12 +3,27 @@
 
 \Title{Internship Report for Ranganai Mapondera and Ozlem Erkilic}
 \Subtitle{Getexample: Reducing Barriers to Entry on Shared HPC Resources}
+
+\author{\IEEEauthorblockN{Ranganai Mapondera}
+\IEEEauthorblockA{Pawsey Supercomputing Centre\\
+Curtin University\\
+Perth, Australia\\
+Email:ranganai.mapondera@curtin.edu.au }
+\and
+\IEEEauthorblockN{Ozlem Erkilic}
+\IEEEauthorblockA{Pawsey Supercomputing Centre\\
+Curtin University\\
+Perth, Australia\\
+Email:o}
+\\
+
+
 \Section{Abstract}
 \begin{abstract}
 
 The best way to understand a concept is by going through and working out examples to easily aqcuire knowledge that is intended to pass which helps to complete tasks given in various resources, constraints and goals.
 A lot of expert users browse through the internet to find these examples but there are always so many of them which are not specifically for what they need. 
-This brings our a challenge of having to modify the example to suit their requirements on a particular computing resource (HPC). 
+This brings the challenge of having to modify the example to suit their requirements on a particular computing resource (HPC). 
 The modified example mostly do not work and it is hard to tell what the problem is. 
 The user will not be able to tell if the example is even correct or if the code is broken or if the example is correct and the modifications are correct but some adjustments are needed. 
 This paper provides solutions to this problem through the use of a simple resource "getexample". 
@@ -39,7 +54,8 @@ common differences between these HPC systems are as follow:
 \end{Introduction}
 \
 \
-\\
+\Section{Overview of getexample}
+
 \Section{Scope}
 \begin{scope}
 
@@ -51,8 +67,9 @@ This shows the expected results from this Internship at Pawsey Supercomputing Ce
 
 \end{scope}
 \
-\\
-\Section{Magnus}
+\Section{Creating Examples}
+
+\Subsection{Magnus}
 
 This is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. The cray supercomputer consists of intel Xeon E5-2690 v3(Haswell) as its only processor across all compute nodes. For the compute nodes, each one of them has 2 processors and each of these 2 processors has 12 cores.
 Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across the 1488 nodes. Each of these nodes has a memory of 64GB. The maximum login nodes of magnus are 2.
@@ -61,73 +78,73 @@ Fortan and C code were used for most of the examples to illustrate the differenc
 
 
 
-\Subsection{MPI Jobs}
+\Subsubsection{MPI Jobs}
 
 For MPI , we used fortran and c compilers. We ran the jobs on cray, gnu and intel.
 
 
-\Subsection{OMP Jobs}
+\Subsubsection{OMP Jobs}
 
 
 
-\Subsection{Helloworld Jobs}
+\Subsubsection{Helloworld Jobs}
 
 
 
-\Subsection{CUDA Jobs}
+\Subsubsection{CUDA Jobs}
 
 
 
-\Subsection(Hybrid Jobs}
+\Subsubsection(Hybrid Jobs}
 
 
-\Section{Zeus}
+\Subsection{Zeus}
 
 Zeus is a 
 
 
 
-\Subsection{MPI Jobs}
+\Subsubsection{MPI Jobs}
 
 
 
 
-\Subsection{OMP Jobs}
+\Subsubsection{OMP Jobs}
 
 
 
-\Subsection{Helloworld}
+\Subsubsection{Helloworld}
 
 
 
-\Subsection{Cuda Jobs}
+\Subsubsection{Cuda Jobs}
 
 
 
-\Subsection{Hybrid Jobs}
+\Subsubsection{Hybrid Jobs}
 
 
-\Section{Zythos}
-
-
-
-\Subsection{MPI Jobs}
+\Subsection{Zythos}
 
 
 
-\Subsection{OMP Jobs}
+\Subsubsection{MPI Jobs}
 
 
 
-\Subsection{Helloworld}
+\Subsubsection{OMP Jobs}
 
 
 
-\Subsection{Cuda Jobs}
+\Subsubsection{Helloworld}
 
 
 
-\Subsection{Hybrid Jobs}
+\Subsubsection{Cuda Jobs}
+
+
+
+\Subsubsection{Hybrid Jobs}
 
 
 \Section{Other Completed Tasks}
