@@ -107,13 +107,16 @@ submit these jobs to different supercomputers such as Magnus, Zeus and Zythos us
 
 Each individual example on the getexample occupies a directory that is reserved for them and each example consists of three files listed below:
     
-1) SLURM (Simple Linux Utility for Resource Management) : It allows users to submit batch jobs to the supercomputers, check on their status and cancel 
+1) SLURM (Simple Linux Utility for Resource Management) : This allows users to submit batch jobs to the supercomputers, check on their status and cancel 
 them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and jobID. It 
 initially creates a scracth directory for the example to run in and the results are outputted to a log file. Then, it creates a group directory in which
 the results directory for that example is created. Once the output file is completed within the scratch, the output file is then moved to the results
 directory located in the group directory. The scratch directory then gets removed.
 
-2) README :   
+2) Source Code : This is usually a source code in c or Fortran and taken from wiki pages to run the example.
+
+3) README : This file provides information about what the source code is and a set of instruction on how to submit the SLURM to the supercomputers
+including how to compile the source code, which commands to use to submit the task to specific 
 
 \Subsection{Creating Examples on Magnus}
 
