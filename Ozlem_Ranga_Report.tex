@@ -100,8 +100,20 @@ This shows the expected results from this Internship at Pawsey Supercomputing Ce
 \Section{Creating Examples}
 
 The examples included in the getexample library were created by internship students at Pawsey with their supervisor while the source codes within the
-getexample were obtained from some wiki pages and websites and were acknowledged in the examples. 
+getexample were obtained from some wiki pages and websites and were acknowledged in the examples. Some of the examples were also created due to the
+needs of research students for their internship projects at Pawsey. The examples obtained in getexample are mainly for teaching the users how to work
+with parallel programming including MPI, OpenMP and hybrid jobs such as OpenMP/MPI which utilise basic source codes similar to "Hello world" program and
+submit these jobs to different supercomputers such as Magnus, Zeus and Zythos using different environments and compiler modules. 
 
+Each individual example on the getexample occupies a directory that is reserved for them and each example consists of three files listed below:
+    
+1) SLURM (Simple Linux Utility for Resource Management) : It allows users to submit batch jobs to the supercomputers, check on their status and cancel 
+them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and jobID. It 
+initially creates a scracth directory for the example to run in and the results are outputted to a log file. Then, it creates a group directory in which
+the results directory for that example is created. Once the output file is completed within the scratch, the output file is then moved to the results
+directory located in the group directory. The scratch directory then gets removed.
+
+2) README :   
 
 \Subsection{Creating Examples on Magnus}
 
