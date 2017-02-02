@@ -234,6 +234,18 @@ workq and to run the JOB on Zeus as shown:
 #SBATCH --partition=workq
 #SBATCH --nodes=2
 
+Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many errors. For this reason, this line was
+excluded in the SLURM files of Zeus to compile the codes correctly.
+
+To run the code with a given executable on scratch, and store the results in a directory within the GROUP directory to an output file, the generic 
+variables were created in the SLURM as shown:
+
+EXECUTABLE=hello_mpi_gnu
+SCRATCH=$MYSCRATCH/run_hostname/$SLURM_JOBID
+RESULTS=$MYGROUP/hellompi_gnu_results_zeus/$SLURM_JOBID
+
+OUTPUT=hello_mpi_gnu.log
+
 On Magnus, a total of 48 MPI tasks could be run whereas this was too much for Zeus and thus, the number of MPI tasks was reduced to 32. To run the job
 on Zeus, instead of using aprun command used in Magnus, srun command was used as srun is specific to Zeus while aprun is designed for Magnus. Therefore,
 to run the code, the following command was used as:
@@ -242,13 +254,41 @@ srun -n 32 -N 2 --mpi=pmi2 ./$EXECUTABLE >> ${OUTPUT}
 
 where -n defines the total number of MPI tasks while -N defines the number of used on Zeus which is different from Magnus as -N defines the number of
 MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to srun which wasn't used in aprun where --mpi=pmi2 is the MPI
-implementation and must specified to srun for the code to run correctly.
+implementation and must specified to srun for the correct operation.
 
-In the README file, 
+In the README file, depending on which compiler the source code would be compiled with, the compiler module was included and loaded in the README file 
+when it ran executed. For example, if the GNU compiler module was to be used, the gcc module was loaded with the mpt module as shown below:
 
- 
+module load gcc
+module load mpt
+
+If the code was to be compiled with Intel, the gcc module needs to unloaded and the Intel compiler module needs to be loaded. This applies to the PGI
+compiler as well, after the gcc module is unloaded, the pgi module should be loaded as shown below:
+
+For Intel:
+module unload gcc
+module load intel
+module load mpt
+
+For PGI:
+module unload gcc
+module load pgi
+module load mpt
+
+The mpt module needs to be loaded whenever an MPI or OpenMP/MPI task is submitted to Zeus as it provides the SGI message to access the MPI library.
+
+Additionally, the README file contains the command to compile the FORTRAN 90, hello_mpi.f90 code  and hello_mpi.c c code with the GNU or Intel compiler 
+as shown:
+
+mpif90 hello_mpi.f90 -o hello_mpi_gnu
+mpicc hello_mpi.c -o hello_mpi_gnu
+
+For MPI tasks as mentioned earlier, the command to compile the code does not change for GNU and Intel compilers, whereas it differs for PGI compiler.
+Hence to compile the basic hello_mpi.f90 and hello_mpi.c code, the following commands were used:
+
+pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi
+pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_c 
   
-
 
 
 
