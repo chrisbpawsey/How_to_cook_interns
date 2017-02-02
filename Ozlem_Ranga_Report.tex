@@ -172,7 +172,7 @@ The slurm script shows the choice in number of nodes, which are 2 for MPI tasks.
 We make use of aprun to launch MPI jobs, in this case we have to choose 48 MPI tasks with 24 MPI tasks per node.
 To express this in slurm we wrote as:
 
-aprun -48 -N24 ./code_mpi.x
+aprun -n 48 -N 24 ./code_mpi.x
 
 We additionally have to avoid any inadvertent OpenMP threading by setting OMP_NUM_THREADS to 1:
 
@@ -228,8 +228,25 @@ The two common source codes used for the MPI examples were hello_mpi.f90 (a FORT
 with GNU, Intel and PGI compiler options on Zeus to assist the users on how to run the same code on Zeus with different modules, even if the command 
 for compiling the same source code does not for MPI tasks on Zeus.
 
-For both Magnus and Zeus on 2 nodes, a total of 48 MPI tasks could be run on Magnus whereas 
-this was too much for Zeus and hence the number of MPI tasks was reduced to 32.
+As mentioned earlier, both codes were run on both Magnus and Zeus on 2 nodes. However, the partition in the SLURM was changed to workq from debugq to 
+workq and to run the JOB on Zeus as shown:
+
+#SBATCH --partition=workq
+#SBATCH --nodes=2
+
+On Magnus, a total of 48 MPI tasks could be run whereas this was too much for Zeus and thus, the number of MPI tasks was reduced to 32. To run the job
+on Zeus, instead of using aprun command used in Magnus, srun command was used as srun is specific to Zeus while aprun is designed for Magnus. Therefore,
+to run the code, the following command was used as:
+
+srun -n 32 -N 2 --mpi=pmi2 ./$EXECUTABLE >> ${OUTPUT}
+
+where -n defines the total number of MPI tasks while -N defines the number of used on Zeus which is different from Magnus as -N defines the number of
+MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to srun which wasn't used in aprun where --mpi=pmi2 is the MPI
+implementation and must specified to srun for the code to run correctly.
+
+In the README file, 
+
+ 
   
 
 
