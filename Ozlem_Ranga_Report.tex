@@ -145,30 +145,56 @@ systems. For example, if the user wishes to use more nodes on the supercomputers
 \Subsection{Creating Examples on Magnus}
 
 This is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. The cray supercomputer consists of intel Xeon E5-2690 v3(Haswell) as its only processor across all compute nodes. For the compute nodes, each one of them has 2 processors and each of these 2 processors has 12 cores.
-Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across the 1488 nodes. Each of these nodes has a memory of 64GB. The maximum login nodes of magnus are 2.
-During this summer internship, the focus was to provide simplified getexamples which we developed and each othe directories described below consists of mainly the source code, the slurm file and the Readme . The source code details the script with the example code taken from online sources or developed to be the job script. The jobscript produces the executable file after being compiled. The slurm file is where a batch script is submitted. It runs the executable from the jobscript. The executable file will be used by the compiler. In the slurm, we have slurm directives where we choose the number of nodes or ntasks. We also specify the compiler before the executable. The Readme file is where the executable file is run. The slurm is given because it contains the compiler. The results from running the executable are submitted to Scratch which deletes the files after some time. A new group has been created which stores all the files from scratch and in the script the results are deleted from scratch and only viewed in group. Compute nodes are attached to scratch and are capable of moving back and forth.
-Fortan and C code were used for most of the examples to illustrate the differences. Some wrappers were implemented as well for these compilers which are ftn,mpif90 and cc. When using these, it is important to invoke the actual programming environment being used PrgEnv-cray, PrgEnv-gnu or PrgEnv-intel.The relevant paths are organized via the module system.
+Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across the 1488 nodes. Each of these nodes has a memory of 64GB. The maximum login nodes of magnus are 2.Each of these two nodes has 64GB of DDR4 memory that is shared between 24 cores.Of these 24 cores, each one of them has 32KB instruction and data caches, and one 256KB L2 cache; 12 of the cores share one 30 MB L3 cache.The memory of the system is 93TB in total.During this summer internship, the focus was to provide simplified getexamples which we developed and each othe directories described below consists of mainly the source code, the slurm file and the Readme . The source code details the script with the example code taken from online sources or developed to be the job script. The jobscript produces the executable file after being compiled. The slurm file is where a batch script is submitted. It runs the executable from the jobscript. The executable file will be used by the compiler. In the slurm, we have slurm directives where we choose the number of nodes or ntasks. We also specify the compiler before the executable. The Readme file is where the executable file is run. The slurm is given because it contains the compiler. The results from running the executable are submitted to Scratch which deletes the files after some time. A new group has been created which stores all the files from scratch and in the script the results are deleted from scratch and only viewed in group. Compute nodes are attached to scratch and are capable of moving back and forth.$
+$Fortan and C code were used for most of the examples to illustrate the differences. Some wrappers were implemented as well for these compilers which are ftn,mpif90 and cc. When using these, it is important to invoke the actual programming environment being used PrgEnv-cray, PrgEnv-gnu or PrgEnv-intel.The relevant paths are organized via the module system.
 
 
 
-\Subsubsection{MPI Jobs}
+\Subsubsection{MPI Examples}
 
 For MPI , we used fortran and c compilers. We ran the jobs on cray, gnu and intel.
+It is necessary to realise that we need to load each module we intend to work on by doing a a module load PrgEnv-(name of environment). 
+If another module had been added before, it is best to swap or unload the currently loaded environment module and load the necessary module.
+After loading the module, do a module list to see if the module has been added preferrably the latest version.
+To do MPI jobs on a cray,determine whether it is for a C or fortran code for the source code.
+A lot of MPI jobs are said to be more effective with 24MPI tasks per node with one MPI task running on each core.
+
+The slurm script shows the choice in number of nodes, which are 2 for MPI tasks. The wall-clock time limit varies but for two fully occupied MPI tasks, we chose one minute and this is expressed as:
+
+#SBATCH --nodes=2
+#SBATCH --time=00:01:00
+#SBATCH --export=NONE
+
+We make use of aprun to launch MPI jobs, in this case we have to choose 48 MPI tasks with 24 MPI tasks per node.
+To express this in slurm we wrote as:
+
+aprun -48 -N24 ./code_mpi.x
+
+We additionally have to avoid any inadvertent OpenMP threading by setting OMP_NUM_THREADS to 1:
+
+export OMP_NUM_THREADS=1
+
+The aprun changes when we have to use 2 partially occupied nodes , in this case there is a distribution of the 24MPI tasks to 2 nodes, each supplying 64GB and each running 12 MPI tasks.
+
+aprun -n 24 -N 12 -S 6 ./code_mpi.x
+
+As shown in the aprun, for 2 partially occupied nodes we also put 6 tasks per socket.
+Everything else does not change from the fully occupied nodes except of the aprun to launch the job.
 
 
-\Subsubsection{OMP Jobs}
+\Subsubsection{OMP Examples}
 
 
 
-\Subsubsection{Helloworld Jobs}
+\Subsubsection{Helloworld Examples}
 
 
 
-\Subsubsection{CUDA Jobs}
+\Subsubsection{CUDA Examples}
 
 
 
-\Subsubsection(Hybrid Jobs}
+\Subsubsection(Hybrid Examples}
 
 
 \Subsection{Zeus}
@@ -187,47 +213,47 @@ Zeus is part of the arrangement of Pawsey Project assets and it is located at th
 
 
 
-\Subsubsection{MPI Jobs}
+\Subsubsection{MPI Examples}
 
 
 
 
-\Subsubsection{OMP Jobs}
+\Subsubsection{OMP Examples}
 
 
 
-\Subsubsection{Helloworld}
+\Subsubsection{Helloworld Examples}
 
 
 
-\Subsubsection{Cuda Jobs}
+\Subsubsection{Cuda Examples}
 
 
 
-\Subsubsection{Hybrid Jobs}
+\Subsubsection{Hybrid Examples}
 
 
 \Subsection{Zythos}
 
 
 
-\Subsubsection{MPI Jobs}
+\Subsubsection{MPI Examples}
 
 
 
-\Subsubsection{OMP Jobs}
+\Subsubsection{OMP Examples}
 
 
 
-\Subsubsection{Helloworld}
+\Subsubsection{Helloworld Examples}
 
 
 
-\Subsubsection{Cuda Jobs}
+\Subsubsection{Cuda Examples}
 
 
 
-\Subsubsection{Hybrid Jobs}
+\Subsubsection{Hybrid Examples}
 
 
 \Section{Other Completed Tasks}
