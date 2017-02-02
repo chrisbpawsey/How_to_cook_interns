@@ -163,8 +163,10 @@ After loading the module, do a module list to see if the module has been added p
 To do MPI jobs on a cray,determine whether it is for a C or fortran code for the source code.
 A lot of MPI jobs are said to be more effective with 24MPI tasks per node with one MPI task running on each core.
 
-The slurm script shows the choice in number of nodes, which are 2 for MPI tasks. The wall-clock time limit varies but for two fully occupied MPI tasks, we chose one minute and this is expressed as:
+The slurm script shows the choice in number of nodes, which are 2 for MPI tasks. The wall-clock time limit varies but for two fully occupied MPI tasks, we chose one minute.
+Note that for Magnus, we express the partition as debugq as one of the slurm directives and this is all expressed as:
 
+#SBATCH --partition=debugq
 #SBATCH --nodes=2
 #SBATCH --time=00:01:00
 #SBATCH --export=NONE
@@ -184,10 +186,74 @@ aprun -n 24 -N 12 -S 6 ./code_mpi.x
 
 As shown in the aprun, for 2 partially occupied nodes we also put 6 tasks per socket.
 Everything else does not change from the fully occupied nodes except of the aprun to launch the job.
+The name of the executable is also given in the slurm script and it is shown where this executable will be run.
+It is vital to write the name of the output file by using commands:
 
+OUTPUT=mpifortran_cray.log
+ 
+For this report, the job is run in scratch , a directory that deletes, so the job is sent to Group, a long-lasting directory. 
+The job is run and results are viewed in Group when we do a cat of the Output file. 
+The results are only viewed  after an immediate deletion of the scratch directory.
+
+In the bash script for MPI i.e README, we write the code to compile which is 
+
+ftn -O2 hello_mpi.f90 -o hello_mpi_cray if we are using fortran source code which is in this case hello_mpi.f90. To direct to the executable file,a -o is placed after the source code and the executable comes immetiadely after it.
+To submit the job to magnus, do an sbatch and write the slurm file in the bash script.
+
+sbatch hello_mpi_cray.slurm
+
+If the source code in use is C code, the slurm is not different from that of Fortran. However, the README does change. 
+The code to compile changes and is written as:
+
+cc -O2 hello_mpi.c -o hello_mpi_cray
+
+The rest of the bash script remains the same way it was with fortran and the results are located and directed the same way.
+
+When using gnu or intel as the module environment, we have to swap with the previously loaded module and also do a module list. 
+It is easier when it is included in the slurm file although regardless of that, it should be done manually.
+The bash script has no changes needed to be made to it as long as the right module is loaded.
 
 \Subsubsection{OMP Examples}
 
+OpenMP may be thought of one task because of their restrictions to only one node.
+The node can be fully occupied node or a node occupying a single NUMA region.
+When it is fully occupied, the slurm script has a choice of only one node as explained.
+
+#SBATCH --partition=debugq
+#SBATCH --nodes=1
+#SBATCH --time=00:01:00
+#SBATCH --export=NONE
+
+The launching of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" of 24.
+The OMP_NUM_THREADS should also be set to 24 giving an expression of:
+
+export OMP_NUM_THREADS=24
+aprun -n 1 -d 24 ./code_omp.x
+
+For a node occupying a single NUMA region, the code is more efficient when threads are limited to one NUMA region containing 12 cores. 
+The expression -d 12 ensures that threads are bound correctly but this can be clearly done by specifying this via cc.
+This is all illustrated below as:
+
+export OMP_NUM_THREADS=12
+aprun -n 1 -d 12 -cc 0-11 ./code_omp.x
+
+If the source code being run is fortran,on cray the README shows the compiling code as:
+
+ftn -O2 -h omp omp_hello.f -o hello_omp_cray for fortran and
+cc -O2 -h omp omp_hello.c -o hello_omp_cray for C code
+
+The job is also submitted to Magnus by using the sbatch before the slurm as previously mentioned.
+It is important to remember the module before running the job, to load it first accordingly.
+
+When using gnu, the compiler changes to 
+ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
+cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
+ 
+For fortran and C codes respectively.
+
+For intel, the compiler used is expressed as:
+ftn -O2 -openmp omp_hello.f -o omp_hello_intel
+cc -O2 -openmp omp_hello.c -o omp_hello_intel
 
 
 \Subsubsection{Helloworld Examples}
@@ -197,8 +263,56 @@ Everything else does not change from the fully occupied nodes except of the apru
 \Subsubsection{CUDA Examples}
 
 
-
 \Subsubsection(Hybrid Examples}
+
+A hybrid job is a mixed job between OpenMP and MPI. It aims to take advantage of the OpenMP in NUMA region which is also known as a socket.
+The OpenMP is in this case involved with one 12 core chip and runs on 6 threads on each of 8 MPI tasks which dispersed evenly between the NUMA regions.
+A sum of 2 nodes is required which accomodates 8MPI tasks and 6 threads.
+Besides specifying the number of nodes, the time is also shown in the slurm script as done in the previous examples.In this case we could choose 5 minutes as done in the getexamples.
+The partition remains the same debugq.
+
+#SBATCH --partition=debugq
+#SBATCH --nodes=2
+#SBATCH --time=00:05:00
+#SBATCH --export=NONE
+
+8MPI tasks(n) are specified to aprun to launch the job.This is specified also with 4 MPI tasks per node(N) per socket (-S 2).
+Each of the 8 MPI tasks will have 6 threads (-d 6). The OMP_NUM_THREADS is also expressed as 6.
+The full expression is shown as:
+
+export OMP_NUM_THREADS=6
+aprun -n 8 -N 4 -S 2 -d 6 ./code_hybrid.x
+
+The bash script will show the compiling code as:
+ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray
+cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray
+
+For each of the source codes, fortran and C.
+
+Again in this example, cray module should be loaded as:
+module load PrgEnv-cray or module swap with the previously loaded module environment.
+
+For gnu environment,for fortran and C codes respectively, the README shows the compiler code as:
+ftn -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
+cc -O2 -fopenmp hybrid_hello.c -o hello_hybrid_gnu
+
+The job is submitted to Magnus by sbatch{slurm script}
+
+The environment is then changed first before running the job:
+module swap PrgEnv-cray PrgEnv-gnu
+
+or unload cray first
+module unload PrgEnv-cray
+module load PrgEnv-gnu
+module list
+
+The instructions to run the executable are given in the README  file as:
+./README 
+This applies for all the getexamples.
+
+In intel the compiler code changes as well to:
+ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
+cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
 
 
 \Subsection{Zeus}
