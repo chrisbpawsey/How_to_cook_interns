@@ -25,14 +25,14 @@ The best way to understand how to compute a task based on some resources, constr
 codes. A lot of expert users browse through the Internet to find these examples that they can slightly modify to achieve the results they expect. 
 However, this can be very diffucult for some users who are new to this environment as there are always so many of these examples which are not 
 always what they specifically need. This brings out the challenge of having to modify the example to suit their requirements on a particular computing 
-resource (HPC) since the modified examples mostly do not work due to HPC systems having different set ups. Therefore, it is hard to tell what the
-problem is for inexperienced users. Quite often, the users maynot be able to tell if the example is broken or if the 
-example is correct, but maybe the code requires some adjustments. This is a very common problem encountered by the users of Pawsey Supercomputing Centre. 
-For this reason, this paper provides solutions to how to run and submit examples on different resources such as supercomputers of Pawsey Supercomputing 
-Centre through the use of a simple tool "getexample". The "getexample" is an effective tool that is developed for the supercomputers of Pawsey that are
-dependent on a command line interface and aims to help their users learn to how to run code mainly parallel programming examples, submit these examples 
-to different operating systems of Pawsey such as Magnus, Zeus and Zythos. Although, the getexample is limited to these HPC resources, it has the 
-potential to be expanded to other resources and interfaces. 
+resource, mainly the High Performance Computing systems (HPC) since the modified examples mostly do not work due to HPC systems having different set ups.
+Therefore, it is hard to tell what the problem is for inexperienced users. Quite often, the users maynot be able to tell if the example is broken or if 
+the example is correct, but maybe the code requires some adjustments. This is a very common problem encountered by the users of Pawsey Supercomputing 
+Centre. For this reason, this paper provides solutions to how to run and submit examples on different resources such as supercomputers of Pawsey 
+Supercomputing Centre through the use of a simple tool "getexample". The "getexample" is an effective tool that is developed for the supercomputers of 
+Pawsey that are dependent on a command line interface and aims to help their users learn to how to run code mainly parallel programming examples, submit 
+these examples to different operating systems of Pawsey such as Magnus, Zeus and Zythos. Although, the getexample is limited to these HPC resources, it 
+has the potential to be expanded to other resources and interfaces. 
 
 
 \end{abstract}
@@ -120,6 +120,24 @@ scratch, the output file is then moved to the results directory located in the g
 how to compile the source code depending on the program environment such as Cray, Intel, GNU or PGI, what can be modified in the SLURM directives, and 
 a set of instruction on how to submit the SLURM to the supercomputers including which specific commands to use for particular supercomputers.
 
+For the examples in the getexample tool to be user friendly, helpful and efficient for working with HPC resources, there are many design considerations 
+to be held as listed below:
+
+1) Before launching the examples to the users, it should be made sure that the examples run successfully without encountering any errors. For example,
+they should be suitable for the current operating systems with the use of correct commands for the different compiler modules such as Intel, GNU, Cray
+and PGI. 
+
+2) All the files to run the example successfully should be included with the example.
+
+3) To minimise confusion on how to perform the example on the supercomputers, the example should be executed with a single command. For example, 
+if a simple shell script is used, it should be run as ./README.
+
+4) The examples should have enough instructions about what each command does and which parts of the SLURM and the README file can be modified so that
+all the files and the scripts should be able to edited easily by the users for their preferences.
+
+5) It must be ensured that the README and SLURM have enough information about how to change certain parts of these files so that the users can run the 
+example how they wish to on the supercomputers. These instructions should be understandable by the new users who are not very experienced with these
+systems. For example, if the user wishes to use more nodes on the supercomputers, one should be able to know where to change it from.
  
 
 
