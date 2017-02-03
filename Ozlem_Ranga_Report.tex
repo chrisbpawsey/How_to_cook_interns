@@ -477,7 +477,13 @@ pgcc -Mmpi=sgimpi -mp hello_hybrid.c -o hello_hybrid_pgi
 
 \Subsubsection{CUDA Examples}
 
+The CUDA programming is a heterogeneous model where both CPU and GPU nodes are used. In CUDA, the host refers to the CPU and its memory, whereas the 
+device refers to the GPU an its memory. Therefore, a CUDA code running on the host have access to the memory on the host as well as the device. It also 
+executes kernel functions on the device which are executed by GPU threads in parallel. A basic CUDA works by declaring and allocating host and device 
+memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
+results from the device to the host.
 
+The getexample tool includes a basic Hello world CUDA code for Zeus. It uses 
 
 \Subsection{Zythos}
 
