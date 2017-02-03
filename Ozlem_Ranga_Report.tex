@@ -156,15 +156,16 @@ $Fortan and C code were used for most of the examples to illustrate the differen
 
 \Subsubsection{MPI Examples}
 
-For MPI , we used fortran and c compilers. We ran the jobs on cray, gnu and intel.
+For MPI examples, we used fortran and c compilers. We ran the jobs on cray, gnu and intel.
 It is necessary to realise that we need to load each module we intend to work on by doing a a module load PrgEnv-(name of environment). 
 If another module had been added before, it is best to swap or unload the currently loaded environment module and load the necessary module.
 After loading the module, do a module list to see if the module has been added preferrably the latest version.
 To do MPI jobs on a cray,determine whether it is for a C or fortran code for the source code.
 A lot of MPI jobs are said to be more effective with 24MPI tasks per node with one MPI task running on each core.
 
-The slurm script shows the choice in number of nodes, which are 2 for MPI tasks. The wall-clock time limit varies but for two fully occupied MPI tasks, we chose one minute.
-Note that for Magnus, we express the partition as debugq as one of the slurm directives and this is all expressed as:
+The SLURM script shows the choice in number of nodes, which are 2 for MPI tasks. 
+The wall-clock time limit varies but for two fully occupied MPI tasks, we chose one minute.
+Note that for Magnus, we express the partition as debugq as one of the slurm directives.The export=NONE should be included and this is all expressed as:
 
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
@@ -186,32 +187,42 @@ aprun -n 24 -N 12 -S 6 ./code_mpi.x
 
 As shown in the aprun, for 2 partially occupied nodes we also put 6 tasks per socket.
 Everything else does not change from the fully occupied nodes except of the aprun to launch the job.
-The name of the executable is also given in the slurm script and it is shown where this executable will be run.
-It is vital to write the name of the output file by using commands:
+The name of the executable is also given in the SLURM script and it is shown where this executable will be run.
+It is vital to give the name of the output file by using commands:
 
 OUTPUT=mpifortran_cray.log
  
 For this report, the job is run in scratch , a directory that deletes, so the job is sent to Group, a long-lasting directory. 
-The job is run and results are viewed in Group when we do a cat of the Output file. 
-The results are only viewed  after an immediate deletion of the scratch directory.
+The job is run and results are viewed in GROUP when we do a cat of the OUTPUT file. 
+The results are only viewed  after an immediate deletion of the SCRATCH directory.
 
 In the bash script for MPI i.e README, we write the code to compile which is 
 
-ftn -O2 hello_mpi.f90 -o hello_mpi_cray if we are using fortran source code which is in this case hello_mpi.f90. To direct to the executable file,a -o is placed after the source code and the executable comes immetiadely after it.
+ftn -O2 hello_mpi.f90 -o hello_mpi_cray if we are using fortran source code which is in this case hello_mpi.f90. 
+To direct to the executable file,a -o is placed after the source code and the executable comes immetiadely after it.
 To submit the job to magnus, do an sbatch and write the slurm file in the bash script.
 
 sbatch hello_mpi_cray.slurm
 
-If the source code in use is C code, the slurm is not different from that of Fortran. However, the README does change. 
+If the source code in use is C code, the SLURM is not different from that of Fortran. However, the README does change. 
 The code to compile changes and is written as:
 
 cc -O2 hello_mpi.c -o hello_mpi_cray
 
 The rest of the bash script remains the same way it was with fortran and the results are located and directed the same way.
-
 When using gnu or intel as the module environment, we have to swap with the previously loaded module and also do a module list. 
-It is easier when it is included in the slurm file although regardless of that, it should be done manually.
+
+module unload PrgEnv-cray
+module load PrgEnv-gnu
+
+then for intel
+
+module unload PrgEnv-gnu
+module load PrgEnv-intel
+
+It is easier when it is included in the SLURM file although regardless of that, it should be done manually.
 The bash script has no changes needed to be made to it as long as the right module is loaded.
+
 
 \Subsubsection{OMP Examples}
 
@@ -224,7 +235,8 @@ When it is fully occupied, the slurm script has a choice of only one node as exp
 #SBATCH --time=00:01:00
 #SBATCH --export=NONE
 
-The launching of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" of 24.
+The launching of the job by aprun is done by specifying that there is one task and 24 threads. 
+The number of threads is also called a "depth" of 24.
 The OMP_NUM_THREADS should also be set to 24 giving an expression of:
 
 export OMP_NUM_THREADS=24
@@ -257,12 +269,6 @@ cc -O2 -openmp omp_hello.c -o omp_hello_intel
 
 
 
-
-
-
-\Subsubsection{CUDA Examples}
-
-
 \Subsubsection(Hybrid Examples}
 
 A hybrid job is a mixed job between OpenMP and MPI. It aims to take advantage of the OpenMP in NUMA region which is also known as a socket.
@@ -293,12 +299,14 @@ Again in this example, cray module should be loaded as:
 module load PrgEnv-cray or module swap with the previously loaded module environment.
 
 For gnu environment,for fortran and C codes respectively, the README shows the compiler code as:
+
 ftn -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
 cc -O2 -fopenmp hybrid_hello.c -o hello_hybrid_gnu
 
 The job is submitted to Magnus by sbatch{slurm script}
 
 The environment is then changed first before running the job:
+
 module swap PrgEnv-cray PrgEnv-gnu
 
 or unload cray first
@@ -307,10 +315,12 @@ module load PrgEnv-gnu
 module list
 
 The instructions to run the executable are given in the README  file as:
+
 ./README 
 This applies for all the getexamples.
 
 In intel the compiler code changes as well to:
+
 ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
 cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
 
@@ -421,13 +431,158 @@ pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_c
 
 \Subsection{Zythos}
 
+Being one of the large memory nodes of Zeus, this framework is said to be an SGI UV2000 which gives access of up to 6TB of shared memory in cache-coherent non-uniform memory access (ccNUMA) mold.
+The hidden equipment depends on Intel Xeon E5-4610 2.4 GHz innovation which gives 6-core nodes(*). 
+Every core has about 32KB L1 direction and information reserves and one 256KB L2 memory store. 
+Each of the 6-core nodes shares a 15MB L3 cache,and each node gives 128 GB main memory: 256GB per two-second, or two-node, blade.
+
+In the system, four blades contain one Intel Xeon 6-core chip plus one Tesla K20 GPU card.
+Worldwide store coherency is guaranteed by method of unique equipment which gets to physically remote memory over the system with low inertness and high data transfer capacity.
+Zythos is a restricted asset and is liable to strict qualification criteria. 
+One of the following criteria for every task must be met:
+
+1) A vast informational collection that must be held in shared memory,and more networthy than 512GB.
+2) Gigantic thread-level parallelism, for example,utilizing tens or many CPU cores.
+
+It is more preferrable that the work meets both criteria. 
+On the off chance that the work does not satisfy both criteria, then Zeus is a more fitting asset.
+The extensive most extreme walltime on Zythos is necessary to help investigate these expansive informational collections.
+Having programming with long runtimes or tak-level parallelism does not justify access to Zythos.
+As such most of the work has to be changed the group name in order to run it. 
+Specific accounts are allowed to run on Zythos. It is necessary to change account name and put the authorized account otherwise your job will not run.
+
+Zythos has no direct access, all work is facillitated via Zeus.Login to Zeus the usual way then access Zythos in Zeus.
+The advancement environment for Zythos is the as Zeus, this includes compilers, libraries,etc. 
+It is therefore beneficial Zeus first before trying to work on Zythos.
+Zeus is also used to submit the jobs for Zythos but the partition in SLURM changes to zythos and shown as:
+
+#SBATCH --partition=zythos
+
+The utilization of omplace for thread placement is identical to Zeus and detailed in the previous section.
+Jobs that require message passing must make use of mpirun job launcher which is given by the SGI message passing toolkit done by making use of the shared memory mechanisms in equipment accessible on Zythos.
+For better memory execution, clients are recommended to ask for assets on Zythos as entire cores, or entire CPU sets instead of letting SLURM desgnate accessible cpus sporadically on the machine. 
+The basic approach to do this is by keeping -cpus-per-task at 6 at all times and conform -ntasks to suit the cpu/memory prerequisites of the job.
+In so doing, SLURM will be able to allocate cpu cores successively, rather than having to pick up available cpu cores which may be scattered all over the framework.
+The primary motivation behind thid is to enhance data locality and memory perfomance.
+
+The jobs that are run on Zythos can be run on any of the three environments gnu, intel and pgi instead of cray as on Magnus.
+
 
 
 \Subsubsection{MPI Examples}
 
+As previously done, examples are utilizing code from either c or fotran source code.
+The SLURM for MPI jobs shows the request for 24 cores by asking for 4 ntasks and 6 -cpus-per-task and nodes is not. 
+This means the job has access to a total of 512GB.
+The final SLURM directives are detailed as:
+
+#SBATCH --partition=zythos
+#SBATCH --natasks=4
+#SBATCH --cpus-per-task=6
+#SBATCH --account=pawsey0001
+#SBATCH --time=00:10:00
+
+Note that the account has to be changed to an account authorised to access Zythos.
+As done on all examples, time has been specified.
+The default loaded module is gcc which is for running on GNU.
+To load the latest version of GNU do a module load.It is essential in this case to load mpt module otherwise the job will not run.
+
+module load gcc
+module load mpt
+module list
+
+Create an executable as done in all other examples and redirect results to MYGROUP after SCRATCH
+Message passing in done by mpirun and the executable is redirected to the OUTPUT and the resulting command is written as:
+
+mpirun -np 24 ./$EXECUTABLE >> ${OUTPUT}
+
+The removal of SCRATCH directory is also done in SLURM file as in the default.
+README or bash script is run by ./README.
+It contains the command to compile the hello_mpi.f90 or hello_mpi.c code as:
+
+mpif90 -O2 hello_mpi.f90 -o hello_mpi_gnu for fortran code or
+mpicc -O2 hello_mpi.c -o hello_mpi_gnu for c code
+
+To submit the job to Zythos:
+
+sbatch hello_mpi_gnu.slurm
+
+Working on Intel would require swapping of modules from gcc to intel by manually using commands:
+
+module swap gcc intel
+module load mpt
+module list
+
+All the commands on the SLURM and README remain the same because of the use of wrappers: mpif90 and mpicc for fortran and c code respectively.
+
+For pgi environment, the READE compiles with a different code shown as:
+
+pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi for fortran code and 
+pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_pgi for c code
+
+Submit the job to Zythos :
+sbatch hello_mpi_pgi.slurm
+
+The SLURM does not change much except of the names of OUTPUT and results directory.
+The message is passed through mpirun for all examples on Zythos.
+Before running the job, load the pgi module and other necessary modules by swapping from intel.
+
+module swap intel pgi
+module load mpt
+module list
+
+Run the job ./README and use jobID to view results in $MYGROUP directory.
+
+
+
 
 
 \Subsubsection{OMP Examples}
+
+The SLURM script for OpeMP requests for 2 nodes and 6 cores which is a total of 12 cores. 
+The total memory carried is about 128GB in each of them.
+We specify the 2 nodes as ntasks rather than nodes in the SLURM directives.
+
+#SBATCH --partition=zythos
+#SBATCH --ntasks=2
+#SBATCH --cpus-per-task=6
+#SBATCH --account=pawsey0001
+#SBATCH --time=00:10:00
+
+As usual, the OUTPUT name should be declared as a log file
+OUTPUT=hello_omp_gnu.log
+
+Omplace is used in OpenMP to control thread placement with a default of about 6 threads per node. 
+This gives a total of 12 threads in this case since 2 nodes are being utilized.
+The commands as written in the SLURM  is:
+
+export OMP_NUM_THREADS=12
+omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+
+To compile the omp_hello.f90 for fortran with GNU we use:
+gfortran -O2 -fopenmp omp_hello.f90 -o hello_omp_gnu
+
+To compile the omp_hello.c code with GNU we use:
+gcc -O2 -fopen omp_hello.c -o hello_omp_gnu
+
+and to submit the job to Zythos
+sbatch hello_omp_gnu.slurm
+
+Although gcc is the default, it is best to load the module and other necessary modules manually and use the latest version of gcc.
+
+module load gcc
+module load mpt
+module list
+ 
+Intel compiler is different from GNU and for fortran it is written as:
+
+ifort -O2 -qopenmp omp_hello.f90 -o hello_omp_intel
+
+The c code compiler in the bash script is written as:
+
+mpicc -O2 hello_mpi.c -o hello_mpi_intel
+
+The sbatch{SLURM} is done to submit the job to Zythos
 
 
 
