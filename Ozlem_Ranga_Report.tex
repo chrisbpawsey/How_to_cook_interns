@@ -498,8 +498,26 @@ executes kernel functions on the device which are executed by GPU threads in par
 memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
 results from the device to the host.
 
-The getexample tool includes a basic Hello world CUDA code for Zeus. It uses 
+The getexample tool includes a basic Hello world CUDA code, hello_cuda.cu for Zeus. It uses 1 node with any generic GPU card, and this is defined in the 
+SLURM file.
 
+#SBATCH --partition=workq
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+
+To compile the CUDA code correctly, the cuda module should be loaded and this was done in both README and the SLURM file.
+
+module load cuda
+
+To submit this task to Zeus, the following command was used:
+
+./$EXECUTABLE >> ${OUTPUT}
+
+To compile the CUDA code, the following command was used in the README file:
+
+nvcc hello_cuda.cu -o hello_cuda_gnu
+ 
+  
 \Subsection{Zythos}
 
 Being one of the large memory nodes of Zeus, this framework is said to be an SGI UV2000 which gives access of up to 6TB of shared memory in cache-coherent non-uniform memory access (ccNUMA) mold.
