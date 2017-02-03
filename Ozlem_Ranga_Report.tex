@@ -655,7 +655,19 @@ mpicc -O2 hello_mpi.c -o hello_mpi_intel
 
 The sbatch{SLURM} is done to submit the job to Zythos
 
+To compile the OpenMP fortran code with PGI we use the commands:
 
+pgfortran -O2 -mp omp_hello.f90 -o hello_omp_pgi
+
+To compile the OpenMP c code with PGI  use:
+
+pgcc -mp omp_hello.c -o hello_omp_pgi
+
+Before running the README, it is vital to swap the module and load the required modules for PGI
+
+module swap intel pgi
+module load mpt
+module list
 
 
 \Subsubsection{Cuda Examples}
@@ -664,6 +676,32 @@ The sbatch{SLURM} is done to submit the job to Zythos
 
 \Subsubsection{Hybrid Examples}
 
+To characteristic approach to run hybrid jobs on Zythos is by running one MPI task for each 6-core NUMA region.
+The job script for MPI contains a request for 4 nodes and begins 4 MPI tasks by using mpirun which is combined with omplace to place threads.
+
+#SBATCH --partition=zythos
+#SBATCH --account=pawsey0001
+#SBATCH --ntasks=4
+#SBATCH --cpus-per-task=6
+#SBATCH --time=00:10:00
+
+The number of threads are given as well as passing the message through mpirun as:
+
+export OMP_NUM_THREADS=6
+mpirun -np 4 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+
+These commands remain the same for all the SLURM scripts for Hybrid jobs on Zythos.
+
+for GNU to compile the hybrid codes:
+
+mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
+gcc -fopenmp omp_hello.c -o hello_omp_gnu
+
+GNU must be loaded
+ 
+module load gcc
+module load mpt
+module list
 
 \Section{Other Completed Tasks}
 
