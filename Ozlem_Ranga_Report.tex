@@ -1,21 +1,19 @@
 % begin the document
-\begin{Document}
+\documentclass[a4paper,12pt]{report}
+\begin{document}
 
-\Title{Internship Report for Ranganai Mapondera and Ozlem Erkilic}
-\Subtitle{Getexample: Reducing Barriers to Entry on Shared HPC Resources}
+\title{Getexample: Reducing Barriers to Entry on Shared HPC Resources}
 
-\author{\IEEEauthorblockN{Ranganai Mapondera}
-\IEEEauthorblockA{Pawsey Supercomputing Centre\\
-Curtin University\\
-Perth, Australia\\
-Email:ranganai.mapondera@student.curtin.edu.au }
+\author{\IEEEauthorblockN{RanganaiMapondera}
+\IEEEauthorblockA{PawseySupercomputingCentre\\
+CurtinUniversity\\
+Perth,Australia\\
+Email:ranganai.mapondera@student.curtin.edu.au}
 \and
-\IEEEauthorblockN{Ozlem Erkilic}
-\IEEEauthorblockA{Pawsey Supercomputing Centre\\
-Curtin University\\
-Perth, Australia\\
-Email:ozlem.erkilic@student.curtin.edu.au}
-\\
+\IEEEauthorblockN{OzlemErkilic}\IEEEauthorblockA{PawseySupercomputingCentre\\
+CurtinUniversity\\
+Perth,Australia\\
+Email:ozlem.erkilic@student.curtin.edu.au}\\
 
 
 \Section{Abstract}
@@ -732,6 +730,15 @@ Time can be changed but 20 minutes proved to be the most effective.
 An increase would be better because it will give it sufficient time to run the code. 
 A decrease in time does not allow the code to run and be executed as the source code contains a lot of atoms.
 
+\usepackage{graphicx}
+\graphicspath{ {/Desktop/LAMMPS/} }
+
+\begin{document}
+This is SLURM script for LAMMPS 
+
+\includegraphics{LAMMPS}
+\end{document}
+
 #!/bin/bash -l
 #SBATCH --job-name=hostname
 #SBATCH --partition=debugq
@@ -763,11 +770,6 @@ The README contains the commands to submit the job to Magnus as:
 sbatch lammps_mpi_gnu
 
 
-
-
-
-
-
 \Subsection{Gromacs}
 
 
@@ -777,6 +779,7 @@ sbatch lammps_mpi_gnu
 \Subsection{Intel Xeon Processor}
 
 \Subsubsection{MIC &MKL}  
+
 
 \Section{Maintanence and Future Work}
 
@@ -796,5 +799,5 @@ all the examples one by one and having to fix these problems. Therefore,
 
 
 \Section{References}
-\end{Document}
+\end{document}
 % end document
