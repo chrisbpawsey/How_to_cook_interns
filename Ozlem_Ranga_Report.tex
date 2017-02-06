@@ -1,24 +1,15 @@
 % begin the document
 \documentclass[a4paper,12pt]{report}
+\setcounter{secnumdepth}{2}
 \begin{document}
 
 \title{Getexample: Reducing Barriers to Entry on Shared HPC Resources}
+\author{Ranganai Mapondera\\Pawsey Supercomputing Centre Curtin University Perth, Australia\\Email:ranganai.mapondera@student.curtin.edu.au}
+\author{Ozlem Erkilic\\Pawsey Supercomputing Centre Curtin University\\Perth, Australia\\Email:ozlem.erkilic@student.curtin.edu.au}
+\maketitle
 
-\author{\IEEEauthorblockN{RanganaiMapondera}
-\IEEEauthorblockA{PawseySupercomputingCentre\\
-CurtinUniversity\\
-Perth,Australia\\
-Email:ranganai.mapondera@student.curtin.edu.au}
-\and
-\IEEEauthorblockN{OzlemErkilic}\IEEEauthorblockA{PawseySupercomputingCentre\\
-CurtinUniversity\\
-Perth,Australia\\
-Email:ozlem.erkilic@student.curtin.edu.au}\\
-
-
-\Section{Abstract}
+\section{Abstract}
 \begin{abstract}
-
 The best way to understand how to compute a task based on some resources, constraints and goals on advanced computing systems is to work through sample 
 codes. A lot of expert users browse through the Internet to find these examples that they can slightly modify to achieve the results they expect. 
 However, this can be very diffucult for some users who are new to this environment as there are always so many of these examples which are not 
@@ -31,12 +22,13 @@ Supercomputing Centre through the use of a simple tool "getexample". The "getexa
 Pawsey that are dependent on a command line interface and aims to help their users learn to how to run code mainly parallel programming examples, submit 
 these examples to different operating systems of Pawsey such as Magnus, Zeus and Zythos. Although, the getexample is limited to these HPC resources, it 
 has the potential to be expanded to other resources and interfaces. 
-
-
 \end{abstract}
-\\
-\Section{Introduction}
-\begin{Introduction}
+
+\tableofcontents
+\listoffigures
+
+
+\section{Introduction}
 
 Even though there are many sample codes on search engines for programming purposes, it is usually very rare that these codes work at the first try 
 on different high performance computing systems without modifying them. This is mainly due to each advanced computing system being built up differently
@@ -72,11 +64,7 @@ In order to minimise these problems, the getexample was developed to suplly exam
 when the executable is run. Thus, it aims to teach the users of Pawsey Supercomputing Centre how to run and submit tasks on the supercomputers without 
 encountering issues. The rest of this paper explains how the getexample tool works.   
 
-
-\end{Introduction}
-\
-\
-\Section{Overview of getexample}
+\section{Overview of getexample}
 
 The main aim of the "getexample" is to provide easy access to the examples for the users. For this reason, the getexample tool is expected to be have the 
 following design specifications:
@@ -86,7 +74,7 @@ following design specifications:
 how to use the resources given to them effectively.
 3) The example should be clear and completely detailed with steps to help the users to fathom and apply it.
 
-\Section{Creating Examples on getexample}
+\section{Creating Examples on getexample}
 
 The examples included in the getexample library were created by internship students at Pawsey with their supervisor while the source codes within the
 getexample were obtained from some wiki pages and websites and were acknowledged in the examples. Some of the examples were also created due to the
@@ -135,7 +123,7 @@ Therefore, the examples in the getexample tool ensures that the users are inform
 Furthermore, they assist the users on how to change number of nodes used within the supercomputers and increase or reduce the number of cores used.     
 
 
-\Subsection{Creating Examples on Magnus}
+\subsection{Creating Examples on Magnus}
 
 This is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. The cray supercomputer consists of intel Xeon E5-2690 v3(Haswell) as its only processor across all compute nodes. For the compute nodes, each one of them has 2 processors and each of these 2 processors has 12 cores.
 Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across the 1488 nodes. Each of these nodes has a memory of 64GB. The maximum login nodes of magnus are 2.Each of these two nodes has 64GB of DDR4 memory that is shared between 24 cores.Of these 24 cores, each one of them has 32KB instruction and data caches, and one 256KB L2 cache; 12 of the cores share one 30 MB L3 cache.The memory of the system is 93TB in total.During this summer internship, the focus was to provide simplified getexamples which we developed and each othe directories described below consists of mainly the source code, the slurm file and the Readme . The source code details the script with the example code taken from online sources or developed to be the job script. The jobscript produces the executable file after being compiled. The slurm file is where a batch script is submitted. It runs the executable from the jobscript. The executable file will be used by the compiler. In the slurm, we have slurm directives where we choose the number of nodes or ntasks. We also specify the compiler before the executable. The Readme file is where the executable file is run. The slurm is given because it contains the compiler. The results from running the executable are submitted to Scratch which deletes the files after some time. A new group has been created which stores all the files from scratch and in the script the results are deleted from scratch and only viewed in group. Compute nodes are attached to scratch and are capable of moving back and forth.$
@@ -143,7 +131,7 @@ $Fortan and C code were used for most of the examples to illustrate the differen
 
 
 
-\Subsubsection{MPI Examples}
+\subsubsection{MPI Examples}
 
 For MPI examples, we used fortran and c compilers. We ran the jobs on cray, gnu and intel.
 It is necessary to realise that we need to load each module we intend to work on by doing a a module load PrgEnv-(name of environment). 
@@ -213,7 +201,7 @@ It is easier when it is included in the SLURM file although regardless of that, 
 The bash script has no changes needed to be made to it as long as the right module is loaded.
 
 
-\Subsubsection{OMP Examples}
+\subsubsection{OMP Examples}
 
 OpenMP may be thought of one task because of their restrictions to only one node.
 The node can be fully occupied node or a node occupying a single NUMA region.
@@ -256,7 +244,7 @@ For intel, the compiler used is expressed as:
 ftn -O2 -openmp omp_hello.f -o omp_hello_intel
 cc -O2 -openmp omp_hello.c -o omp_hello_intel
 
-\Subsubsection(Hybrid Examples}
+\subsubsection(Hybrid Examples}
 
 A hybrid job is a mixed job between OpenMP and MPI. It aims to take advantage of the OpenMP in NUMA region which is also known as a socket.
 The OpenMP is in this case involved with one 12 core chip and runs on 6 threads on each of 8 MPI tasks which dispersed evenly between the NUMA regions.
@@ -312,7 +300,7 @@ ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
 cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
 
 
-\Subsection{Zeus}
+\subsection{Zeus}
 
 The getexample tool also provides examples for Zeus which is according to Pawsey system descriptions an SGI Linux cluster that is principally utilized 
 for pre and post-preparing of data, extensive shared memory calculations and remote visualization work. It is diverse group with 30 nodes in different layouts. It shares the same /home,/scratch and 
@@ -326,7 +314,7 @@ the Pawsey Supercomputing Center and it is incorporated with the rest of the inf
  
 
 
-\Subsubsection{MPI Jobs}
+\subsubsection{MPI Jobs}
 
 The getexample tool also includes MPI examples for Zeus with GNU, Intel and PGI compilers because both Zeus and Magnus have different operating systems 
 and hence, the same MPI example needs to handled differently on Zeus. It is important to notice that the MPI source codes used for Zeus are the same
@@ -401,7 +389,7 @@ pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi
 pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_c 
   
 
-\Subsubsection{OMP Examples}
+\subsubsection{OMP Examples}
 
 The OpenMP examples used for the Zeus are the same source codes as the ones used for Magnus which are omp_hello.c (c code) and omp_hello.f (FORTRAN).
 However, as mentioned earlier due to the different setups between Magnus and Zeus, the SLURM and the README for these codes are different.
@@ -453,7 +441,7 @@ pgfortran -O2 -mp omp_hello.f -o hello_omp_pgi
 pgcc -mp omp_hello.c -o hello_omp_pgi
 
 
-\Subsubsection{Hybrid Examples}
+\subsubsection{Hybrid Examples}
 
 The OpenMP/MPI hybrid codes used for Zeus were exactly same as the ones for Magnus such as hybrid_hello.f90 and hello_hybrid.c, but they both had
 distinct compiler commands specific to each compiler module. Therefore, it was also necessary to include which module to be loaded in the README files
@@ -479,7 +467,7 @@ For PGI:
 pgf90 -Mmpi=sgimpi -mp hybrid_hello.f90 -o hello_hybrid_pgi
 pgcc -Mmpi=sgimpi -mp hello_hybrid.c -o hello_hybrid_pgi
 
-\Subsubsection{CUDA Examples}
+\subsubsection{CUDA Examples}
 
 The CUDA programming is a heterogeneous model where both CPU and GPU nodes are used. In CUDA, the host refers to the CPU and its memory, whereas the 
 device refers to the GPU an its memory. Therefore, a CUDA code running on the host have access to the memory on the host as well as the device. It also 
@@ -507,7 +495,7 @@ To compile the CUDA code, the following command was used in the README file:
 nvcc hello_cuda.cu -o hello_cuda_gnu
  
   
-\Subsection{Zythos}
+\subsection{Zythos}
 
 Being one of the large memory nodes of Zeus, this framework is said to be an SGI UV2000 which gives access of up to 6TB of shared memory in cache-coherent non-uniform memory access (ccNUMA) mold.
 The hidden equipment depends on Intel Xeon E5-4610 2.4 GHz innovation which gives 6-core nodes(*). 
@@ -547,7 +535,7 @@ The jobs that are run on Zythos can be run on any of the three environments gnu,
 
 
 
-\Subsubsection{MPI Examples}
+\subsubsection{MPI Examples}
 
 As previously done, examples are utilizing code from either c or fotran source code.
 The SLURM for MPI jobs shows the request for 24 cores by asking for 4 ntasks and 6 -cpus-per-task and nodes is not. 
@@ -612,10 +600,7 @@ module list
 Run the job ./README and use jobID to view results in $MYGROUP directory.
 
 
-
-
-
-\Subsubsection{OMP Examples}
+\subsubsection{OMP Examples}
 
 The SLURM script for OpeMP requests for 2 nodes and 6 cores which is a total of 12 cores. 
 The total memory carried is about 128GB in each of them.
@@ -677,11 +662,9 @@ module load mpt
 module list
 
 
-\Subsubsection{Cuda Examples}
+\subsubsection{Cuda Examples}
 
-
-
-\Subsubsection{Hybrid Examples}
+\subsubsection{Hybrid Examples}
 
 To characteristic approach to run hybrid jobs on Zythos is by running one MPI task for each 6-core NUMA region.
 The job script for MPI contains a request for 4 nodes and begins 4 MPI tasks by using mpirun which is combined with omplace to place threads.
@@ -710,9 +693,9 @@ module load gcc
 module load mpt
 module list
 
-\Section{Applications of Getexample}
+\section{Applications of Getexample}
 
-\Subsection{LAMMPS}
+\subsection{LAMMPS}
 
 LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator.
 It has potentials for solid state materials which includes metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also coarse-grained or mesoscopic systems.
@@ -770,18 +753,18 @@ The README contains the commands to submit the job to Magnus as:
 sbatch lammps_mpi_gnu
 
 
-\Subsection{Gromacs}
+\subsection{Gromacs}
 
 
 
 
 
-\Subsection{Intel Xeon Processor}
+\subsection{Intel Xeon Processor}
 
-\Subsubsection{MIC &MKL}  
+\subsubsection{MIC &MKL}  
 
 
-\Section{Maintanence and Future Work}
+\section{Maintanence and Future Work}
 
 Even though the getexample tool is designed for the latest operating systems of the Pawsey Supercomputing Centre to show the users how to use
 Pawsey's HPC resources and perfom particular tasks on them, there will be a time where the getexample tool will encounter problems due 
@@ -850,11 +833,12 @@ cd $SCRATCH
 
 
 
-\Section{Conclusion}
+\section{Conclusion}
 
 
 
 
-\Section{References}
+\section{References}
+
 \end{document}
 % end document
