@@ -1,6 +1,6 @@
 % begin the document
-\documentclass[a4paper,12pt]{report}
-\setcounter{secnumdepth}{2}
+\documentclass[journal]{IEEEtran}
+%\setcounter{secnumdepth}{2}
 \begin{document}
 
 \title{Getexample: Reducing Barriers to Entry on Shared HPC Resources}
@@ -8,7 +8,7 @@
 \author{Ozlem Erkilic\\Pawsey Supercomputing Centre Curtin University\\Perth, Australia\\Email:ozlem.erkilic@student.curtin.edu.au}
 \maketitle
 
-\section{Abstract}
+\section{abstract}
 \begin{abstract}
 The best way to understand how to compute a task based on some resources, constraints and goals on advanced computing systems is to work through sample 
 codes. A lot of expert users browse through the Internet to find these examples that they can slightly modify to achieve the results they expect. 
@@ -24,13 +24,9 @@ these examples to different operating systems of Pawsey such as Magnus, Zeus and
 has the potential to be expanded to other resources and interfaces. 
 \end{abstract}
 
-\tableofcontents
-\listoffigures
-
-
 \section{Introduction}
 
-Even though there are many sample codes on search engines for programming purposes, it is usually very rare that these codes work at the first try 
+\IEEEPARstart{E}{ven} though there are many sample codes on search engines for programming purposes, it is usually very rare that these codes work at the first try 
 on different high performance computing systems without modifying them. This is mainly due to each advanced computing system being built up differently
 from each other to perform specific tasks for the needs of the users. At Pawsey Supercomputing Centre, there are various HPC resources where each of them
 are set up with slight variations from each other. Therefore, this becomes very challanging for the users, especially the novices to change the example 
@@ -713,14 +709,14 @@ Time can be changed but 20 minutes proved to be the most effective.
 An increase would be better because it will give it sufficient time to run the code. 
 A decrease in time does not allow the code to run and be executed as the source code contains a lot of atoms.
 
-\usepackage{graphicx}
-\graphicspath{ {/Desktop/LAMMPS/} }
+%\usepackage{graphicx}
+%\graphicspath{ {/Desktop/LAMMPS/} }
 
-\begin{document}
+%\begin{document}
 This is SLURM script for LAMMPS 
 
-\includegraphics{LAMMPS}
-\end{document}
+%\includegraphics{LAMMPS}
+%\end{document}
 
 #!/bin/bash -l
 #SBATCH --job-name=hostname
@@ -838,7 +834,9 @@ cd $SCRATCH
 
 
 
-\section{References}
+\section{thebibliography}
+
+\end{thebibliography}
 
 \end{document}
 % end document
