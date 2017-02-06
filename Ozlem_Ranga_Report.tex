@@ -125,11 +125,23 @@ Furthermore, they assist the users on how to change number of nodes used within 
 \subsection{Creating Examples on Magnus}
 
 Magnus is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. For the compute nodes, each one 
-of them has 2 sockets and each of these has 12 cores. Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across 
+of them has 2 sockets and each of these has 12 cores. Magnus is also specified to have 24 cores per node and in total these sum up to 35,712 cores across 
 the 1488 nodes. 
 
-During this summer internship, the focus was to provide simplified getexamples which we developed and each othwhich are ftn,mpif90 and cc. When using these, it is important to
-invoke the actual programming environment being used PrgEnv-cray, PrgEnv-gnu or PrgEnv-intel.The relevant paths are organized via the module system.
+On Magnus, jobs run on the back-end of the system with the help of SLURM and ALPS (the Cray Application Level Placement Scheduler). A 
+batch job is submitted to the queue system on the front-end from the sbatch command. When it runs, it executes the launch command aprun on the MOM nodes 
+which are the login nodes of Magnus. The aprun keeps running on these login nodes until the application gets completed. Once aprun finishes, the SLURM 
+job also completes.
+
+As mentioned previously, the focus of the getexample tool was not only to provide working examples to the users but also assist them on how to run jobs
+on their scratch directories. Therefore, whenever the batch job was submitted to Magnus, it was ran on the scracth directory and once the job was 
+completed, the results were carried to the group directory. In the end, the scracth was removed. The examples used for Magnus were mainly parallel
+programming examples such as MPI, OpenMP and hybrid codes which a combination of OpenMP and MPI tasks and some applications such as lammps and gromacs.
+The source codes used for these examples were written in c or Fortran and were basic "Hello world" codes with the exception of the application codes.
+Each example was displayed in different environments on Magnus such as GNU, Intel and more importantly the default environment, Cray with the compiler
+options of ftn, mpif90 and cc. When using these environments, it was important to load the actual programming environment before compiling the source
+codes and running them as each environment has specific compiler commands with distinct wrappers. These are explain more in detail in the following
+sections.
 
 
 \subsubsection{MPI Examples}
