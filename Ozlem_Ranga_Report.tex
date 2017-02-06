@@ -80,13 +80,13 @@ encountering issues. The rest of this paper explains how the getexample tool wor
 \
 \Section{Overview of getexample}
 
-The main aim of the "getexample" is to provide easy access to the examples for the users. The getexample tool is expected to be have the following aims
-to meet th:
+The main aim of the "getexample" is to provide easy access to the examples for the users. For this reason, the getexample tool is expected to be have the 
+following design specifications:
 
-1) Easy to use for everyone including beginners
-2) Practical examples which can be modified or updated by other users for their own work
-3) The example should be clearly and completely detailed with steps to help users to fathom and apply it
-
+1) It should be easy to use for everyone including beginners. The user should be able to download the examples and run them with one command.
+2) It should provide practical examples which can be modified or updated by other users for their own work. Therefore, it encourages the users to learn
+how to use the resources given to them effectively.
+3) The example should be clear and completely detailed with steps to help the users to fathom and apply it.
 
 \Section{Creating Examples on getexample}
 
@@ -788,7 +788,64 @@ duty to make sure that the getexample works which requires them to check for upd
 modify the codes to suit the current systems.
 
 However, the getexample tool is a large library with many examples. Thus, it can be really frustruating and hard for the system administrators to run 
-all the examples one by one and having to fix these problems. Therefore,   
+all the examples one by one and having to fix these problems. In order to make this procedure easier for them, a basic bash executable script can be 
+used which runs all the examples at once, checks their status and prints out which example was succesful or failed to an output file based on their
+status.
+
+The following bash script is a suggestion on how to run all the examples at once and test status of the examples. This script only test three examples
+from the getexample for Magnus which are the "Hello world" Fortran examples with GNU, Intel and Cray environments. It runs on the home directory of the
+user and changes the directory to the Magnus examples within the getexample library. It then, uses the cd command to change into the subdirectories of 
+Magnus in which these three examples are located. Every time, the script comes across the README file, it runs this file by using the ./README command
+to submit these examples to Magnus.
+
+#!/bin/bash
+# This script tests if all codes for Magnus work.
+
+# Look for magnus_results.log
+# Remove this file initially to create it each time
+# the program runs.
+rm magnus_results.log  
+
+# Change the directory to Magnus
+cd getexample/magnus_examples/
+
+DIRECTORY=("fortran_helloworld_cray" 
+           "fortran_helloworld_intel" 
+	   "fortran_helloworld_gnu")
+
+tLen=${#DIRECTORY[@]}
+
+for ((i=0; i<${tLen}; i++))
+
+do
+
+cd ${DIRECTORY[$i]}
+./README
+
+cd ..
+
+done
+
+In order to check the status of each example, the following code is added to the SLURM files of the examples after the aprun command. This simply checks
+whether the job returns 0 or 1 and if the status does not return 0, the example fails to run and hence prints the name of the example's executable with
+its jobID and tells failed to a second output file. If the job returns 1, the example runs successfully and prints the same thing except with saying 
+succeeded instead.
+
+aprun -n 1 ./$EXECUTABLE >> ${OUTPUT}
+
+if [ $? -ne 0 ]; then
+    cd
+    OUTPUT2=magnus_results.log
+    echo "$EXECUTABLE with jobID $SLURM_JOBID Failed" >> ${OUTPUT2}
+else
+    cd
+    OUTPUT2=magnus_results.log
+    echo "$EXECUTABLE with jobID $SLURM_JOBID Succeeded" >> ${OUTPUT2}
+fi
+
+cd $SCRATCH
+
+
 
 \Section{Conclusion}
 
