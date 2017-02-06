@@ -723,7 +723,56 @@ module list
 
 \Section{Applications of Getexample}
 
-\Subsection{Lammps}
+\Subsection{LAMMPS}
+
+LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator.
+It has potentials for solid state materials which includes metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also coarse-grained or mesoscopic systems.
+LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule test simulator at the atomic, meso, or continuum scale.
+This tool runs on single processors or in parallel making use of message-passing systems and a apatial-decomposition of the simulator domain.
+Asignificant number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phis.
+This code is intended to be anything but difficult to allow for modifications and stretch out for new functions.
+LAMMPS code is circulated around as an open source code under the terms of the GPL. It is easily downloaded from the internet.
+
+The LAMMPS example done on getexample was specifically run on Magnus.
+The source code had been provided with a large number of atoms and their properties and potentials.
+A SLURM file was successfuly modified and utilized which contains the following SLURM directives.
+A total of 2 nodes was requested, partition remains as debugq on Magnus. 
+Time can be changed but 20 minutes proved to be the most effective. 
+An increase would be better because it will give it sufficient time to run the code. 
+A decrease in time does not allow the code to run and be executed as the source code contains a lot of atoms.
+
+#!/bin/bash -l
+#SBATCH --job-name=hostname
+#SBATCH --partition=debugq
+#SBATCH --nodes=2
+#SBATCH --time=00:20:00
+#SBATCH --export=NONE
+
+The compiler used was GNU. We changed the currenty loaded to GNU and an additional module is added lammps which is the most important to run this source code.
+
+module swap PrgEnv-cray PrgEnv-gnu
+module load lammps
+module list
+
+As in the template of SLURM an EXECUTABLE was given and the OUTPUT.log name was declared.
+A code was added which will be run in the SCRATCH directory which copies the EXECUTABLE to SCRATCH first. It is written as:
+
+cp *.lmp $SCRATCH
+
+Message-passing was done using aprun as on previous Magnus examples.
+We launched the job by specifying to aprun 48 MPI tasks (-n 48) with 24 tasks per node (-N 24).
+This is shown as:
+
+aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
+ 
+If the number of nodes changes, the resulting number of  MPI tasks is a multiplication of the nodes with the number of tasks per node which is 24.
+The rest of the SLURM file codes do not change as on the template.
+The README contains the commands to submit the job to Magnus as:
+
+sbatch lammps_mpi_gnu
+
+
+
 
 
 
