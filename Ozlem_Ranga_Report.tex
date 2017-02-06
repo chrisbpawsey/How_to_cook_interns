@@ -10,6 +10,7 @@
 
 \section{abstract}
 \begin{abstract}
+
 The best way to understand how to compute a task based on some resources, constraints and goals on advanced computing systems is to work through sample 
 codes. A lot of expert users browse through the Internet to find these examples that they can slightly modify to achieve the results they expect. 
 However, this can be very diffucult for some users who are new to this environment as there are always so many of these examples which are not 
@@ -22,16 +23,17 @@ Supercomputing Centre through the use of a simple tool "getexample". The "getexa
 Pawsey that are dependent on a command line interface and aims to help their users learn to how to run code mainly parallel programming examples, submit 
 these examples to different operating systems of Pawsey such as Magnus, Zeus and Zythos. Although, the getexample is limited to these HPC resources, it 
 has the potential to be expanded to other resources and interfaces. 
+
 \end{abstract}
 
 \section{Introduction}
 
-\IEEEPARstart{E}{ven} though there are many sample codes on search engines for programming purposes, it is usually very rare that these codes work at the first try 
-on different high performance computing systems without modifying them. This is mainly due to each advanced computing system being built up differently
-from each other to perform specific tasks for the needs of the users. At Pawsey Supercomputing Centre, there are various HPC resources where each of them
-are set up with slight variations from each other. Therefore, this becomes very challanging for the users, especially the novices to change the example 
-codes to display a working task on Pawsey's resources as there are many differences between each resources with many constraints. The most common 
-differences between their systems are as follow:
+\IEEEPARstart{E}{ven} though there are many sample codes on search engines for programming purposes, it is usually very rare that these codes work at 
+the first try on different high performance computing systems without modifying them. This is mainly due to each advanced computing system being built 
+up differently from each other to perform specific tasks for the needs of the users. At Pawsey Supercomputing Centre, there are various HPC resources 
+where each of them are set up with slight variations from each other. Therefore, this becomes very challanging for the users, especially the beginners 
+to change the example codes to display a working task on Pawsey's resources as there are many differences between each resources with many constraints. 
+The most common differences between their systems are as follow:
 
 1) Various operating systems 
 2) Different program environments
@@ -46,15 +48,15 @@ differences between their systems are as follow:
 For this reason, when the user runs a sample code found from the Internet for each supercomputers (Magnus, Zeus and Zythos), the code fails to compile 
 successfully and hence, does not run as each individual system has specific operating system and commands set up for them. To rectify these problems, 
 some HPC resources provide their users websites with working examples that aim to assist them how to carry out their tasks step by step. 
-However, sometimes the commands in these examples can be outdated due to updates in compilers and the operating systems. They also can be challenging 
+However, sometimes the commands in these examples can be outdated due to the updates in compilers and the operating systems. They also can be challenging 
 to follow and perform on the real systems for the users who are not very experienced with these resources. Although, one may find a well-written bash 
-script to run these systems, may not know how to make this script executable by using the chmod commands. Furthermore, a user may use a sample source 
-code such as a basic MPI code which includes some mpi libabraries to perform a particular job on these supercomputers but may fail when compiled due 
-to these libraries being no longer valid or upgraded to a different version. Or one may complete their task successfully, but may not know in which 
-filesystem to store their results, for example in scratch or their group because some supercomputers have policies on how long to keep the data on 
-certain filesystems such as scratch. If they are not moved from that specific filesystem within a certain amount of time, the results get deleted and 
-thus, the user loses their work. This is a major problem for the users, especially researchers and scientist since it takes very long time to collect 
-their data and vital for their researches. It is also very important that these are stored correctly within these sources.
+script to run these systems, may not know how to make this script executable by changing the permissions using the chmod commands. Furthermore, a user 
+may use a sample source code such as a basic MPI code which includes some mpi libabraries to perform a particular job on these supercomputers but may 
+fail when compiled due to these libraries being no longer valid or upgraded to a different version. Or one may complete their task successfully, but may 
+not know in which filesystem to store their results, for example in scratch or their group because some supercomputers have policies on how long to keep 
+the data on certain filesystems such as scratch. If they are not moved from that specific filesystem within a certain amount of time, the results get 
+deleted and thus, the user loses their work. This is a major problem for the users, especially researchers and scientist since it takes very long time 
+to collect their data and vital for their researches. It is also very important that these are stored correctly within these sources.
 
 In order to minimise these problems, the getexample was developed to suplly examples which do not require further editing or modification and works
 when the executable is run. Thus, it aims to teach the users of Pawsey Supercomputing Centre how to run and submit tasks on the supercomputers without 
@@ -80,18 +82,19 @@ submit these jobs to different supercomputers such as Magnus, Zeus and Zythos us
 
 Each individual example on the getexample occupies a directory that is reserved for them and each example consists of three files listed below:
     
-1) SLURM (Simple Linux Utility for Resource Management) : This allows users to submit batch jobs to the supercomputers, check on their status and cancel 
-them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and the jobID. 
-It also allows the users to edit how many nodes the code requires to run on the HPC systems, the duration of the task that it takes, which partition to
-be used and their account name. The SLURM initially creates a scracth directory for the example to run in and the results are outputted to a log file. 
-Then, it creates a group directory in which the results directory is located for that example. Once the output file is completed within the 
+1) SLURM (Simple Linux Utility for Resource Management) : This allows the users to submit batch jobs to the supercomputers, check on their status and 
+cancel them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and 
+the jobID. It also allows the users to edit how many nodes the code requires to run on the HPC systems, the duration of the task that it takes, which 
+partition to be used and their account name. The SLURM initially creates a scracth directory for the example to run in and the results are outputted to 
+a log file. Then, it creates a group directory in which the results directory is located for that example. Once the output file is completed within the 
 scratch, the output file is then moved to the results directory located in the group directory and the scratch directory then gets removed.
 
 2) Source Code : This is usually a source code in c or Fortran and taken from wiki pages to run the example.
 
 3) README : This file is an executable bash script which can be read and run by the users. It provides information about what the source code does,
 how to compile the source code depending on the program environment such as Cray, Intel, GNU or PGI, what can be modified in the SLURM directives, and 
-a set of instruction on how to submit the SLURM to the supercomputers including which specific commands to use for particular supercomputers.
+a set of instruction on how to submit the SLURM to the supercomputers including which specific commands to use for particular supercomputers. It can be
+executed by simply typing ./README which then compiles the source code and submits the batch job to the chosen supercomputer.
 
 For the examples in the getexample tool to be user friendly, helpful and efficient for working with HPC resources, there are many design considerations 
 to be held as listed below:
@@ -121,10 +124,12 @@ Furthermore, they assist the users on how to change number of nodes used within 
 
 \subsection{Creating Examples on Magnus}
 
-This is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. The cray supercomputer consists of intel Xeon E5-2690 v3(Haswell) as its only processor across all compute nodes. For the compute nodes, each one of them has 2 processors and each of these 2 processors has 12 cores.
-Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across the 1488 nodes. Each of these nodes has a memory of 64GB. The maximum login nodes of magnus are 2.Each of these two nodes has 64GB of DDR4 memory that is shared between 24 cores.Of these 24 cores, each one of them has 32KB instruction and data caches, and one 256KB L2 cache; 12 of the cores share one 30 MB L3 cache.The memory of the system is 93TB in total.During this summer internship, the focus was to provide simplified getexamples which we developed and each othe directories described below consists of mainly the source code, the slurm file and the Readme . The source code details the script with the example code taken from online sources or developed to be the job script. The jobscript produces the executable file after being compiled. The slurm file is where a batch script is submitted. It runs the executable from the jobscript. The executable file will be used by the compiler. In the slurm, we have slurm directives where we choose the number of nodes or ntasks. We also specify the compiler before the executable. The Readme file is where the executable file is run. The slurm is given because it contains the compiler. The results from running the executable are submitted to Scratch which deletes the files after some time. A new group has been created which stores all the files from scratch and in the script the results are deleted from scratch and only viewed in group. Compute nodes are attached to scratch and are capable of moving back and forth.$
-$Fortan and C code were used for most of the examples to illustrate the differences. Some wrappers were implemented as well for these compilers which are ftn,mpif90 and cc. When using these, it is important to invoke the actual programming environment being used PrgEnv-cray, PrgEnv-gnu or PrgEnv-intel.The relevant paths are organized via the module system.
+Magnus is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. For the compute nodes, each one 
+of them has 2 sockets and each of these has 12 cores. Magnus is specified to have 24 cores per node and in total these sum up to 35,712 cores across 
+the 1488 nodes. 
 
+During this summer internship, the focus was to provide simplified getexamples which we developed and each othwhich are ftn,mpif90 and cc. When using these, it is important to
+invoke the actual programming environment being used PrgEnv-cray, PrgEnv-gnu or PrgEnv-intel.The relevant paths are organized via the module system.
 
 
 \subsubsection{MPI Examples}
