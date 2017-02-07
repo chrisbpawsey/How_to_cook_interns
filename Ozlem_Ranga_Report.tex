@@ -541,81 +541,41 @@ and PGI compilers which utilized exactly the same commands as the Zeus examples.
 different commands from srun such as omplace and mpirun. 
 
 
-
-Jobs that require message passing must make use of mpirun job launcher which is given by the SGI message passing toolkit done by making use of the 
-shared memory mechanisms in equipment accessible on Zythos.
-For better memory execution, clients are recommended to ask for assets on Zythos as entire cores, or entire CPU sets instead of letting SLURM 
-desgnate accessible cpus sporadically on the machine. 
-The basic approach to do this is by keeping -cpus-per-task at 6 at all times and conform -ntasks to suit the cpu/memory prerequisites of the job.
-In so doing, SLURM will be able to allocate cpu cores successively, rather than having to pick up available cpu cores which may be scattered all 
-over the framework.
-The primary motivation behind thid is to enhance data locality and memory perfomance.
-
 \subsubsection{MPI Examples}
 
-Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either fotran or c. Unlike Zeus, the
-partition in the SLURM for Zythos was zythos. 
-The SLURM for MPI jobs shows the request for 24 cores by asking for 4 ntasks and 6 -cpus-per-task and nodes is not. 
-This means the job has access to a total of 512GB.
-The final SLURM directives are detailed as:
+Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either fotran or c. To compile with the
+correct modules, the compiler modules were also needed to be loaded by using the same commads as Zeus in both the README and SLURM scripts. Unlike Zeus, 
+the partition in the SLURM for Zythos was zythos instead of the debugq. The number of nodes was also specified with the use of --ntasks rather than the 
+command --nodes as compared to the other Pawsey resources. In addition to the SLURM scripts, the number of cores per node was defined with 
+--cpus-per-task.    
 
+These were included in the SLURM as shown below:
+
+#SBATCH --job-name=GE-hostname
 #SBATCH --partition=zythos
 #SBATCH --natasks=4
 #SBATCH --cpus-per-task=6
 #SBATCH --account=pawsey0001
 #SBATCH --time=00:10:00
 
-The account has to be changed to an account authorised to access Zythos.
-As done on all examples, time has been specified.
-The default loaded module is gcc which is for running on GNU.
-To load the latest version of GNU do a module load.It is essential in this case to load mpt module otherwise the job will not run.
+As mentioned previously, the authorised account name was inputted to the SLURM to access Zythos and the run the codes successfully. However, if the
+users decide to run the same examples, the only modification required is to change the name of the account.
 
-module load gcc
-module load mpt
-module list
+When clients run a job on Zythos, for a better memory perfomance they  are recommended to ask for the entire cores on the node as a whole instead of making the SLURM
+allocate cpus at irregular intervals on Zythos. The basic approach to do this is by occupying all of the 6 cores per node at all times. In so doing, 
+the SLURM will be able to allocate the cpu cores successively, rather than having to pick up available cpu cores which may be scattered all over the 
+framework.
 
-Create an executable as done in all other examples and redirect results to MYGROUP after SCRATCH
-Message passing in done by mpirun and the executable is redirected to the OUTPUT and the resulting command is written as:
+Therefore to run the MPI task on Zythos, 4 nodes with 6 cores per node were required giving a total of 24 cores. This was implemented in the SLURM as 
+shown below:
 
 mpirun -np 24 ./$EXECUTABLE >> ${OUTPUT}
 
-The removal of SCRATCH directory is also done in SLURM file as in the default.
-README or bash script is run by ./README.
-It contains the command to compile the hello_mpi.f90 or hello_mpi.c code as:
+The "mpirun" command is an MPI launcher provided by the SGI message passing toolkit.
 
-mpif90 -O2 hello_mpi.f90 -o hello_mpi_gnu for fortran code or
-mpicc -O2 hello_mpi.c -o hello_mpi_gnu for c code
-
-To submit the job to Zythos:
-
-sbatch hello_mpi_gnu.slurm
-
-Working on Intel would require swapping of modules from gcc to intel by manually using commands:
-
-module swap gcc intel
-module load mpt
-module list
-
-All the commands on the SLURM and README remain the same because of the use of wrappers: mpif90 and mpicc for fortran and c code respectively.
-
-For pgi environment, the READE compiles with a different code shown as:
-
-pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi for fortran code and 
-pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_pgi for c code
-
-Submit the job to Zythos :
-sbatch hello_mpi_pgi.slurm
-
-The SLURM does not change much except of the names of OUTPUT and results directory.
-The message is passed through mpirun for all examples on Zythos.
-Before running the job, load the pgi module and other necessary modules by swapping from intel.
-
-module swap intel pgi
-module load mpt
-module list
-
-Run the job ./README and use jobID to view results in $MYGROUP directory.
-
+The source codes, hello_mpi.f90 and hello_mpi.c were compiled with the default compiler GNU, Intel and PGI respectively by the using the compiler
+commands of Zeus with no modification as the compilers and wrappers are the same since Zythos is a node of Zeus. The only difference was the name of the
+executable as it is special for each example within the getexample library.
 
 \subsubsection{OMP Examples}
 
