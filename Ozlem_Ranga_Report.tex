@@ -538,22 +538,23 @@ getexample is not completely automated for Zythos. The users who are interested 
 
 The examples provided for Zythos were also parallel programming codes such as MPI, OpenMP and hybrid tasks and these jobs were also run with GNU, Intel
 and PGI compilers which utilized exactly the same commands as the Zeus examples. However, to run the jobs on Zythos, the SLURM scripts included
+different commands from srun such as omplace and mpirun. 
 
 
 
-Jobs that require message passing must make use of mpirun job launcher which is given by the SGI message passing toolkit done by making use of the shared memory mechanisms in equipment accessible on Zythos.
-For better memory execution, clients are recommended to ask for assets on Zythos as entire cores, or entire CPU sets instead of letting SLURM desgnate accessible cpus sporadically on the machine. 
+Jobs that require message passing must make use of mpirun job launcher which is given by the SGI message passing toolkit done by making use of the 
+shared memory mechanisms in equipment accessible on Zythos.
+For better memory execution, clients are recommended to ask for assets on Zythos as entire cores, or entire CPU sets instead of letting SLURM 
+desgnate accessible cpus sporadically on the machine. 
 The basic approach to do this is by keeping -cpus-per-task at 6 at all times and conform -ntasks to suit the cpu/memory prerequisites of the job.
-In so doing, SLURM will be able to allocate cpu cores successively, rather than having to pick up available cpu cores which may be scattered all over the framework.
+In so doing, SLURM will be able to allocate cpu cores successively, rather than having to pick up available cpu cores which may be scattered all 
+over the framework.
 The primary motivation behind thid is to enhance data locality and memory perfomance.
-
-The jobs that are run on Zythos can be run on any of the three environments gnu, intel and pgi instead of cray as on Magnus.
-
-
 
 \subsubsection{MPI Examples}
 
-As previously done, examples are utilizing code from either c or fotran source code.
+Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either fotran or c. Unlike Zeus, the
+partition in the SLURM for Zythos was zythos. 
 The SLURM for MPI jobs shows the request for 24 cores by asking for 4 ntasks and 6 -cpus-per-task and nodes is not. 
 This means the job has access to a total of 512GB.
 The final SLURM directives are detailed as:
