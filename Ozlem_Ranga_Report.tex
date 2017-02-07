@@ -272,10 +272,12 @@ cc -O2 -openmp omp_hello.c -o omp_hello_intel
 
 \subsubsection(Hybrid Examples}
 
-A hybrid job is a mixed job between OpenMP and MPI. It aims to take advantage of the OpenMP in NUMA region which is also known as a socket.
-The OpenMP is in this case involved with one 12 core chip and runs on 6 threads on each of 8 MPI tasks which dispersed evenly between the NUMA regions.
-A sum of 2 nodes is required which accomodates 8MPI tasks and 6 threads.
-Besides specifying the number of nodes, the time is also shown in the slurm script as done in the previous examples.In this case we could choose 5 minutes as done in the getexamples.
+A hybrid job is a mixed job that is a combination of OpenMP and MPI tasks. It aims to take advantage of the OpenMP in NUMA region which is also known as 
+a socket. The NUMA region was in this case involved with one 12-core chip and ran on 6 threads on each of 8 MPI tasks which dispersed evenly between 
+the NUMA regions.
+
+A sum of 2 nodes was required which accomodated 8 MPI tasks and 6 threads. Besides specifying the number of nodes, the time was also shown in the slurm 
+script as done in the previous examples. In this case, we chose 5 minutes as done in most of the examples in the getexample.
 The partition remains the same debugq.
 
 #SBATCH --partition=debugq
@@ -283,48 +285,31 @@ The partition remains the same debugq.
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
 
-8MPI tasks(n) are specified to aprun to launch the job.This is specified also with 4 MPI tasks per node(N) per socket (-S 2).
-Each of the 8 MPI tasks will have 6 threads (-d 6). The OMP_NUM_THREADS is also expressed as 6.
-The full expression is shown as:
+8 MPI tasks (-n 8) were specified to aprun to launch the job with 4 MPI tasks per node (-N 4), 2 MPI tasks per socket (-S 6) and each of the 8 MPI tasks 
+had 6 OpenMP threads (-d 6). Therefore, the number of OpenMP threads,  OMP_NUM_THREADS was set to 6.
+This full expression is shown as:
 
 export OMP_NUM_THREADS=6
-aprun -n 8 -N 4 -S 2 -d 6 ./code_hybrid.x
+aprun -n 8 -N 4 -S 2 -d 6 ./$EXECUTABLE >> ${OUTPUT}
 
-The bash script will show the compiling code as:
-ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray
-cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray
+The source codes used for the hybrid examples were also consisted of both Fortran and c which were hybrid_hello.f90 and hello_hybrid.c. The README 
+script contained the compiling commands to compile on Cray as shown below:
 
-For each of the source codes, fortran and C.
+ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray for the Fortran code
+cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray for the c code
 
-Again in this example, cray module should be loaded as:
-module load PrgEnv-cray or module swap with the previously loaded module environment.
-
-For gnu environment,for fortran and C codes respectively, the README shows the compiler code as:
+To compiler with the GNU environment for fortran and c codes respectively, the README had the following compilers:
 
 ftn -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
 cc -O2 -fopenmp hybrid_hello.c -o hello_hybrid_gnu
 
-The job is submitted to Magnus by sbatch{slurm script}
-
-The environment is then changed first before running the job:
-
-module swap PrgEnv-cray PrgEnv-gnu
-
-or unload cray first
-module unload PrgEnv-cray
-module load PrgEnv-gnu
-module list
-
-The instructions to run the executable are given in the README  file as:
-
-./README 
-This applies for all the getexamples.
-
-In intel the compiler code changes as well to:
+For the Intel environment, the compiler code changed to:
 
 ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
 cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
 
+The same sbatch command as the OpenMP and MPI tasks was used for the hybrid codes to submit them to Magnus. The only difference was the name of the name
+of the SLURM scripts.
 
 \subsection{Zeus}
 
