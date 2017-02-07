@@ -41,7 +41,7 @@ The most common differences between their systems are as follow:
 4) Various compiler flags and wrappers for varying compiler options
 5) Module systems and paths that are different
 6) Disparate module naming conventions
-7) Various libraries versions
+7) Various library versions
 8) Dissimilar personal scratch, group and home directories
 9) Different scheduling policies
 
@@ -472,14 +472,17 @@ srun --mpi=pmi2 -n 2 -N 2 ./$EXECUTABLE >> ${OUTPUT}
 This command was used for all of the compilers without making any changes. To compile the hybrid_hello.f90 and hello.c, the following commands were used:
 
 For GNU:
+
 mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
 mpicc -O2 -fopenmp -O2 hello_hybrid.c -o hello_hybrid_gnu
 
 For Intel:
+
 mpif90 -O2 -qopenmp hybrid_hello.f90 -o hello_hybrid_intel
 mpicc -O2 -qopenmp hello_hybrid.c -o hello_hybrid_intel
 
 For PGI:
+
 pgf90 -Mmpi=sgimpi -mp hybrid_hello.f90 -o hello_hybrid_pgi
 pgcc -Mmpi=sgimpi -mp hello_hybrid.c -o hello_hybrid_pgi
 
@@ -841,7 +844,7 @@ if [ $? -ne 0 ]; then
 else
     cd
     OUTPUT2=magnus_results.log
-    echo "$EXECUTABLE with jobID $SLURM_JOBID Succeeded" >> ${OUTPUT2}
+    echo "$EXECUTABLE with jobID $SLURM_JOBID Successful" >> ${OUTPUT2}
 fi
 
 cd $SCRATCH
