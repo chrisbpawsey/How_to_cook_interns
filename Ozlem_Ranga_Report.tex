@@ -240,10 +240,8 @@ fully occupied, the slurm script had a choice of only one node with the debugq p
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
 
-The initiation of the job by aprun is done by specifying that there is one task and 24 threads. 
-The number of threads is also called a "depth" of 24.
-The OMP_NUM_THREADS should also be set to 24 giving an expression of:
-
+The launching of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" and hence,
+the number of threads, OMP_NUM_THREADS was set to 24 giving an expression of:
 
 export OMP_NUM_THREADS=24
 aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
@@ -261,16 +259,18 @@ commands:
 ftn -O2 -h omp omp_hello.f -o hello_omp_cray for fortran and
 cc -O2 -h omp omp_hello.c -o hello_omp_cray for C code
 
-
 Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
-with the correct name for the OpenMP tasks.
-It is essential to remember the module before runninIt is essential to remember the module before running the job, to load it first according$
+with the correct name for the OpenMP task.
 
-
-To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to 
+To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to: 
 ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
 cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
- 
+
+To run the OpenMP code correctly on Cray with the Intel environment, the affinity should be disabled. If it is not disabled, the code runs on only one
+thread rather than running on multiple threads and this was done by adding the following command before the aprun:
+
+export KMP=AFFINITY=disabled
+
 For the Intel environment, the compilers used were expressed as:
 ftn -O2 -openmp omp_hello.f -o omp_hello_intel
 cc -O2 -openmp omp_hello.c -o omp_hello_intel
@@ -296,6 +296,9 @@ This full expression is shown as:
 
 export OMP_NUM_THREADS=6
 aprun -n 8 -N 4 -S 2 -d 6 ./$EXECUTABLE >> ${OUTPUT}
+
+Once again, to run on multiple threads with the Intel environment on Cray, AFFINITY should be disabled with the same command used in the OpenMP examples
+just after the aprun command.
 
 The source codes used for the hybrid examples were also consisted of both Fortran and c which were hybrid_hello.f90 and hello_hybrid.c. The README 
 script contained the compiling commands to compile on Cray as shown below:
