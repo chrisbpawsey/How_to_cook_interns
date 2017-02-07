@@ -17,7 +17,7 @@ However, this can be very diffucult for some users who are new to this environme
 always what they specifically need. This brings out the challenge of having to modify the example to suit their requirements on a particular computing 
 resource, mainly the High Performance Computing systems (HPC) since the modified examples mostly do not work due to HPC systems having different set ups.
 Therefore, it is hard to tell what the issue is for inexperienced users. Quite often, the users maynot be able to tell if the example is broken or if 
-the example is correct, but maybe the code requires some adjustments. This is a very common problem encountered by the users of Pawsey Supercomputing 
+the example is correct, but maybe the code requires some adjustments. This is a very common issue encountered by the users of Pawsey Supercomputing 
 Centre. For this reason, this paper provides solutions to how to run and submit examples on different resources such as supercomputers of Pawsey 
 Supercomputing Centre through the use of a simple tool "getexample". The "getexample" is an effective tool that is developed for the supercomputers of 
 Pawsey that are dependent on a command line interface and aims to help their users learn to how to run code mainly parallel programming examples, submit 
@@ -35,28 +35,28 @@ where each of them are set up with slight variations from each other. Therefore,
 to change the example codes to display a working task on Pawsey's resources as there are many differences between each resources with many constraints. 
 The most common differences between their systems are as follow:
 
-1) Various operating systems 
-2) Different program environments
-3) Different compiler options with varying commands
-4) Different compiler flags and wrappers for varying compiler options
-5) Different module systems and paths
-6) Different module naming conventions
-7) Different versions of libraries
-8) Different personal scratch, group and home directories
+1) Contrasting operating systems 
+2) Divergent program environments
+3) Non-idendical compiler options with varying commands
+4) Various compiler flags and wrappers for varying compiler options
+5) Module systems and paths that are different
+6) Disparate module naming conventions
+7) Various libraries versions
+8) Dissimilar personal scratch, group and home directories
 9) Different scheduling policies
 
 For this reason, when the user runs a sample code found from the Internet for each supercomputers (Magnus, Zeus and Zythos), the code fails to compile 
-successfully and hence, does not run as each individual system has specific operating system and commands set up for them. To rectify these problems, 
+as expected and hence, does not run as each individual system has specific operating system and commands set up for them. To rectify these problems, 
 some HPC resources provide their users websites with working examples that aim to assist them how to carry out their tasks step by step. 
 However, sometimes the commands in these examples can be outdated due to the updates in compilers and the operating systems. They also can be challenging 
 to follow and perform on the real systems for the users who are not very experienced with these resources. Although, one may find a well-written bash 
 script to run these systems, may not know how to make this script executable by changing the permissions using the chmod commands. Furthermore, a user 
 may use a sample source code such as a basic MPI code which includes some mpi libabraries to perform a particular job on these supercomputers but may 
-fail when compiled due to these libraries being no longer valid or upgraded to a different version. Or one may complete their task successfully, but may 
+fail when compiled due to these libraries being no longer valid or upgraded to a different version. Or one may complete their task, but may 
 not know in which filesystem to store their results, for example in scratch or their group because some supercomputers have policies on how long to keep 
 the data on certain filesystems such as scratch. If they are not moved from that specific filesystem within a certain amount of time, the results get 
-deleted and thus, the user loses their work. This is a major problem for the users, especially researchers and scientist since it takes very long time 
-to collect their data and vital for their researches. It is also very important that these are stored correctly within these sources.
+deleted and thus, the user loses their work. This is a major difficulty for the users, especially researchers and scientist since it takes very long time 
+to collect their data and vital for their researches. It is also very crucial that these are stored correctly within these sources.
 
 In order to minimise these problems, the getexample was developed to suplly examples which do not require further editing or modification and works
 when the executable is run. Thus, it aims to teach the users of Pawsey Supercomputing Centre how to run and submit tasks on the supercomputers without 
@@ -83,7 +83,7 @@ submit these jobs to different supercomputers such as Magnus, Zeus and Zythos us
 Each individual example on the getexample occupies a directory that is reserved for them and each example consists of three files listed below:
     
 1) SLURM (Simple Linux Utility for Resource Management) : This allows the users to submit batch jobs to the supercomputers, check on their status and 
-cancel them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and 
+cancel them if needed. It contains the necessary detail about the name of the executable, the results directory, the name of the output file and 
 the jobID. It also allows the users to edit how many nodes the code requires to run on the HPC systems, the duration of the task that it takes, which 
 partition to be used and their account name. The SLURM initially creates a scracth directory for the example to run in and the results are outputted to 
 a log file. Then, it creates a group directory in which the results directory is located for that example. Once the output file is completed within the 
@@ -91,7 +91,7 @@ scratch, the output file is then moved to the results directory located in the g
 
 2) Source Code : This is usually a source code in c or Fortran and taken from wiki pages to run the example.
 
-3) README : This file is an executable bash script which can be read and run by the users. It provides information about what the source code does,
+3) README : This file is an executable bash script which can be read and run by the users. It provides details about what the source code does,
 how to compile the source code depending on the program environment such as Cray, Intel, GNU or PGI, what can be modified in the SLURM directives, and 
 a set of instruction on how to submit the SLURM to the supercomputers including which specific commands to use for particular supercomputers. It can be
 executed by simply typing ./README which then compiles the source code and submits the batch job to the chosen supercomputer.
@@ -99,11 +99,11 @@ executed by simply typing ./README which then compiles the source code and submi
 For the examples in the getexample tool to be user friendly, helpful and efficient for working with HPC resources, there are many design considerations 
 to be held as listed below:
 
-1) Before launching the examples to the users, it should be made sure that the examples run successfully without encountering any errors. For example,
+1) Before introducing the examples to the users, it should be made sure that the examples run  without encountering any mistakes. For example,
 they should be suitable for the current operating systems with the use of correct commands for the different compiler modules such as Intel, GNU, Cray
 and PGI. 
 
-2) All the files to run the example successfully should be included with the example.
+2) All the files to run the example should be included with the example.
 
 3) To minimise confusion on how to perform the example on the supercomputers, the example should be executed with a single command. For example, 
 if a simple shell script is used, it should be run as ./README.
@@ -111,7 +111,7 @@ if a simple shell script is used, it should be run as ./README.
 4) The examples should have enough instructions about what each command does and which parts of the SLURM and the README file can be modified so that
 all the files and the scripts should be able to edited easily by the users for their preferences.
 
-5) It must be ensured that the README and SLURM have enough information about how to change certain parts of these files so that the users can run the 
+5) It must be ensured that the README and SLURM have enough data about how to change certain parts of these files so that the users can run the 
 example how they wish to on the supercomputers. These instructions should be understandable by the new users who are not very experienced with these
 systems. For example, if the user wishes to use more nodes on the supercomputers, one should be able to know where to change it from.
  
@@ -124,7 +124,7 @@ Furthermore, they assist the users on how to change number of nodes used within 
 
 \subsection{Creating Examples on Magnus}
 
-Magnus is described as a Cray X40 supercomputer that consists of many nodes that are connected by a high speed network. For the compute nodes, each one 
+Magnus is described as a Cray X40 supercomputer that consists of many nodes that are bound by a high speed network. For the compute nodes, each one 
 of them has 2 sockets and each of these has 12 cores. Magnus is also specified to have 24 cores per node and in total these sum up to 35,712 cores across 
 the 1488 nodes. 
 
@@ -139,7 +139,7 @@ completed, the results were carried to the group directory. In the end, the scra
 programming examples such as MPI, OpenMP and hybrid codes which a combination of OpenMP and MPI tasks and some applications such as lammps and gromacs.
 The source codes used for these examples were written in c or Fortran and were basic "Hello world" codes with the exception of the application codes.
 Each example was displayed in different environments on Magnus such as GNU, Intel and more importantly the default environment, Cray with the compiler
-options of ftn, mpif90 and cc. When using these environments, it was important to load the actual programming environment before compiling the source
+options of ftn, mpif90 and cc. When using these environments, it was paramount to load the actual programming environment before compiling the source
 codes and running them as each environment has specific compiler commands with distinct wrappers. These are explain more in detail in the following
 sections.
 
@@ -152,7 +152,7 @@ it was necessary to load each program environment that was intended to work on b
 
 module swap PrgEnv-cray PrgEnv-(name of environment). 
 
-It is also very important to notice that if the right program environment is not loaded, the code will fail as each environment have different commands 
+It is also very vital to be aware that if the right program environment is not loaded, the code will fail as each environment have different commands 
 for compilers. However, on Magnus, swapping from one environment to the other might be very challenging for the new users. As the getexample tool is
 desired to be as automated as possible to minimise failures on tasks, it was made sure that after running each job on Intel and GNU environments, the
 environment was set back to the default environment, Cray. This prevents the users to manually list the module every time they run something on Magnus
@@ -186,7 +186,7 @@ aprun -n 48 -N 24 ./$EXECUTABLE >> ${OUTPUT}
 
 where -n defines the total number of MPI tasks while -N specifies the number of MPI tasks per node as there are 2 nodes.
 
-In the README file, the correct program environment should be included for the codes to be successful. For compiling on Cray, there was no need to load
+In the README file, the correct program environment should be included for the codes to run well. For compiling on Cray, there was no need to load
 this environment as the default module was Cray. However, to run on GNU and Intel, the program environment was changed from Cray to GNU or Intel as
 shown below:
 
@@ -218,7 +218,7 @@ of the SLURM and the README, the program environment was always set back to the 
 module swap PrgEnv-(name of the environment) PrgEnv-cray
 
 Another example on MPI was to run the same sources but on partially occupied nodes which means that instead of having 24 tasks per node, each node could
-only have 12 tasks. When running this example on Magnus, no changes were made to the README, but there were minor changes to the SLURM.
+only have 12 tasks. When running this example on Magnus, the README remained unchanged, but there were minor changes to the SLURM.
 
 The number of OpenMP threads were set to 1 to prevent from inadvertent OpenMP threading. The aprun command was changed to:
 
@@ -240,8 +240,10 @@ fully occupied, the slurm script had a choice of only one node with the debugq p
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
 
-The launching of the job by aprun was done by specifying that there was one node and 24 threads. The number of threads is also called a "depth" and
-hence, OMP_NUM_THREADS was also set to 24 giving an expression of:
+The initiation of the job by aprun is done by specifying that there is one task and 24 threads. 
+The number of threads is also called a "depth" of 24.
+The OMP_NUM_THREADS should also be set to 24 giving an expression of:
+
 
 export OMP_NUM_THREADS=24
 aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
@@ -259,8 +261,11 @@ commands:
 ftn -O2 -h omp omp_hello.f -o hello_omp_cray for fortran and
 cc -O2 -h omp omp_hello.c -o hello_omp_cray for C code
 
+
 Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
 with the correct name for the OpenMP tasks.
+It is essential to remember the module before runninIt is essential to remember the module before running the job, to load it first according$
+
 
 To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to 
 ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
@@ -318,9 +323,9 @@ for pre and post-preparing of data, extensive shared memory calculations and rem
 /group file systems with Magnus. To access all the 30 nodes, the client has to ssh to zeus.pawsey.org.au.
 Zeus contains one large-memory nodes known as Zythos, which is SGI UV2000 system. Zythos contains 24 UV blades which show up as a solitary framework 
 with large amounts of shared memory of 6TB.Out of 24 blades, 20 of them contain two 6-core Intel Xeon E5-4610 CPUs and the remnant contain only one of 
-these CPUs and one other Nvidia Tesla K20 GPU. Numerous clients are allowed to keep running on Zythos simultaneously. Aside from Zythos, the other 29 
+these CPUs and one other Nvidia Tesla K20 GPU. Numerous clients are permitted to keep running on Zythos simultaneously. Aside from Zythos, the other 29 
 nodes of Zeus all have two 8-core Intel Xeon E5-2670 CPUs. GPUs are also featured in 27 of these with the 20 containing each one of them Nvidia Tesla 
-K20 GPU. Only one user is allowed to work on each of the nodes at a time. Zeus is part of the arrangement of Pawsey Project assets and it is located at 
+K20 GPU. Only one user is authorized to work on each of the nodes at a time. Zeus is part of the arrangement of Pawsey Project assets and it is located at 
 the Pawsey Supercomputing Center and it is incorporated with the rest of the infrastructure which permits a different scope of work.
  
 
@@ -328,9 +333,9 @@ the Pawsey Supercomputing Center and it is incorporated with the rest of the inf
 \subsubsection{MPI Jobs}
 
 The getexample tool also includes MPI examples for Zeus with GNU, Intel and PGI compilers because both Zeus and Magnus have different operating systems 
-and hence, the same MPI example needs to handled differently on Zeus. It is important to notice that the MPI source codes used for Zeus are the same
+and hence, the same MPI example needs to handled differently on Zeus. Realise that the MPI source codes used for Zeus are the same
 as Magnus, but the commands to run the same source codes are different on Zeus as compared to Magnus. Additionally, when the same code is run 
-with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded as Magnus. This information was
+with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded as Magnus. This data was
 included in the README and SLURM files of each example within the getexample tool and the required module for the specific compiler was already loaded 
 within these files so that the user is not asked to download them manually to prevent any mistakes while running the code.
 
@@ -344,7 +349,7 @@ workq and to run the JOB on Zeus as shown:
 #SBATCH --partition=workq
 #SBATCH --nodes=2
 
-Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many errors. For this reason, this line was
+Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many mistakes. For this reason, this line was
 excluded in the SLURM files of Zeus to compile the codes correctly.
 
 To run the code with a given executable on scratch, and store the results in a directory within the GROUP directory to an output file, the generic 
@@ -406,10 +411,10 @@ The OpenMP examples used for the Zeus are the same source codes as the ones used
 However, as mentioned earlier due to the different setups between Magnus and Zeus, the SLURM and the README for these codes are different.
 
 The main difference between the MPI and OpenMP jobs for Zeus is that the compiling command changes for all the different compiler options with OpenMP
-commands as the wrappers are not the same for GNU, Intel and PGI compilers. It is vital to notice that the commands to compile hello_mpi.f90 and
+commands as the wrappers are not the same for GNU, Intel and PGI compilers. It is vital to observe that the commands to compile hello_mpi.f90 and
 hello_mpi.c were the same for GNU and Intel compilers for MPI jobs, whereas this is not the same case for OpenMP jobs anymore. However, everytime the
 compiler is swapped from one to the other, the correct compiler module should be loaded because the default compiler module is gcc. If not, the system will fail to recognize the compiler commands
-and will end up giving errors, even if the source codes and the SLURM files work.
+and will end up giving mistakes, even if the source codes and the SLURM files work.
 
 In the getexample tool, to run an OpenMP job on Zeus only one node was used just as Magnus, but as diccussed in the MPI example, the workq partition was
 used unlike the  debugq partition on Magnus. Therefore, both of the OpenMP examples run one 16-thread OpenMP instance with one node.
@@ -425,7 +430,7 @@ An alternative way of running the same job could be using the omplace command.
 omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE >> ${OUTPUT}
 
 The srun command above can be used for both Intel and PGI compilers without requiring modification. However, the omplace command would be different for
-the other compilers. It is important to note that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
+the other compilers. Observe that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
 command will not be identified as the default thread model is intel. Hence, -tm open64 tells that the compiler module is GNU.
 
 Therefore, to run this job with the Intel compiler, the omplace command in the SLURM would look like:
@@ -510,7 +515,7 @@ nvcc hello_cuda.cu -o hello_cuda_gnu
 
 Being one of the large memory nodes of Zeus, this framework is said to be an SGI UV2000 which gives access of up to 6TB of shared memory in cache-coherent non-uniform memory access (ccNUMA) mold.
 The hidden equipment depends on Intel Xeon E5-4610 2.4 GHz innovation which gives 6-core nodes(*). 
-Every core has about 32KB L1 direction and information reserves and one 256KB L2 memory store. 
+Every core has about 32KB L1 direction and data reserves and one 256KB L2 memory store. 
 Each of the 6-core nodes shares a 15MB L3 cache,and each node gives 128 GB main memory: 256GB per two-second, or two-node, blade.
 
 In the system, four blades contain one Intel Xeon 6-core chip plus one Tesla K20 GPU card.
@@ -518,15 +523,15 @@ Worldwide store coherency is guaranteed by method of unique equipment which gets
 Zythos is a restricted asset and is liable to strict qualification criteria. 
 One of the following criteria for every task must be met:
 
-1) A vast informational collection that must be held in shared memory,and more networthy than 512GB.
+1) A vast detailed collection that must be held in shared memory,and more networthy than 512GB.
 2) Gigantic thread-level parallelism, for example,utilizing tens or many CPU cores.
 
 It is more preferrable that the work meets both criteria. 
 On the off chance that the work does not satisfy both criteria, then Zeus is a more fitting asset.
-The extensive most extreme walltime on Zythos is necessary to help investigate these expansive informational collections.
+The extensive most extreme walltime on Zythos is necessary to help investigate these expansive detailed collections.
 Having programming with long runtimes or tak-level parallelism does not justify access to Zythos.
 As such most of the work has to be changed the group name in order to run it. 
-Specific accounts are allowed to run on Zythos. It is necessary to change account name and put the authorized account otherwise your job will not run.
+Specific accounts are authorized to run on Zythos. It is necessary to change account name and put the authorized account otherwise your job will not run.
 
 Zythos has no direct access, all work is facillitated via Zeus.Login to Zeus the usual way then access Zythos in Zeus.
 The advancement environment for Zythos is the as Zeus, this includes compilers, libraries,etc. 
@@ -559,7 +564,7 @@ The final SLURM directives are detailed as:
 #SBATCH --account=pawsey0001
 #SBATCH --time=00:10:00
 
-Note that the account has to be changed to an account authorised to access Zythos.
+The account has to be changed to an account authorised to access Zythos.
 As done on all examples, time has been specified.
 The default loaded module is gcc which is for running on GNU.
 To load the latest version of GNU do a module load.It is essential in this case to load mpt module otherwise the job will not run.
@@ -786,7 +791,7 @@ modify the codes to suit the current systems.
 
 However, the getexample tool is a large library with many examples. Thus, it can be really frustruating and hard for the system administrators to run 
 all the examples one by one and having to fix these problems. In order to make this procedure easier for them, a basic bash executable script can be 
-used which runs all the examples at once, checks their status and prints out which example was succesful or failed to an output file based on their
+used which runs all the examples at once, checks their status and prints out which example was succesful or went wrong to an output file based on their
 status.
 
 The following bash script is a suggestion on how to run all the examples at once and test status of the examples. This script only test three examples
@@ -825,8 +830,7 @@ done
 
 In order to check the status of each example, the following code is added to the SLURM files of the examples after the aprun command. This simply checks
 whether the job returns 0 or 1 and if the status does not return 0, the example fails to run and hence prints the name of the example's executable with
-its jobID and tells failed to a second output file. If the job returns 1, the example runs successfully and prints the same thing except with saying 
-succeeded instead.
+its jobID and tells not run to a second output file. If the job returns 1, the example runs well and prints the same thing except with printing out the opposite instead.
 
 aprun -n 1 ./$EXECUTABLE >> ${OUTPUT}
 
