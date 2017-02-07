@@ -326,7 +326,7 @@ memory calculations and remote visualization work. It shares the same /home,/scr
 Magnus. Zeus is a heterogeneous cluster with a large number of back-end nodes with both CPU an GPU hardware which makes Zeus an excellent resource to run
 jobs like CUDA codes. To access the back-end nodes, a SLURM script is used just like Magnus except the default partition queue is workq instead of 
 debugq. There are other nodes on Zeus such as copyq which is another partition queue that can be only used for specific purposes. Zeus also contains one 
-large-memory nodes known as Zythos, which is an SGI UV2000 system and Zythos can be accessed from the front end login node of
+large-memory node known as Zythos, which is an SGI UV2000 system and Zythos can be accessed from the front end login node of
 Zeus. 
 
 The getexample tool also provided some examples for Zeus which were also mainly based on parallel programming tasks. The SLURM and README scripts
@@ -518,34 +518,29 @@ nvcc hello_cuda.cu -o hello_cuda_gnu
   
 \subsection{Zythos}
 
-Being one of the large memory nodes of Zeus, this framework is said to be an SGI UV2000 which gives access of up to 6TB of shared memory in cache-coherent non-uniform memory access (ccNUMA) mold.
-The hidden equipment depends on Intel Xeon E5-4610 2.4 GHz innovation which gives 6-core nodes(*). 
-Every core has about 32KB L1 direction and data reserves and one 256KB L2 memory store. 
-Each of the 6-core nodes shares a 15MB L3 cache,and each node gives 128 GB main memory: 256GB per two-second, or two-node, blade.
+As mentioned earlier, Zythos is a large-memory node of Zeus and can be accessed through the front end login node of Zeus. Unlike Zeus, Zythos is a 
+restricted asset and is liable to strict qualification criteria. One of the following criteria must be met for the task to be performed on Zythos:
 
-In the system, four blades contain one Intel Xeon 6-core chip plus one Tesla K20 GPU card.
-Worldwide store coherency is guaranteed by method of unique equipment which gets to physically remote memory over the system with low inertness and high data transfer capacity.
-Zythos is a restricted asset and is liable to strict qualification criteria. 
-One of the following criteria for every task must be met:
+1) A vast detailed data should be held in shared memory, and be larger than 512GB.
+2) Gigantic thread-level parallelism, for example,utilizing a large number of CPU cores.
 
-1) A vast detailed collection that must be held in shared memory,and more networthy than 512GB.
-2) Gigantic thread-level parallelism, for example,utilizing tens or many CPU cores.
+It is more preferrable that the work meets both criteria. If the work does not satisfy either one of these criteria, then Zeus is a better source to
+use.
 
-It is more preferrable that the work meets both criteria. 
-On the off chance that the work does not satisfy both criteria, then Zeus is a more fitting asset.
-The extensive most extreme walltime on Zythos is necessary to help investigate these expansive detailed collections.
-Having programming with long runtimes or tak-level parallelism does not justify access to Zythos.
-As such most of the work has to be changed the group name in order to run it. 
-Specific accounts are authorized to run on Zythos. It is necessary to change account name and put the authorized account otherwise your job will not run.
+Unlike Magnus and Zeus, there is no direct access to Zythos, all work is facillitated via Zeus. However, the partition queue is no longer workq and it
+changes to zythos for the partition. Additionally, the codes on Zythos does not run properly if the account name is not specified or entered correctly
+as specific accounts are authorized to run on Zythos. For this reason, it is necessary to change account name and put the authorized account, otherwise 
+the job does not run.
 
-Zythos has no direct access, all work is facillitated via Zeus.Login to Zeus the usual way then access Zythos in Zeus.
-The advancement environment for Zythos is the as Zeus, this includes compilers, libraries,etc. 
-It is therefore beneficial Zeus first before trying to work on Zythos.
-Zeus is also used to submit the jobs for Zythos but the partition in SLURM changes to zythos and shown as:
+Therefore, this brings out the challange of having to modify the account name in the SLURM scripts of the getexample tool which means that the
+getexample is not completely automated for Zythos. The users who are interested in running these examples on this resource will not be simply typing
+./README to execute the example but instead will have to replace the account name entered in the examples with their own.
 
-#SBATCH --partition=zythos
+The examples provided for Zythos were also parallel programming codes such as MPI, OpenMP and hybrid tasks and these jobs were also run with GNU, Intel
+and PGI compilers which utilized exactly the same commands as the Zeus examples. However, to run the jobs on Zythos, the SLURM scripts included
 
-The utilization of omplace for thread placement is identical to Zeus and detailed in the previous section.
+
+
 Jobs that require message passing must make use of mpirun job launcher which is given by the SGI message passing toolkit done by making use of the shared memory mechanisms in equipment accessible on Zythos.
 For better memory execution, clients are recommended to ask for assets on Zythos as entire cores, or entire CPU sets instead of letting SLURM desgnate accessible cpus sporadically on the machine. 
 The basic approach to do this is by keeping -cpus-per-task at 6 at all times and conform -ntasks to suit the cpu/memory prerequisites of the job.
