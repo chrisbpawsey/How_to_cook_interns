@@ -228,44 +228,50 @@ aprun -n 24 -N 12 -S 6 ./$EXECUTABLE >> ${OUTPUT}
 
 \subsubsection{OMP Examples}
 
-OpenMP may be thought of one task because of their restrictions to only one node.
-The node can be fully occupied node or a node occupying a single NUMA region.
-When it is fully occupied, the slurm script has a choice of only one node as explained.
+OpenMP (Open Multi-Processing) is known as a common shared memory model in which the threads work in parallel and access all shared memory. Therefore,
+it can be thought of one task because of their restrictions to only one node. Unlike the MPI examples, the compiler commands and the wrappers do change 
+for different environments on Magnus with the OpenMP tasks. Thus, it is necessary to swap to the right program environment corresponding to the compiler.
+
+As mentioned previously, the OpenMP jobs use only one node and this node can be fully occupied node or a node occupying a single NUMA region. When it was 
+fully occupied, the slurm script had a choice of only one node with the debugq partition as explained.
 
 #SBATCH --partition=debugq
 #SBATCH --nodes=1
-#SBATCH --time=00:01:00
+#SBATCH --time=00:05:00
 #SBATCH --export=NONE
 
 The initiation of the job by aprun is done by specifying that there is one task and 24 threads. 
 The number of threads is also called a "depth" of 24.
 The OMP_NUM_THREADS should also be set to 24 giving an expression of:
 
-export OMP_NUM_THREADS=24
-aprun -n 1 -d 24 ./code_omp.x
 
-For a node occupying a single NUMA region, the code is more efficient when threads are limited to one NUMA region containing 12 cores. 
-The expression -d 12 ensures that threads are bound correctly but this can be clearly done by specifying this via cc.
-This is all illustrated below as:
+export OMP_NUM_THREADS=24
+aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
+
+For a node occupying a single NUMA region, the code are more efficient when threads are limited to one NUMA region containing 12 cores. The expression 
+-d 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
+illustrated below as:
 
 export OMP_NUM_THREADS=12
-aprun -n 1 -d 12 -cc 0-11 ./code_omp.x
+aprun -n 1 -d 12 -cc 0-11 ./$EXECUTABLE >> ${OUTPUT}
 
-If the source code being run is fortran,on cray the README shows the compiling code as:
+The source codes used for OpenMP jobs were omp_hello.f and omp_hello.c. To run these source codes on Cray, the README included the following compiling 
+commands:
 
 ftn -O2 -h omp omp_hello.f -o hello_omp_cray for fortran and
 cc -O2 -h omp omp_hello.c -o hello_omp_cray for C code
 
-The job is also submitted to Magnus by using the sbatch before the slurm as previously mentioned.
-It is essential to remember the module before running the job, to load it first accordingly.
 
-When using gnu, the compiler changes to 
+Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
+with the correct name for the OpenMP tasks.
+It is essential to remember the module before runninIt is essential to remember the module before running the job, to load it first according$
+
+
+To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to 
 ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
 cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
  
-For fortran and C codes respectively.
-
-For intel, the compiler used is expressed as:
+For the Intel environment, the compilers used were expressed as:
 ftn -O2 -openmp omp_hello.f -o omp_hello_intel
 cc -O2 -openmp omp_hello.c -o omp_hello_intel
 
