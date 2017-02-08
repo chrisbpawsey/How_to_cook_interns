@@ -72,6 +72,17 @@ following design specifications:
 how to use the resources given to them effectively.
 3) The example should be clear and completely detailed with steps to help the users to fathom and apply it.
 
+The getexample tool is designed in a way such that when "getexample" command is typed from any directory on the resources of Pawsey Centre, it lists all 
+the examples within the getexample library. As the getexample displays many examples which aim to perform various tasks for each individual resource at
+Pawsey, it ensures that when the user logins from a specific supercomputer such as Magnus, it only lists the examples provided for Magnus rather than
+showing all of the examples within the library. To obtain a copy of any example, the user simply types "getexample" followed by the name of the example 
+as shown below:
+
+getexample <name of the example>
+
+This creates a new directory with same name as the example requested in wherever the getexample tool is accessed from and it downloads all the files of
+the example to the new directory created. The new directory then can be accessed by the user simply typing cd <the name of the example>. 
+ 
 \section{Creating Examples on getexample}
 
 The examples included in the getexample library were created by internship students at Pawsey with their supervisor while the source codes within the
@@ -122,7 +133,7 @@ Therefore, the examples in the getexample tool ensures that the users are inform
 Furthermore, they assist the users on how to change number of nodes used within the supercomputers and increase or reduce the number of cores used.     
 
 
-\subsection{Creating Examples on Magnus}
+\subsection{Magnus}
 
 Magnus is described as a Cray X40 supercomputer that consists of many nodes that are bound by a high speed network. For the compute nodes, each one 
 of them has 2 sockets and each of these has 12 cores. Magnus is also specified to have 24 cores per node and in total these sum up to 35,712 cores across 
