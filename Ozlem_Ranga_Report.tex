@@ -240,10 +240,8 @@ fully occupied, the slurm script had a choice of only one node with the debugq p
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
 
-The initiation of the job by aprun is done by specifying that there is one task and 24 threads. 
-The number of threads is also called a "depth" of 24.
-The OMP_NUM_THREADS should also be set to 24 giving an expression of:
-
+The launching of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" and hence,
+the number of threads, OMP_NUM_THREADS was set to 24 giving an expression of:
 
 export OMP_NUM_THREADS=24
 aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
@@ -261,26 +259,30 @@ commands:
 ftn -O2 -h omp omp_hello.f -o hello_omp_cray for fortran and
 cc -O2 -h omp omp_hello.c -o hello_omp_cray for C code
 
-
 Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
-with the correct name for the OpenMP tasks.
-It is essential to remember the module before runninIt is essential to remember the module before running the job, to load it first according$
+with the correct name for the OpenMP task.
 
-
-To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to 
+To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to: 
 ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
 cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
- 
+
+To run the OpenMP code correctly on Cray with the Intel environment, the affinity should be disabled. If it is not disabled, the code runs on only one
+thread rather than running on multiple threads and this was done by adding the following command before the aprun:
+
+export KMP=AFFINITY=disabled
+
 For the Intel environment, the compilers used were expressed as:
 ftn -O2 -openmp omp_hello.f -o omp_hello_intel
 cc -O2 -openmp omp_hello.c -o omp_hello_intel
 
 \subsubsection(Hybrid Examples}
 
-A hybrid job is a mixed job between OpenMP and MPI. It aims to take advantage of the OpenMP in NUMA region which is also known as a socket.
-The OpenMP is in this case involved with one 12 core chip and runs on 6 threads on each of 8 MPI tasks which dispersed evenly between the NUMA regions.
-A sum of 2 nodes is required which accomodates 8MPI tasks and 6 threads.
-Besides specifying the number of nodes, the time is also shown in the slurm script as done in the previous examples.In this case we could choose 5 minutes as done in the getexamples.
+A hybrid job is a mixed job that is a combination of OpenMP and MPI tasks. It aims to take advantage of the OpenMP in NUMA region which is also known as 
+a socket. The NUMA region was in this case involved with one 12-core chip and ran on 6 threads on each of 8 MPI tasks which dispersed evenly between 
+the NUMA regions.
+
+A sum of 2 nodes was required which accomodated 8 MPI tasks and 6 threads. Besides specifying the number of nodes, the time was also shown in the slurm 
+script as done in the previous examples. In this case, we chose 5 minutes as done in most of the examples in the getexample.
 The partition remains the same debugq.
 
 #SBATCH --partition=debugq
@@ -288,69 +290,55 @@ The partition remains the same debugq.
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
 
-8MPI tasks(n) are specified to aprun to launch the job.This is specified also with 4 MPI tasks per node(N) per socket (-S 2).
-Each of the 8 MPI tasks will have 6 threads (-d 6). The OMP_NUM_THREADS is also expressed as 6.
-The full expression is shown as:
+8 MPI tasks (-n 8) were specified to aprun to launch the job with 4 MPI tasks per node (-N 4), 2 MPI tasks per socket (-S 6) and each of the 8 MPI tasks 
+had 6 OpenMP threads (-d 6). Therefore, the number of OpenMP threads,  OMP_NUM_THREADS was set to 6.
+This full expression is shown as:
 
 export OMP_NUM_THREADS=6
-aprun -n 8 -N 4 -S 2 -d 6 ./code_hybrid.x
+aprun -n 8 -N 4 -S 2 -d 6 ./$EXECUTABLE >> ${OUTPUT}
 
-The bash script will show the compiling code as:
-ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray
-cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray
+Once again, to run on multiple threads with the Intel environment on Cray, AFFINITY should be disabled with the same command used in the OpenMP examples
+just after the aprun command.
 
-For each of the source codes, fortran and C.
+The source codes used for the hybrid examples were also consisted of both Fortran and c which were hybrid_hello.f90 and hello_hybrid.c. The README 
+script contained the compiling commands to compile on Cray as shown below:
 
-Again in this example, cray module should be loaded as:
-module load PrgEnv-cray or module swap with the previously loaded module environment.
+ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray for the Fortran code
+cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray for the c code
 
-For gnu environment,for fortran and C codes respectively, the README shows the compiler code as:
+To compiler with the GNU environment for fortran and c codes respectively, the README had the following compilers:
 
 ftn -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
 cc -O2 -fopenmp hybrid_hello.c -o hello_hybrid_gnu
 
-The job is submitted to Magnus by sbatch{slurm script}
-
-The environment is then changed first before running the job:
-
-module swap PrgEnv-cray PrgEnv-gnu
-
-or unload cray first
-module unload PrgEnv-cray
-module load PrgEnv-gnu
-module list
-
-The instructions to run the executable are given in the README  file as:
-
-./README 
-This applies for all the getexamples.
-
-In intel the compiler code changes as well to:
+For the Intel environment, the compiler code changed to:
 
 ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
 cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
 
+The same sbatch command as the OpenMP and MPI tasks was used for the hybrid codes to submit them to Magnus. The only difference was the name of the name
+of the SLURM scripts.
 
 \subsection{Zeus}
 
-The getexample tool also provides examples for Zeus which is according to Pawsey system descriptions an SGI Linux cluster that is principally utilized 
-for pre and post-preparing of data, extensive shared memory calculations and remote visualization work. It is diverse group with 30 nodes in different layouts. It shares the same /home,/scratch and 
-/group file systems with Magnus. To access all the 30 nodes, the client has to ssh to zeus.pawsey.org.au.
-Zeus contains one large-memory nodes known as Zythos, which is SGI UV2000 system. Zythos contains 24 UV blades which show up as a solitary framework 
-with large amounts of shared memory of 6TB.Out of 24 blades, 20 of them contain two 6-core Intel Xeon E5-4610 CPUs and the remnant contain only one of 
-these CPUs and one other Nvidia Tesla K20 GPU. Numerous clients are permitted to keep running on Zythos simultaneously. Aside from Zythos, the other 29 
-nodes of Zeus all have two 8-core Intel Xeon E5-2670 CPUs. GPUs are also featured in 27 of these with the 20 containing each one of them Nvidia Tesla 
-K20 GPU. Only one user is authorized to work on each of the nodes at a time. Zeus is part of the arrangement of Pawsey Project assets and it is located at 
-the Pawsey Supercomputing Center and it is incorporated with the rest of the infrastructure which permits a different scope of work.
+According to Pawsey system descriptions, Zeus is an SGI Linux cluster that is principally utilized for pre and post-preparing of data, extensive shared 
+memory calculations and remote visualization work. It shares the same /home,/scratch and /group file systems with other Pawsey Centre systems such as 
+Magnus. Zeus is a heterogeneous cluster with a large number of back-end nodes with both CPU an GPU hardware which makes Zeus an excellent resource to run
+jobs like CUDA codes. To access the back-end nodes, a SLURM script is used just like Magnus except the default partition queue is workq instead of 
+debugq. There are other nodes on Zeus such as copyq which is another partition queue that can be only used for specific purposes. Zeus also contains one 
+large-memory node known as Zythos, which is an SGI UV2000 system and Zythos can be accessed from the front end login node of
+Zeus. 
+
+The getexample tool also provided some examples for Zeus which were also mainly based on parallel programming tasks. The SLURM and README scripts
+contained the same design as the ones for Magnus with only differing commands for running the task on Zeus, compiling the source codes and loading the
+correct compiler modules. 
  
-
-
 \subsubsection{MPI Jobs}
 
 The getexample tool also includes MPI examples for Zeus with GNU, Intel and PGI compilers because both Zeus and Magnus have different operating systems 
-and hence, the same MPI example needs to handled differently on Zeus. Realise that the MPI source codes used for Zeus are the same
+and hence, the same MPI example needs to handled differently on Zeus. It is necessary to realise that the MPI source codes used for Zeus are the same
 as Magnus, but the commands to run the same source codes are different on Zeus as compared to Magnus. Additionally, when the same code is run 
-with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded as Magnus. This data was
+with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded as Magnus. These descriptions were
 included in the README and SLURM files of each example within the getexample tool and the required module for the specific compiler was already loaded 
 within these files so that the user is not asked to download them manually to prevent any mistakes while running the code.
 
@@ -358,13 +346,13 @@ The two common source codes used for the MPI examples were hello_mpi.f90 (a FORT
 with GNU, Intel and PGI compiler options on Zeus to assist the users on how to run the same code on Zeus with different modules, even if the command 
 for compiling the same source code does not for MPI tasks on Zeus.
 
-As mentioned earlier, both codes were run on both Magnus and Zeus on 2 nodes. However, the partition in the SLURM was changed to workq from debugq to 
-workq and to run the JOB on Zeus as shown:
+As mentioned earlier, both codes were run on both Magnus and Zeus on 2 nodes. However, the partition in the SLURM was changed to workq from debugq.
+These were defined in the SLURM script of the MPI examples as shown: 
 
 #SBATCH --partition=workq
 #SBATCH --nodes=2
 
-Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many mistakes. For this reason, this line was
+Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many errors. For this reason, this line was
 excluded in the SLURM files of Zeus to compile the codes correctly.
 
 To run the code with a given executable on scratch, and store the results in a directory within the GROUP directory to an output file, the generic 
@@ -387,12 +375,12 @@ MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to 
 implementation and must specified to srun for the correct operation.
 
 In the README file, depending on which compiler the source code would be compiled with, the compiler module was included and loaded in the README file 
-when it ran executed. For example, if the GNU compiler module was to be used, the gcc module was loaded with the mpt module as shown below:
+when it ran. For example, if the GNU compiler module was to be used, the gcc module was loaded with the mpt module as shown below:
 
 module load gcc
 module load mpt
 
-If the code was to be compiled with Intel, the gcc module needs to unloaded and the Intel compiler module needs to be loaded. This applies to the PGI
+If the code was to be compiled with Intel, the gcc module needs to be unloaded and the Intel compiler module needs to be loaded. This applies to the PGI
 compiler as well, after the gcc module is unloaded, the pgi module should be loaded as shown below:
 
 For Intel:
@@ -407,7 +395,7 @@ module load mpt
 
 The mpt module needs to be loaded whenever an MPI or OpenMP/MPI task is submitted to Zeus as it provides the SGI message to access the MPI library.
 
-Additionally, the README file contains the command to compile the FORTRAN 90, hello_mpi.f90 code  and hello_mpi.c c code with the GNU or Intel compiler 
+Additionally, the README file contained the command to compile the FORTRAN 90, hello_mpi.f90 code and hello_mpi.c c code with the GNU or Intel compiler 
 as shown:
 
 mpif90 hello_mpi.f90 -o hello_mpi_gnu
@@ -427,12 +415,12 @@ However, as mentioned earlier due to the different setups between Magnus and Zeu
 
 The main difference between the MPI and OpenMP jobs for Zeus is that the compiling command changes for all the different compiler options with OpenMP
 commands as the wrappers are not the same for GNU, Intel and PGI compilers. It is vital to observe that the commands to compile hello_mpi.f90 and
-hello_mpi.c were the same for GNU and Intel compilers for MPI jobs, whereas this is not the same case for OpenMP jobs anymore. However, everytime the
-compiler is swapped from one to the other, the correct compiler module should be loaded because the default compiler module is gcc. If not, the system will fail to recognize the compiler commands
-and will end up giving mistakes, even if the source codes and the SLURM files work.
+hello_mpi.c were the same for GNU and Intel compilers for the MPI jobs, whereas this is not the same case for OpenMP jobs anymore. However, everytime the
+compiler is swapped from one to the other, the correct compiler module should be loaded because the default compiler module is gcc. If not, the system 
+will fail to recognize the compiler commands and end up giving errors, even if the source codes and the SLURM files work.
 
 In the getexample tool, to run an OpenMP job on Zeus only one node was used just as Magnus, but as diccussed in the MPI example, the workq partition was
-used unlike the  debugq partition on Magnus. Therefore, both of the OpenMP examples run one 16-thread OpenMP instance with one node.
+used unlike the debugq partition on Magnus. Therefore, both of the OpenMP examples run one 16-thread OpenMP instance with one node.
 
 To run the omp_hello.f and omp_hello.c code on Zeus with GNU compiler, the number of OpenMP threads were set to 16 on the SLURM and srun command was 
 used to run it as shown:
@@ -445,29 +433,26 @@ An alternative way of running the same job could be using the omplace command.
 omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE >> ${OUTPUT}
 
 The srun command above can be used for both Intel and PGI compilers without requiring modification. However, the omplace command would be different for
-the other compilers. Observe that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
-command will not be identified as the default thread model is intel. Hence, -tm open64 tells that the compiler module is GNU.
-
-Therefore, to run this job with the Intel compiler, the omplace command in the SLURM would look like:
+the other compilers. It is important to note that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
+command will not be identified as the default thread model is intel. Hence, -tm open64 tells that the compiler module is GNU. Therefore, to run this job
+with the Intel compiler, the omplace command in the SLURM would look like:
 
 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
 
 To compile the omp_hello.f with the GNU compiler, the following command was used in the README file:
-
 gfortran -O2 -fopenmp omp_hello.f -o hello_omp_gnu
 
 The omp_hello.c code can be compiled with the GNU as shown below:
-
 gcc -O2 -fopenmp omp_hello.c -o hello_omp_gnu
 
-As it can be seen, the only difference between compiling the c code and the FORTRAN code is the gcc and gfortran. Both of these codes can be compiled
-with Intel and PGI compilers, but the wrapper for them will different.
+As it can be seen, the only difference between compiling the c code and the FORTRAN code was the gcc and gfortran commands. Both of these codes can be 
+compiled with Intel and PGI compilers, but the wrapper for them was different.
 
-For Intel:
+For Intel, compiling the Fortran and c codes respectively:
 ifort -O2 -qopenmp omp_hello.f -o hello_omp_intel
 icc -O2 -qopenmp omp_hello.c -o hello_omp_intel
 
-For PGI:
+For PGI, compiling the Fortran and c codes respectively:
 pgfortran -O2 -mp omp_hello.f -o hello_omp_pgi
 pgcc -mp omp_hello.c -o hello_omp_pgi
 
@@ -509,136 +494,94 @@ executes kernel functions on the device which are executed by GPU threads in par
 memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
 results from the device to the host.
 
-The getexample tool includes a basic Hello world CUDA code, hello_cuda.cu for Zeus. It uses 1 node with any generic GPU card, and this is defined in the 
-SLURM file.
+The getexample tool includes a basic Hello world CUDA code, hello_cuda.cu for Zeus. It uses 1 node with any generic GPU card, and this was defined in the 
+SLURM file as:
 
 #SBATCH --partition=workq
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
 
-To compile the CUDA code correctly, the cuda module should be loaded and this was done in both README and the SLURM file.
+To compile the CUDA code correctly, the cuda module should be loaded and this was done in both README and the SLURM file by using the following line:
 
 module load cuda
 
-To submit this task to Zeus, the following command was used:
+Then to submit this task to Zeus, the following command was used:
 
 ./$EXECUTABLE >> ${OUTPUT}
 
-To compile the CUDA code, the following command was used in the README file:
+The CUDA code was compiled by using the following compiler line in the README file:
 
 nvcc hello_cuda.cu -o hello_cuda_gnu
  
   
 \subsection{Zythos}
 
-Being one of the large memory nodes of Zeus, this framework is said to be an SGI UV2000 which gives access of up to 6TB of shared memory in cache-coherent non-uniform memory access (ccNUMA) mold.
-The hidden equipment depends on Intel Xeon E5-4610 2.4 GHz innovation which gives 6-core nodes(*). 
-Every core has about 32KB L1 direction and data reserves and one 256KB L2 memory store. 
-Each of the 6-core nodes shares a 15MB L3 cache,and each node gives 128 GB main memory: 256GB per two-second, or two-node, blade.
+As mentioned earlier, Zythos is a large-memory node of Zeus and can be accessed through the front end login node of Zeus. Unlike Zeus, Zythos is a 
+restricted asset and is liable to strict qualification criteria. One of the following criteria must be met for the task to be performed on Zythos:
 
-In the system, four blades contain one Intel Xeon 6-core chip plus one Tesla K20 GPU card.
-Worldwide store coherency is guaranteed by method of unique equipment which gets to physically remote memory over the system with low inertness and high data transfer capacity.
-Zythos is a restricted asset and is liable to strict qualification criteria. 
-One of the following criteria for every task must be met:
+1) A vast detailed data should be held in shared memory, and be larger than 512GB.
+2) Gigantic thread-level parallelism, for example,utilizing a large number of CPU cores.
 
-1) A vast detailed collection that must be held in shared memory,and more networthy than 512GB.
-2) Gigantic thread-level parallelism, for example,utilizing tens or many CPU cores.
+It is more preferrable that the work meets both criteria. If the work does not satisfy either one of these criteria, then Zeus is a better source to
+use.
 
-It is more preferrable that the work meets both criteria. 
-On the off chance that the work does not satisfy both criteria, then Zeus is a more fitting asset.
-The extensive most extreme walltime on Zythos is necessary to help investigate these expansive detailed collections.
-Having programming with long runtimes or tak-level parallelism does not justify access to Zythos.
-As such most of the work has to be changed the group name in order to run it. 
-Specific accounts are authorized to run on Zythos. It is necessary to change account name and put the authorized account otherwise your job will not run.
+Unlike Magnus and Zeus, there is no direct access to Zythos, all work is facillitated via Zeus. However, the partition queue is no longer workq and it
+changes to zythos for the partition. Additionally, the codes on Zythos does not run properly if the account name is not specified or entered correctly
+as specific accounts are authorized to run on Zythos. For this reason, it is necessary to change account name and put the authorized account, otherwise 
+the job does not run.
 
-Zythos has no direct access, all work is facillitated via Zeus.Login to Zeus the usual way then access Zythos in Zeus.
-The advancement environment for Zythos is the as Zeus, this includes compilers, libraries,etc. 
-It is therefore beneficial Zeus first before trying to work on Zythos.
-Zeus is also used to submit the jobs for Zythos but the partition in SLURM changes to zythos and shown as:
+Therefore, this brings out the challange of having to modify the account name in the SLURM scripts of the getexample tool which means that the
+getexample is not completely automated for Zythos. The users who are interested in running these examples on this resource will not be simply typing
+./README to execute the example but instead will have to replace the account name entered in the examples with their own.
 
-#SBATCH --partition=zythos
-
-The utilization of omplace for thread placement is identical to Zeus and detailed in the previous section.
-Jobs that require message passing must make use of mpirun job launcher which is given by the SGI message passing toolkit done by making use of the shared memory mechanisms in equipment accessible on Zythos.
-For better memory execution, clients are recommended to ask for assets on Zythos as entire cores, or entire CPU sets instead of letting SLURM desgnate accessible cpus sporadically on the machine. 
-The basic approach to do this is by keeping -cpus-per-task at 6 at all times and conform -ntasks to suit the cpu/memory prerequisites of the job.
-In so doing, SLURM will be able to allocate cpu cores successively, rather than having to pick up available cpu cores which may be scattered all over the framework.
-The primary motivation behind thid is to enhance data locality and memory perfomance.
-
-The jobs that are run on Zythos can be run on any of the three environments gnu, intel and pgi instead of cray as on Magnus.
-
+The examples provided for Zythos were also parallel programming codes such as MPI, OpenMP and hybrid tasks and these jobs were also run with GNU, Intel
+and PGI compilers which utilized exactly the same commands as the Zeus examples. However, to run the jobs on Zythos, the SLURM scripts included
+different commands from srun such as omplace and mpirun. 
 
 
 \subsubsection{MPI Examples}
 
-As previously done, examples are utilizing code from either c or fotran source code.
-The SLURM for MPI jobs shows the request for 24 cores by asking for 4 ntasks and 6 -cpus-per-task and nodes is not. 
-This means the job has access to a total of 512GB.
-The final SLURM directives are detailed as:
+Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either fotran or c. To compile with the
+correct modules, the compiler modules were also needed to be loaded by using the same commads as Zeus in both the README and SLURM scripts. Unlike Zeus, 
+the partition in the SLURM for Zythos was zythos instead of the debugq. The number of nodes was also specified with the use of --ntasks rather than the 
+command --nodes as compared to the other Pawsey resources. In addition to the SLURM scripts, the number of cores per node was defined with 
+--cpus-per-task.    
 
+These were included in the SLURM as shown below:
+
+#SBATCH --job-name=GE-hostname
 #SBATCH --partition=zythos
 #SBATCH --natasks=4
 #SBATCH --cpus-per-task=6
 #SBATCH --account=pawsey0001
 #SBATCH --time=00:10:00
 
-The account has to be changed to an account authorised to access Zythos.
-As done on all examples, time has been specified.
-The default loaded module is gcc which is for running on GNU.
-To load the latest version of GNU do a module load.It is essential in this case to load mpt module otherwise the job will not run.
+As mentioned previously, the authorised account name was inputted to the SLURM to access Zythos and the run the codes successfully. However, if the
+users decide to run the same examples, the only modification required is to change the name of the account.
 
-module load gcc
-module load mpt
-module list
+When clients run a job on Zythos, for a better memory perfomance they  are recommended to ask for the entire cores on the node as a whole instead of making the SLURM
+allocate cpus at irregular intervals on Zythos. The basic approach to do this is by occupying all of the 6 cores per node at all times. In so doing, 
+the SLURM will be able to allocate the cpu cores successively, rather than having to pick up available cpu cores which may be scattered all over the 
+framework.
 
-Create an executable as done in all other examples and redirect results to MYGROUP after SCRATCH
-Message passing in done by mpirun and the executable is redirected to the OUTPUT and the resulting command is written as:
+Therefore to run the MPI task on Zythos, 4 nodes with 6 cores per node were required giving a total of 24 cores. This was implemented in the SLURM as 
+shown below:
 
 mpirun -np 24 ./$EXECUTABLE >> ${OUTPUT}
 
-The removal of SCRATCH directory is also done in SLURM file as in the default.
-README or bash script is run by ./README.
-It contains the command to compile the hello_mpi.f90 or hello_mpi.c code as:
+The "mpirun" command is an MPI launcher provided by the SGI message passing toolkit.
 
-mpif90 -O2 hello_mpi.f90 -o hello_mpi_gnu for fortran code or
-mpicc -O2 hello_mpi.c -o hello_mpi_gnu for c code
-
-To submit the job to Zythos:
-
-sbatch hello_mpi_gnu.slurm
-
-Working on Intel would require swapping of modules from gcc to intel by manually using commands:
-
-module swap gcc intel
-module load mpt
-module list
-
-All the commands on the SLURM and README remain the same because of the use of wrappers: mpif90 and mpicc for fortran and c code respectively.
-
-For pgi environment, the READE compiles with a different code shown as:
-
-pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi for fortran code and 
-pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_pgi for c code
-
-Submit the job to Zythos :
-sbatch hello_mpi_pgi.slurm
-
-The SLURM does not change much except of the names of OUTPUT and results directory.
-The message is passed through mpirun for all examples on Zythos.
-Before running the job, load the pgi module and other necessary modules by swapping from intel.
-
-module swap intel pgi
-module load mpt
-module list
-
-Run the job ./README and use jobID to view results in $MYGROUP directory.
-
+The source codes, hello_mpi.f90 and hello_mpi.c were compiled with the default compiler GNU, Intel and PGI respectively by the using the compiler
+commands of Zeus with no modification as the compilers and wrappers are the same since Zythos is a node of Zeus. The only difference was the name of the
+executable as it is special for each example within the getexample library.
 
 \subsubsection{OMP Examples}
 
-The SLURM script for OpeMP requests for 2 nodes and 6 cores which is a total of 12 cores. 
-The total memory carried is about 128GB in each of them.
-We specify the 2 nodes as ntasks rather than nodes in the SLURM directives.
+For the OpenMP examples, the source codes used were omp_hello.f90 and omp_hello.c which were compiled with GNU, Intel and PGI compiler that used similar
+compiling commands as the OpenMP examples of Zeus.
+
+The SLURM script for the OpenMP task requests 2 nodes in comparison to the MPI tasks and 6 cores per node with 128 GB of memory each which gives a total 
+of 12 cores. As mentioned previoulsy in the MPI examples, the 2 nodes were specified as --ntasks rather than --nodes in the SLURM directives as shown:
 
 #SBATCH --partition=zythos
 #SBATCH --ntasks=2
@@ -646,57 +589,17 @@ We specify the 2 nodes as ntasks rather than nodes in the SLURM directives.
 #SBATCH --account=pawsey0001
 #SBATCH --time=00:10:00
 
-As usual, the OUTPUT name should be declared as a log file
-OUTPUT=hello_omp_gnu.log
-
-Omplace is used in OpenMP to control thread placement with a default of about 6 threads per node. 
-This gives a total of 12 threads in this case since 2 nodes are being utilized.
-The commands as written in the SLURM  is:
+To run the job on Zythos, omplace was used for the OpenMP to control thread placement with a default of 6 threads per node which gave a total of 12 
+threads. This was written in the SLURM as:
 
 export OMP_NUM_THREADS=12
 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
 
-To compile the omp_hello.f90 for fortran with GNU we use:
-gfortran -O2 -fopenmp omp_hello.f90 -o hello_omp_gnu
-
-To compile the omp_hello.c code with GNU we use:
-gcc -O2 -fopen omp_hello.c -o hello_omp_gnu
-
-and to submit the job to Zythos
-sbatch hello_omp_gnu.slurm
-
-Although gcc is the default, it is best to load the module and other necessary modules manually and use the latest version of gcc.
-
-module load gcc
-module load mpt
-module list
- 
-Intel compiler is different from GNU and for fortran it is written as:
-
-ifort -O2 -qopenmp omp_hello.f90 -o hello_omp_intel
-
-The c code compiler in the bash script is written as:
-
-mpicc -O2 hello_mpi.c -o hello_mpi_intel
-
-The sbatch{SLURM} is done to submit the job to Zythos
-
-To compile the OpenMP fortran code with PGI we use the commands:
-
-pgfortran -O2 -mp omp_hello.f90 -o hello_omp_pgi
-
-To compile the OpenMP c code with PGI  use:
-
-pgcc -mp omp_hello.c -o hello_omp_pgi
-
-Before running the README, it is vital to swap the module and load the required modules for PGI
-
-module swap intel pgi
-module load mpt
-module list
-
+Since Zythos is a node of Zeus, to compile the source codes and submitting the SLURM script to the Zythos, the same commands as Zeus were used and thus,
+the README and the SLURM scripts for the OpenMP jobs were similar to ones of Zeus.
 
 \subsubsection{Cuda Examples}
+
 
 \subsubsection{Hybrid Examples}
 
