@@ -137,7 +137,7 @@ As mentioned previously, the focus of the getexample tool was not only to provid
 on their scratch directories. Therefore, whenever the batch job was submitted to Magnus, it was ran on the scracth directory and once the job was 
 completed, the results were carried to the group directory. In the end, the scracth was removed. The examples used for Magnus were mainly parallel
 programming examples such as MPI, OpenMP and hybrid codes which a combination of OpenMP and MPI tasks and some applications such as lammps and gromacs.
-The source codes used for these examples were written in c or Fortran and were basic "Hello world" codes with the exception of the application codes.
+The source codes used for these examples were written in c or Fortran and were basic Hello world codes with the exception of the application codes.
 Each example was displayed in different environments on Magnus such as GNU, Intel and more importantly the default environment, Cray with the compiler
 options of ftn, mpif90 and cc. When using these environments, it was paramount to load the actual programming environment before compiling the source
 codes and running them as each environment has specific compiler commands with distinct wrappers. These are explain more in detail in the following
@@ -150,7 +150,9 @@ MPI is known as a Message Passing Interface application that is a communication 
 c codes were mainly used and ran on different environments including Cray, GNU and Intel. On Magnus, the default program environment is Cray. Therefore, 
 it was necessary to load each program environment that was intended to work on by doing a:
 
+\begin{verbatim*}
 module swap PrgEnv-cray PrgEnv-(name of environment). 
+\end{verbatim*}
 
 It is also very vital to be aware that if the right program environment is not loaded, the code will fail as each environment have different commands 
 for compilers. However, on Magnus, swapping from one environment to the other might be very challenging for the new users. As the getexample tool is
@@ -165,24 +167,29 @@ to store the results, for example the group. It also specified the name of the e
 
 For Magnus, the classified partition is the debugq. Since, there were 2 nodes used, the SLURM directives were given as:
 
+\begin{verbatim}
 #!/bin/bash -l
 #SBATCH --job-name=GE-hostname
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
+\end{verbatim}
 
 The generic variables such as the executable, scratch, the results directory and the output file were define as:
 
+\begin{verbatim}
 EXECUTABLE=hello_mpi_cray
 SCRATCH=$MYSCRATCH/run_hostname/$SLURM_JOBID
 RESULTS=$MYGROUP/mpifortran_cray_results/$SLURM_JOBID
-
 OUTPUT=mpifortran_cray.log 
+\end{verbatim}
 
 To launch MPI job with fully occupied 2 nodes, the aprun command was used as expressed below:
 
+\begin{verbatim}
 aprun -n 48 -N 24 ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 where -n defines the total number of MPI tasks while -N specifies the number of MPI tasks per node as there are 2 nodes.
 
@@ -190,20 +197,22 @@ In the README file, the correct program environment should be included for the c
 this environment as the default module was Cray. However, to run on GNU and Intel, the program environment was changed from Cray to GNU or Intel as
 shown below:
 
+\begin{verbatim}
 module swap PrgEnv-cray PrgEnv-gnu
 module swap PrgEnv-cray PrgEnv-intel
+\end{verbatim}
 
 However, the compiler commands do not change for Cray, GNU and Intel for MPI codes on Magnus, whereas they have distinct differences for other parallel
 programming tasks such as OpenMP.
 
+\begin{verbatim}
 To compile the "Hello world" MPI Fortan code hello_mpi.f90 on Cray, GNU and Intel environments:
-
 ftn -O2 hello_mpi.f90 -o hello_mpi_cray
 
--02 is the optimization method, while -o placed after the source code directs to an executable called hello_mpi_cray which was previously defined in the
-SLURM and chosen by the user as name. For GNU and Intel, this was called hello_mpi_gnu and hello_mpi_intel. 
+(-02) is the optimization method, while -o placed after the source code directs to an executable called (hello_mpi_cray) which was previously defined in the
+SLURM and chosen by the user as name. For GNU and Intel, this was called (hello_mpi_gnu and hello_mpi_intel). 
 
-When the source code in use was the c code, the SLURM was not different from that of Fortran. However, the README did change. To compile the hello_mpi.c 
+When the source code in use was the c code, the SLURM was not different from that of Fortran. However, the README did change. To compile the (hello_mpi.c) 
 code, the following command was used: 
 
 cc -O2 hello_mpi.c -o hello_mpi_gnu
@@ -211,20 +220,24 @@ cc -O2 hello_mpi.c -o hello_mpi_gnu
 Once the codes were compiled, the SLURM was then submitted to Magnus by:
 
 sbatch hello_mpi_cray.slurm 
+\end{verbatim}
 
 As mentioned earlier, to prevent the users from manually listing the modules to see which modules are loaded and from which module to swap, at the end
 of the SLURM and the README, the program environment was always set back to the default, Cray by:
 
+\begin{verbatim}
 module swap PrgEnv-(name of the environment) PrgEnv-cray
+\end{verbatim}
 
 Another example on MPI was to run the same sources but on partially occupied nodes which means that instead of having 24 tasks per node, each node could
 only have 12 tasks. When running this example on Magnus, the README remained unchanged, but there were minor changes to the SLURM.
 
 The number of OpenMP threads were set to 1 to prevent from inadvertent OpenMP threading. The aprun command was changed to:
 
+\begin{verbatim}
 aprun -n 24 -N 12 -S 6 ./$EXECUTABLE >> ${OUTPUT}
-
 -n defines the total number of MPI tasks, -N specifies the number tasks per node while -S defines 6 MPI tasks per socket.
+\end{verbatim}
 
 \subsubsection{OMP Examples}
 
@@ -235,45 +248,59 @@ for different environments on Magnus with the OpenMP tasks. Thus, it is necessar
 As mentioned previously, the OpenMP jobs use only one node and this node can be fully occupied node or a node occupying a single NUMA region. When it was 
 fully occupied, the slurm script had a choice of only one node with the debugq partition as explained.
 
+\begin{verbatim}
 #SBATCH --partition=debugq
 #SBATCH --nodes=1
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
+\end{verbatim}
 
-The launching of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" and hence,
+The initiation of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" and hence,
 the number of threads, OMP_NUM_THREADS was set to 24 giving an expression of:
 
+\begin{verbatim}
 export OMP_NUM_THREADS=24
 aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 For a node occupying a single NUMA region, the code are more efficient when threads are limited to one NUMA region containing 12 cores. The expression 
--d 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
+(-d) 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
 illustrated below as:
 
+\begin{verbatim}
 export OMP_NUM_THREADS=12
 aprun -n 1 -d 12 -cc 0-11 ./$EXECUTABLE >> ${OUTPUT}
-
+\end{verbatim}
 The source codes used for OpenMP jobs were omp_hello.f and omp_hello.c. To run these source codes on Cray, the README included the following compiling 
 commands:
 
+\begin{verbatim}
 ftn -O2 -h omp omp_hello.f -o hello_omp_cray for fortran and
 cc -O2 -h omp omp_hello.c -o hello_omp_cray for C code
+\end{verbatim}
 
 Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
 with the correct name for the OpenMP task.
 
 To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to: 
+
+\begin{verbatim}
 ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
 cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
-
+\end{verbatim}
 To run the OpenMP code correctly on Cray with the Intel environment, the affinity should be disabled. If it is not disabled, the code runs on only one
 thread rather than running on multiple threads and this was done by adding the following command before the aprun:
 
+\begin{verbatim}
 export KMP=AFFINITY=disabled
+\end{verbatim}
 
 For the Intel environment, the compilers used were expressed as:
+
+\begin{verbatim}
 ftn -O2 -openmp omp_hello.f -o omp_hello_intel
 cc -O2 -openmp omp_hello.c -o omp_hello_intel
+\end{verbatim}
 
 \subsubsection(Hybrid Examples}
 
@@ -285,17 +312,21 @@ A sum of 2 nodes was required which accomodated 8 MPI tasks and 6 threads. Besid
 script as done in the previous examples. In this case, we chose 5 minutes as done in most of the examples in the getexample.
 The partition remains the same debugq.
 
+\begin{verbatim}
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
+\end{verbatim}
 
 8 MPI tasks (-n 8) were specified to aprun to launch the job with 4 MPI tasks per node (-N 4), 2 MPI tasks per socket (-S 6) and each of the 8 MPI tasks 
-had 6 OpenMP threads (-d 6). Therefore, the number of OpenMP threads,  OMP_NUM_THREADS was set to 6.
+had 6 OpenMP threads (-d 6). Therefore, the number of OpenMP threads, {OMP_NUM_THREADS} was set to 6.
 This full expression is shown as:
 
+\begin{verbatim}
 export OMP_NUM_THREADS=6
 aprun -n 8 -N 4 -S 2 -d 6 ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 Once again, to run on multiple threads with the Intel environment on Cray, AFFINITY should be disabled with the same command used in the OpenMP examples
 just after the aprun command.
@@ -303,18 +334,23 @@ just after the aprun command.
 The source codes used for the hybrid examples were also consisted of both Fortran and c which were hybrid_hello.f90 and hello_hybrid.c. The README 
 script contained the compiling commands to compile on Cray as shown below:
 
+\begin{verbatim}
 ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray for the Fortran code
 cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray for the c code
+\end{verbatim}
 
 To compiler with the GNU environment for fortran and c codes respectively, the README had the following compilers:
 
+\begin{verbatim}
 ftn -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
 cc -O2 -fopenmp hybrid_hello.c -o hello_hybrid_gnu
+\end{verbatim}
 
 For the Intel environment, the compiler code changed to:
-
+\begin{verbatim}
 ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
 cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
+\end{verbatim}
 
 The same sbatch command as the OpenMP and MPI tasks was used for the hybrid codes to submit them to Magnus. The only difference was the name of the name
 of the SLURM scripts.
@@ -342,15 +378,17 @@ with different compilers such as GNU, Intel and PGI, the compiler module for the
 included in the README and SLURM files of each example within the getexample tool and the required module for the specific compiler was already loaded 
 within these files so that the user is not asked to download them manually to prevent any mistakes while running the code.
 
-The two common source codes used for the MPI examples were hello_mpi.f90 (a FORTRAN 90 source code) and hello_mpi.c (a c code). These codes were used 
+The two common source codes used for the MPI examples were (hello_mpi.f90) (a FORTRAN 90 source code) and (hello_mpi.c) (a c code). These codes were used 
 with GNU, Intel and PGI compiler options on Zeus to assist the users on how to run the same code on Zeus with different modules, even if the command 
 for compiling the same source code does not for MPI tasks on Zeus.
 
 As mentioned earlier, both codes were run on both Magnus and Zeus on 2 nodes. However, the partition in the SLURM was changed to workq from debugq.
 These were defined in the SLURM script of the MPI examples as shown: 
 
+\begin{verbatim}
 #SBATCH --partition=workq
 #SBATCH --nodes=2
+\end{verbatim}
 
 Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many errors. For this reason, this line was
 excluded in the SLURM files of Zeus to compile the codes correctly.
@@ -358,31 +396,37 @@ excluded in the SLURM files of Zeus to compile the codes correctly.
 To run the code with a given executable on scratch, and store the results in a directory within the GROUP directory to an output file, the generic 
 variables were created in the SLURM as shown:
 
+\begin{verbatim}
 EXECUTABLE=hello_mpi_gnu
 SCRATCH=$MYSCRATCH/run_hostname/$SLURM_JOBID
 RESULTS=$MYGROUP/hellompi_gnu_results_zeus/$SLURM_JOBID
-
 OUTPUT=hello_mpi_gnu.log
+\end{verbatim}
 
 On Magnus, a total of 48 MPI tasks could be run whereas this was too much for Zeus and thus, the number of MPI tasks was reduced to 32. To run the job
 on Zeus, instead of using aprun command used in Magnus, srun command was used as srun is specific to Zeus while aprun is designed for Magnus. Therefore,
 to run the code, the following command was used as:
 
+\begin{verbatim}
 srun -n 32 -N 2 --mpi=pmi2 ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
-where -n defines the total number of MPI tasks while -N defines the number of used on Zeus which is different from Magnus as -N defines the number of
-MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to srun which wasn't used in aprun where --mpi=pmi2 is the MPI
+where (-n) defines the total number of MPI tasks while (-N) defines the number of used on Zeus which is different from Magnus as (-N) defines the number of
+MPI tasks per node. Once again, in comparison to Magnus (--mpi=pmi2) was added to srun which wasn't used in aprun where (--mpi=pmi2) is the MPI
 implementation and must specified to srun for the correct operation.
 
 In the README file, depending on which compiler the source code would be compiled with, the compiler module was included and loaded in the README file 
 when it ran. For example, if the GNU compiler module was to be used, the gcc module was loaded with the mpt module as shown below:
 
+\begin{verbatim}
 module load gcc
 module load mpt
+\end{verbatim}
 
 If the code was to be compiled with Intel, the gcc module needs to be unloaded and the Intel compiler module needs to be loaded. This applies to the PGI
 compiler as well, after the gcc module is unloaded, the pgi module should be loaded as shown below:
 
+\begin{verbatim}
 For Intel:
 module unload gcc
 module load intel
@@ -392,51 +436,60 @@ For PGI:
 module unload gcc
 module load pgi
 module load mpt
+\end{verbatim}
 
 The mpt module needs to be loaded whenever an MPI or OpenMP/MPI task is submitted to Zeus as it provides the SGI message to access the MPI library.
 
-Additionally, the README file contained the command to compile the FORTRAN 90, hello_mpi.f90 code and hello_mpi.c c code with the GNU or Intel compiler 
+Additionally, the README file contained the command to compile the FORTRAN 90, (hello_mpi.f90 code) and (hello_mpi.c) c code with the GNU or Intel compiler 
 as shown:
 
+\begin{verbatim}
 mpif90 hello_mpi.f90 -o hello_mpi_gnu
 mpicc hello_mpi.c -o hello_mpi_gnu
+\end{verbatim}
 
 For MPI tasks as mentioned earlier, the command to compile the code does not change for GNU and Intel compilers, whereas it differs for PGI compiler.
-Hence to compile the basic hello_mpi.f90 and hello_mpi.c code, the following commands were used:
+Hence to compile the basic (hello_mpi.f90 and hello_mpi.c code), the following commands were used:
 
+\begin{verbatim}
 pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi
 pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_c 
-  
+\end{verbatim}  
 
 \subsubsection{OMP Examples}
 
-The OpenMP examples used for the Zeus are the same source codes as the ones used for Magnus which are omp_hello.c (c code) and omp_hello.f (FORTRAN).
+The OpenMP examples used for the Zeus are the same source codes as the ones used for Magnus which are (omp_hello.c) (c code) and (omp_hello.f) (FORTRAN).
 However, as mentioned earlier due to the different setups between Magnus and Zeus, the SLURM and the README for these codes are different.
 
 The main difference between the MPI and OpenMP jobs for Zeus is that the compiling command changes for all the different compiler options with OpenMP
-commands as the wrappers are not the same for GNU, Intel and PGI compilers. It is vital to observe that the commands to compile hello_mpi.f90 and
-hello_mpi.c were the same for GNU and Intel compilers for the MPI jobs, whereas this is not the same case for OpenMP jobs anymore. However, everytime the
+commands as the wrappers are not the same for GNU, Intel and PGI compilers. It is vital to observe that the commands to compile (hello_mpi.f90) and
+(hello_mpi.c) were the same for GNU and Intel compilers for the MPI jobs, whereas this is not the same case for OpenMP jobs anymore. However, everytime the
 compiler is swapped from one to the other, the correct compiler module should be loaded because the default compiler module is gcc. If not, the system 
-will fail to recognize the compiler commands and end up giving errors, even if the source codes and the SLURM files work.
+will fail to recognize the compiler commands and end up giving mistakes, even if the source codes and the SLURM files work.
 
 In the getexample tool, to run an OpenMP job on Zeus only one node was used just as Magnus, but as diccussed in the MPI example, the workq partition was
 used unlike the debugq partition on Magnus. Therefore, both of the OpenMP examples run one 16-thread OpenMP instance with one node.
 
-To run the omp_hello.f and omp_hello.c code on Zeus with GNU compiler, the number of OpenMP threads were set to 16 on the SLURM and srun command was 
+To run the (omp_hello.f and omp_hello.c) code on Zeus with GNU compiler, the number of OpenMP threads were set to 16 on the SLURM and srun command was 
 used to run it as shown:
 
+\begin{verbatim}
 export OMP_NUM_THREADS=16
 srun -n 1 -c $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 An alternative way of running the same job could be using the omplace command.
 
+\begin{verbatim}
 omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 The srun command above can be used for both Intel and PGI compilers without requiring modification. However, the omplace command would be different for
-the other compilers. It is important to note that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
+the other compilers. It is essential to note that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
 command will not be identified as the default thread model is intel. Hence, -tm open64 tells that the compiler module is GNU. Therefore, to run this job
 with the Intel compiler, the omplace command in the SLURM would look like:
 
+\begin{verbatim}
 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
 
 To compile the omp_hello.f with the GNU compiler, the following command was used in the README file:
@@ -455,22 +508,26 @@ icc -O2 -qopenmp omp_hello.c -o hello_omp_intel
 For PGI, compiling the Fortran and c codes respectively:
 pgfortran -O2 -mp omp_hello.f -o hello_omp_pgi
 pgcc -mp omp_hello.c -o hello_omp_pgi
+\end{verbatim}
 
 
 \subsubsection{Hybrid Examples}
 
-The OpenMP/MPI hybrid codes used for Zeus were exactly same as the ones for Magnus such as hybrid_hello.f90 and hello_hybrid.c, but they both had
+The OpenMP/MPI hybrid codes used for Zeus were exactly same as the ones for Magnus such as fortran and C code, but they both had
 distinct compiler commands specific to each compiler module. Therefore, it was also necessary to include which module to be loaded in the README files
 of the getexample tool.
 
 This hybrid job requires 2 nodes and runs 1 MPI process with 16 OpenMP threads on each compiled executable. In order to launch the job to Zeus for both 
 of the source codes, the number of OpenMP threads was set to 16 and the srun command was used.
 
+\begin{verbatim}
 export OMP_NUM_THREADS=16
 srun --mpi=pmi2 -n 2 -N 2 ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
-This command was used for all of the compilers without making any changes. To compile the hybrid_hello.f90 and hello.c, the following commands were used:
+This command was used for all of the compilers without making any changes. To compile the codes, the following commands were used:
 
+\begin{verbatim}
 For GNU:
 
 mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
@@ -485,6 +542,7 @@ For PGI:
 
 pgf90 -Mmpi=sgimpi -mp hybrid_hello.f90 -o hello_hybrid_pgi
 pgcc -Mmpi=sgimpi -mp hello_hybrid.c -o hello_hybrid_pgi
+\end{verbatim}
 
 \subsubsection{CUDA Examples}
 
@@ -494,9 +552,10 @@ executes kernel functions on the device which are executed by GPU threads in par
 memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
 results from the device to the host.
 
-The getexample tool includes a basic Hello world CUDA code, hello_cuda.cu for Zeus. It uses 1 node with any generic GPU card, and this was defined in the 
+The getexample tool includes a basic Hello world CUDA code, (hello_cuda.cu) for Zeus. It uses 1 node with any generic GPU card, and this was defined in the 
 SLURM file as:
 
+\begin{verbatim}
 #SBATCH --partition=workq
 #SBATCH --nodes=1
 #SBATCH --gres=gpu:1
@@ -504,15 +563,17 @@ SLURM file as:
 To compile the CUDA code correctly, the cuda module should be loaded and this was done in both README and the SLURM file by using the following line:
 
 module load cuda
+\end{verbatim}
 
 Then to submit this task to Zeus, the following command was used:
 
+\begin{verbatim}
 ./$EXECUTABLE >> ${OUTPUT}
 
 The CUDA code was compiled by using the following compiler line in the README file:
 
 nvcc hello_cuda.cu -o hello_cuda_gnu
- 
+\end{verbatim} 
   
 \subsection{Zythos}
 
@@ -549,12 +610,14 @@ command --nodes as compared to the other Pawsey resources. In addition to the SL
 
 These were included in the SLURM as shown below:
 
+\begin{verbatim}
 #SBATCH --job-name=GE-hostname
 #SBATCH --partition=zythos
 #SBATCH --natasks=4
 #SBATCH --cpus-per-task=6
 #SBATCH --account=pawsey0001
 #SBATCH --time=00:10:00
+\end{verbatim}
 
 As mentioned previously, the authorised account name was inputted to the SLURM to access Zythos and the run the codes successfully. However, if the
 users decide to run the same examples, the only modification required is to change the name of the account.
@@ -567,9 +630,11 @@ framework.
 Therefore to run the MPI task on Zythos, 4 nodes with 6 cores per node were required giving a total of 24 cores. This was implemented in the SLURM as 
 shown below:
 
+\begin{verbatim}
 mpirun -np 24 ./$EXECUTABLE >> ${OUTPUT}
 
 The "mpirun" command is an MPI launcher provided by the SGI message passing toolkit.
+\end{verbatim}
 
 The source codes, hello_mpi.f90 and hello_mpi.c were compiled with the default compiler GNU, Intel and PGI respectively by the using the compiler
 commands of Zeus with no modification as the compilers and wrappers are the same since Zythos is a node of Zeus. The only difference was the name of the
@@ -583,17 +648,21 @@ compiling commands as the OpenMP examples of Zeus.
 The SLURM script for the OpenMP task requests 2 nodes in comparison to the MPI tasks and 6 cores per node with 128 GB of memory each which gives a total 
 of 12 cores. As mentioned previoulsy in the MPI examples, the 2 nodes were specified as --ntasks rather than --nodes in the SLURM directives as shown:
 
+\begin{verbatim}
 #SBATCH --partition=zythos
 #SBATCH --ntasks=2
 #SBATCH --cpus-per-task=6
 #SBATCH --account=pawsey0001
 #SBATCH --time=00:10:00
+\end{verbatim}
 
 To run the job on Zythos, omplace was used for the OpenMP to control thread placement with a default of 6 threads per node which gave a total of 12 
 threads. This was written in the SLURM as:
 
+\begin{verbatim}
 export OMP_NUM_THREADS=12
 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 Since Zythos is a node of Zeus, to compile the source codes and submitting the SLURM script to the Zythos, the same commands as Zeus were used and thus,
 the README and the SLURM scripts for the OpenMP jobs were similar to ones of Zeus.
@@ -606,19 +675,24 @@ the README and the SLURM scripts for the OpenMP jobs were similar to ones of Zeu
 To characteristic approach to run hybrid jobs on Zythos is by running one MPI task for each 6-core NUMA region.
 The job script for MPI contains a request for 4 nodes and begins 4 MPI tasks by using mpirun which is combined with omplace to place threads.
 
+\begin{verbatim}
 #SBATCH --partition=zythos
 #SBATCH --account=pawsey0001
 #SBATCH --ntasks=4
 #SBATCH --cpus-per-task=6
 #SBATCH --time=00:10:00
+\end{verbatim}
 
 The number of threads are given as well as passing the message through mpirun as:
 
+\begin{verbatim}
 export OMP_NUM_THREADS=6
 mpirun -np 4 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+\end{verbatim}
 
 These commands remain the same for all the SLURM scripts for Hybrid jobs on Zythos.
 
+\begin{verbatim}
 for GNU to compile the hybrid codes:
 
 mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
@@ -629,26 +703,19 @@ GNU must be loaded
 module load gcc
 module load mpt
 module list
+\end{verbatim}
 
 \section{Applications of Getexample}
 
 \subsection{LAMMPS}
 
-LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator.
-It has potentials for solid state materials which includes metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also coarse-grained or mesoscopic systems.
-LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule test simulator at the atomic, meso, or continuum scale.
-This tool runs on single processors or in parallel making use of message-passing systems and a apatial-decomposition of the simulator domain.
-Asignificant number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phis.
-This code is intended to be anything but difficult to allow for modifications and stretch out for new functions.
+LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator.It has potentials for solid state materials which includes metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also coarse-grained or mesoscopic systems.
+LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule test simulator at the atomic, meso, or continuum scale.This tool runs on single processors or in parallel making use of message-passing systems and a apatial-decomposition of the simulator domain.
+Asignificant number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phis.This code is intended to be anything but difficult to allow for modifications and stretch out for new functions.
 LAMMPS code is circulated around as an open source code under the terms of the GPL. It is easily downloaded from the internet.
 
-The LAMMPS example done on getexample was specifically run on Magnus.
-The source code had been provided with a large number of atoms and their properties and potentials.
-A SLURM file was successfuly modified and utilized which contains the following SLURM directives.
-A total of 2 nodes was requested, partition remains as debugq on Magnus. 
-Time can be changed but 20 minutes proved to be the most effective. 
-An increase would be better because it will give it sufficient time to run the code. 
-A decrease in time does not allow the code to run and be executed as the source code contains a lot of atoms.
+The LAMMPS example done on getexample was specifically run on Magnus.The source code had been provided with a large number of atoms and their properties and potentials.A SLURM file was successfuly modified and utilized which contains the following SLURM directives.
+A total of 2 nodes was requested, partition remains as debugq on Magnus. Time can be changed but 20 minutes proved to be the most effective. An increase would be better because it will give it sufficient time to run the code. A decrease in time does not allow the code to run and be executed as the source code contains a lot of atoms.
 
 %\usepackage{graphicx}
 %\graphicspath{ {/Desktop/LAMMPS/} }
@@ -659,15 +726,18 @@ This is SLURM script for LAMMPS
 %\includegraphics{LAMMPS}
 %\end{document}
 
+\begin{verbatim}
 #!/bin/bash -l
 #SBATCH --job-name=hostname
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
 #SBATCH --time=00:20:00
 #SBATCH --export=NONE
+\end{verbatim}
 
 The compiler used was GNU. We changed the currenty loaded to GNU and an additional module is added lammps which is the most important to run this source code.
 
+\begin{verbatim}
 module swap PrgEnv-cray PrgEnv-gnu
 module load lammps
 module list
@@ -676,19 +746,24 @@ As in the template of SLURM an EXECUTABLE was given and the OUTPUT.log name was 
 A code was added which will be run in the SCRATCH directory which copies the EXECUTABLE to SCRATCH first. It is written as:
 
 cp *.lmp $SCRATCH
+\end{verbatim}
+
 
 Message-passing was done using aprun as on previous Magnus examples.
 We launched the job by specifying to aprun 48 MPI tasks (-n 48) with 24 tasks per node (-N 24).
 This is shown as:
 
+\begin{verbatim}
 aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
+\end{verbatim}
  
 If the number of nodes changes, the resulting number of  MPI tasks is a multiplication of the nodes with the number of tasks per node which is 24.
 The rest of the SLURM file codes do not change as on the template.
 The README contains the commands to submit the job to Magnus as:
 
+\begin{verbatim}
 sbatch lammps_mpi_gnu
-
+\end{verbatim}
 
 \subsection{Gromacs}
 
@@ -718,17 +793,16 @@ status.
 The following bash script is a suggestion on how to run all the examples at once and test status of the examples. This script only test three examples
 from the getexample for Magnus which are the "Hello world" Fortran examples with GNU, Intel and Cray environments. It runs on the home directory of the
 user and changes the directory to the Magnus examples within the getexample library. It then, uses the cd command to change into the subdirectories of 
-Magnus in which these three examples are located. Every time, the script comes across the README file, it runs this file by using the ./README command
+Magnus in which these three examples are located. Every time, the script comes across the README file, it runs this file by using the (./README) command
 to submit these examples to Magnus.
 
+\begin{verbatim}
 #!/bin/bash
 # This script tests if all codes for Magnus work.
-
 # Look for magnus_results.log
 # Remove this file initially to create it each time
 # the program runs.
 rm magnus_results.log  
-
 # Change the directory to Magnus
 cd getexample/magnus_examples/
 
@@ -748,11 +822,13 @@ cd ${DIRECTORY[$i]}
 cd ..
 
 done
+\end{verbatim}
 
 In order to check the status of each example, the following code is added to the SLURM files of the examples after the aprun command. This simply checks
 whether the job returns 0 or 1 and if the status does not return 0, the example fails to run and hence prints the name of the example's executable with
 its jobID and tells not run to a second output file. If the job returns 1, the example runs well and prints the same thing except with printing out the opposite instead.
 
+\begin{verbatim}
 aprun -n 1 ./$EXECUTABLE >> ${OUTPUT}
 
 if [ $? -ne 0 ]; then
@@ -766,7 +842,7 @@ else
 fi
 
 cd $SCRATCH
-
+\end{verbatim}
 
 
 \section{Conclusion}
