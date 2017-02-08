@@ -319,6 +319,65 @@ cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
 The same sbatch command as the OpenMP and MPI tasks was used for the hybrid codes to submit them to Magnus. The only difference was the name of the name
 of the SLURM scripts.
 
+
+\subsection{LAMMPS}
+
+LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator. It has potentials
+for solid state materials which include metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also
+coarse-grained or mesoscopic systems.
+
+LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule test simulator at the atomic, meso, or continuum scale. This tool runs on
+single processors or in parallel making the use of message-passing systems (MPI) and a spatial-decomposition of the simulator domain. A significant
+number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phi processors.
+
+The LAMMPS example done in the getexample tool was specifically run on Magnus. The source code had been provided with a large number of atoms and their
+properties and potentials. The existing SLURM file of the MPI tasks of Magnus was utilized and modified to request a total of 2 nodes. The partition
+remained as debugq as it is the correct partition for Magnus. The time was changed to 20 minutes as an increase in time would be better because it gives
+sufficient time to run the code. If the time is not long enough, it does not completely run the code and kills the job once the time runs out.
+
+The following commads show the SLURM directives needed for the LAMMPS task:
+
+%\usepackage{graphicx}
+%\graphicspath{ {/Desktop/LAMMPS/} }
+
+%\begin{document}
+
+%\includegraphics{LAMMPS}
+%\end{document}
+
+#!/bin/bash -l
+#SBATCH --job-name=hostname
+#SBATCH --partition=debugq
+#SBATCH --nodes=2
+#SBATCH --time=00:20:00
+#SBATCH --export=NONE
+
+The program environment used for this task was GNU, hence the module was swapped from Cray to GNU and and the lammps module was loaded which is required
+to run the source code and the data.
+
+module swap PrgEnv-cray PrgEnv-gnu
+module load lammps
+
+In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the group file$
+names below:
+
+EXECUTABLE=lmp_mpi
+SCRATCH=$MYSCRATCH/run_lammps/$SLURM_JOBID
+RESULTS=$MYGROUP/lmp_mpi_results/$SLURM_JOBID
+
+Before running the example on the SCRATCH, the files ending with .lmp name which contain the data and code were copied to the SCRACTH and this was
+obtained in the SLURM as:
+
+cp *.lmp $SCRATCH
+
+As this LAMMPS example is an MPI task, it was run on Magnus on 2 nodes with 24 MPI tasks per node giving a total of 48 tasks and this was implemented
+with the aprun command to launch:
+
+aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
+
+The SLURM was submitted to Magnus by the identical sbatch command used in the README files of all the Magnus examples.
+
+
 \subsection{Zeus}
 
 According to Pawsey system descriptions, Zeus is an SGI Linux cluster that is principally utilized for pre and post-preparing of data, extensive shared 
@@ -469,7 +528,8 @@ of the source codes, the number of OpenMP threads was set to 16 and the srun com
 export OMP_NUM_THREADS=16
 srun --mpi=pmi2 -n 2 -N 2 ./$EXECUTABLE >> ${OUTPUT}
 
-This command was used for all of the compilers without making any changes. To compile the hybrid_hello.f90 and hello.c, the following commands were used:
+This command was used for all of the compilers without making any changes. To compile the hybrid_hello.f90 and hello.c respectively with various 
+compilers, the following commands were used:
 
 For GNU:
 
@@ -603,8 +663,14 @@ the README and the SLURM scripts for the OpenMP jobs were similar to ones of Zeu
 
 \subsubsection{Hybrid Examples}
 
-To characteristic approach to run hybrid jobs on Zythos is by running one MPI task for each 6-core NUMA region.
-The job script for MPI contains a request for 4 nodes and begins 4 MPI tasks by using mpirun which is combined with omplace to place threads.
+The OpenMP/MPI source codes used for Zythos were hybrid_hello.f90 and hello_hybrid.c which were exactly the same as Zeus. These codes were compiled with
+all the compilers available on Zythos and before compiling it was made sure that the right module was loaded by using the same commands in the MPI 
+examples of Zeus. Similarly, the compiler commands for Zythos with the hybrid jobs were exactly the same as the ones for the hybrid jobs of Zeus. The
+only difference between the OpenMP/MPI exaples of Zythos and Zeus was running the task on Zyhtos as srun was no longer used, but instead mpirun with 
+omplace was implemented for these examples on Zythos. 
+
+The characteristic approach to run hybrid jobs on Zythos is by running one MPI task for per 6-core NUMA region. This job script contains a request for 4
+nodes and begins 4 MPI tasks by using mpirun that is combined with omplace to place threads.
 
 #SBATCH --partition=zythos
 #SBATCH --account=pawsey0001
@@ -612,95 +678,16 @@ The job script for MPI contains a request for 4 nodes and begins 4 MPI tasks by 
 #SBATCH --cpus-per-task=6
 #SBATCH --time=00:10:00
 
-The number of threads are given as well as passing the message through mpirun as:
+To run the codes on Zyhtos, the number of OpenMP threads were given as well as passing the message through the mpirun as:
 
 export OMP_NUM_THREADS=6
 mpirun -np 4 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
 
-These commands remain the same for all the SLURM scripts for Hybrid jobs on Zythos.
+The rest of the SLURM and the README files remain the same as the hybrid examples of Zeus since the compilers and wrappers do not require any changes.
+The only modification made to the SLURM and the README was changing the names of the executables, results directories and output files to make them more
+specific to the hybrid jobs of Zythos. 
 
-for GNU to compile the hybrid codes:
-
-mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
-gcc -fopenmp omp_hello.c -o hello_omp_gnu
-
-GNU must be loaded
- 
-module load gcc
-module load mpt
-module list
-
-\section{Applications of Getexample}
-
-\subsection{LAMMPS}
-
-LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator.
-It has potentials for solid state materials which includes metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also coarse-grained or mesoscopic systems.
-LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule test simulator at the atomic, meso, or continuum scale.
-This tool runs on single processors or in parallel making use of message-passing systems and a apatial-decomposition of the simulator domain.
-Asignificant number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phis.
-This code is intended to be anything but difficult to allow for modifications and stretch out for new functions.
-LAMMPS code is circulated around as an open source code under the terms of the GPL. It is easily downloaded from the internet.
-
-The LAMMPS example done on getexample was specifically run on Magnus.
-The source code had been provided with a large number of atoms and their properties and potentials.
-A SLURM file was successfuly modified and utilized which contains the following SLURM directives.
-A total of 2 nodes was requested, partition remains as debugq on Magnus. 
-Time can be changed but 20 minutes proved to be the most effective. 
-An increase would be better because it will give it sufficient time to run the code. 
-A decrease in time does not allow the code to run and be executed as the source code contains a lot of atoms.
-
-%\usepackage{graphicx}
-%\graphicspath{ {/Desktop/LAMMPS/} }
-
-%\begin{document}
-This is SLURM script for LAMMPS 
-
-%\includegraphics{LAMMPS}
-%\end{document}
-
-#!/bin/bash -l
-#SBATCH --job-name=hostname
-#SBATCH --partition=debugq
-#SBATCH --nodes=2
-#SBATCH --time=00:20:00
-#SBATCH --export=NONE
-
-The compiler used was GNU. We changed the currenty loaded to GNU and an additional module is added lammps which is the most important to run this source code.
-
-module swap PrgEnv-cray PrgEnv-gnu
-module load lammps
-module list
-
-As in the template of SLURM an EXECUTABLE was given and the OUTPUT.log name was declared.
-A code was added which will be run in the SCRATCH directory which copies the EXECUTABLE to SCRATCH first. It is written as:
-
-cp *.lmp $SCRATCH
-
-Message-passing was done using aprun as on previous Magnus examples.
-We launched the job by specifying to aprun 48 MPI tasks (-n 48) with 24 tasks per node (-N 24).
-This is shown as:
-
-aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
- 
-If the number of nodes changes, the resulting number of  MPI tasks is a multiplication of the nodes with the number of tasks per node which is 24.
-The rest of the SLURM file codes do not change as on the template.
-The README contains the commands to submit the job to Magnus as:
-
-sbatch lammps_mpi_gnu
-
-
-\subsection{Gromacs}
-
-
-
-
-
-\subsection{Intel Xeon Processor}
-
-\subsubsection{MIC &MKL}  
-
-
+  
 \section{Maintanence and Future Work}
 
 Even though the getexample tool is designed for the latest operating systems of the Pawsey Supercomputing Centre to show the users how to use
