@@ -1,0 +1,42 @@
+\subsubsection{CUDA Examples}
+
+The CUDA programming is a heterogeneous model where both CPU and GPU nodes are used. In CUDA, the host refers to the CPU and its memory, whereas the 
+device refers to the GPU an its memory. Therefore, a CUDA code running on the host have access to the memory on the host as well as the device. It also 
+executes kernel functions on the device which are executed by GPU threads in parallel. A basic CUDA works by declaring and allocating host and device 
+memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
+results from the device to the host.
+
+The getexample tool includes a basic \emph{"Hello world"} CUDA code, hello\_cuda.cu for Zeus. It uses 1 node with any generic GPU card, and this was 
+defined in the SLURM file as:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+#SBATCH --partition=workq
+#SBATCH --nodes=1
+#SBATCH --gres=gpu:1
+\begin{Verbatim}
+\begin{tcolorbox}
+
+To compile the CUDA code correctly, the cuda module should be loaded and this was done in both README and the SLURM file by using the following line:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+module load cuda
+\end{Verbatim}
+\end{tcolorbox}
+
+Then, to submit this task to Zeus, the following command was used:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+The CUDA code was compiled by using the following compiler line in the README file:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+nvcc hello_cuda.cu -o hello_cuda_gnu
+\end{Verbatim}
+\end{tcolorbox}
