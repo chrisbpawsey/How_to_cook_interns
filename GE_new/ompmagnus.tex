@@ -1,0 +1,78 @@
+\subsubsection{OMP Examples}
+
+OpenMP (Open Multi-Processing) is known as a common shared memory model in which the threads work in parallel and access all shared memory. Therefore,
+it can be thought of one task because of their restrictions to only one node. Unlike the MPI examples, the compiler commands and the wrappers do change 
+for different environments on Magnus with the OpenMP tasks. Thus, it is necessary to swap to the right program environment corresponding to the compiler.
+
+As mentioned previously, the OpenMP jobs use only one node and this node can be fully occupied node or a node occupying a single NUMA region. When it was 
+fully occupied, the slurm script had a choice of only one node with the debugq partition as explained.
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+#SBATCH --partition=debugq
+#SBATCH --nodes=1
+#SBATCH --time=00:05:00
+#SBATCH --export=NONE
+\end{Verbatim}
+\end{tcolorbox}
+
+The initiation of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" and hence,
+the number of threads, OMP\_NUM\_THREADS was set to 24 giving an expression of:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+export OMP_NUM_THREADS=24
+aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+For a node occupying a single NUMA region, the code are more efficient when threads are limited to one NUMA region containing 12 cores. The expression 
+(-d) 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
+illustrated below as:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+export OMP_NUM_THREADS=12
+aprun -n 1 -d 12 -cc 0-11 ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+The source codes used for OpenMP jobs were omp\_hello.f and omp\_hello.c. To run these source codes respectively on Cray, the README included the 
+following compiling commands:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ftn -O2 -h omp omp_hello.f -o hello_omp_cray
+cc -O2 -h omp omp_hello.c -o hello_omp_cray
+\end{Verbatim}
+\end{tcolorbox}
+
+Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
+with the correct name for the OpenMP task.
+
+To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to: 
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ftn -O2 -fopenmp omp_hello.f -o omp_hello_gnu
+cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
+\end{Verbatim}
+\end{tcolorbox}
+
+To run the OpenMP code correctly on Cray with the Intel environment, the affinity should be disabled. If it is not disabled, the code runs on only one
+thread rather than running on multiple threads and this was done by adding the following command before the aprun:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+export KMP=AFFINITY=disabled
+\end{Verbatim}
+\end{tcolorbox}
+
+For the Intel environment, the compilers used were expressed as:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ftn -O2 -openmp omp_hello.f -o omp_hello_intel
+cc -O2 -openmp omp_hello.c -o omp_hello_intel
+\end{Verbatim}
+\end{tcolorbox}
