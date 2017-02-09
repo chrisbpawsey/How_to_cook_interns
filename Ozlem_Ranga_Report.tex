@@ -1,6 +1,8 @@
 % begin the document
 \documentclass[journal]{IEEEtran}
 %\setcounter{secnumdepth}{2}
+%\usepackage{showframe}
+\setlength{\emergencystretch}{3em}
 \begin{document}
 
 \title{Getexample: Reducing Barriers to Entry on Shared HPC Resources}
@@ -35,15 +37,17 @@ where each of them are set up with slight variations from each other. Therefore,
 to change the example codes to display a working task on Pawsey's resources as there are many differences between each resources with many constraints. 
 The most common differences between their systems are as follow:
 
-1) Contrasting operating systems 
-2) Divergent program environments
-3) Non-idendical compiler options with varying commands
-4) Various compiler flags and wrappers for varying compiler options
-5) Module systems and paths that are different
-6) Disparate module naming conventions
-7) Various library versions
-8) Dissimilar personal scratch, group and home directories
-9) Different scheduling policies
+\begin{itemize}
+\item Contrasting operating systems 
+\item Divergent program environments
+\item Non-idendical compiler options with varying commands
+\item Various compiler flags and wrappers for varying compiler options
+\item Module systems and paths that are different
+\item Disparate module naming conventions
+\item Various library versions
+\item Dissimilar personal scratch, group and home directories
+\item Different scheduling policies
+\end{itemize}
 
 For this reason, when the user runs a sample code found from the Internet for each supercomputers (Magnus, Zeus and Zythos), the code fails to compile 
 as expected and hence, does not run as each individual system has specific operating system and commands set up for them. To rectify these problems, 
@@ -154,7 +158,7 @@ options of ftn, mpif90 and cc. When using these environments, it was paramount t
 codes and running them as each environment has specific compiler commands with distinct wrappers. These are explain more in detail in the following
 sections.
 
-
+\newenvironment{tolerant}[1]{%
 \subsubsection{MPI Examples}
 
 MPI is known as a Message Passing Interface application that is a communication model for moving data between processors. For MPI examples, Fortran and 
@@ -176,18 +180,26 @@ to store the results, for example the group. It also specified the name of the e
 For Magnus, the classified partition is the debugq. Since, there were 2 nodes used, the SLURM directives were given as:
 
 \begin{verbatim}
-#!/bin/bash -l
+
+\hyphenation{#-!-/bin-/bash -l}
 #SBATCH --job-name=GE-hostname
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
 #SBATCH --time=00:05:00
 #SBATCH --export=NONE
+
 \end{verbatim}
 
 The generic variables such as the executable, scratch, the results directory and the output file were define as:
 
 \begin{verbatim}
+
 EXECUTABLE=hello_mpi_cray
+\hyphenation{SCRA-TCH=$MYSCRATCH-/run_hostname-/$SLURM_JOBID}\\
+\hyphenation{RES-ULTS=$MYGROUP-/mpifortran_cray_results-/$SLURM_JOBID}
+OUTPUT=mpifortran_cray.log 
+
+\end{verbatim}
 SCRATCH=$MYSCRATCH/run_hostname/$SLURM_JOBID
 RESULTS=$MYGROUP/mpifortran_cray_results/$SLURM_JOBID
 OUTPUT=mpifortran_cray.log
@@ -386,7 +398,7 @@ The following commads show the SLURM directives needed for the LAMMPS task:
 %\end{document}
 
 \begin{verbatim}
-#!/bin/bash -l
+\hyphenation{#-!-/-bin-/bash -l}
 #SBATCH --job-name=hostname
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
@@ -442,7 +454,7 @@ The getexample tool also includes MPI examples for Zeus with GNU, Intel and PGI 
 and hence, the same MPI example needs to handled differently on Zeus. It is necessary to realise that the MPI source codes used for Zeus are the same
 as Magnus, but the commands to run the same source codes are different on Zeus as compared to Magnus. Additionally, when the same code is run 
 with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded as Magnus. These descriptions were
-included in the README and SLURM files of each example within the getexample tool and the required module for the specific compiler was already loaded 
+included in the README and SLUtlength{\emeRM files of each example within the getexample tool and the required module for the specific compiler was already loaded 
 within these files so that the user is not asked to download them manually to prevent any mistakes while running the code.
 
 The two common source codes used for the MPI examples were \hello_mpi.f90 (a FORTRAN 90 source code) and \hello_mpi.c (a c code). These codes were used 
@@ -463,7 +475,7 @@ excluded in the SLURM files of Zeus to compile the codes correctly.
 To run the code with a given executable on scratch, and store the results in a directory within the GROUP directory to an output file, the generic 
 variables were created in the SLURM as shown:
 
-\begin{verbatim}
+\begin{verbatim}tlength{\eme
 EXECUTABLE=hello_mpi_gnu
 SCRATCH=$MYSCRATCH/run_hostname/$SLURM_JOBID
 RESULTS=$MYGROUP/hellompi_gnu_results_zeus/$SLURM_JOBID
@@ -930,6 +942,8 @@ cd $SCRATCH
 \section{thebibliography}
 
 \end{thebibliography}
-
+}{%
+\par
+}
 \end{document}
 % end document
