@@ -1,0 +1,14 @@
+\subsection{Zeus}
+
+According to Pawsey system descriptions, Zeus is an SGI Linux cluster that is principally utilized for pre and post-preparing of data, extensive shared 
+memory calculations and remote visualization work. It shares the same /home,/scratch and /group file systems with other Pawsey Centre systems such as 
+Magnus. Zeus is a heterogeneous cluster with a large number of back-end nodes with both CPU an GPU hardware which makes Zeus an excellent resource to run
+jobs like CUDA codes. To access the back-end nodes, a SLURM script is used just like Magnus except the default partition queue is workq instead of 
+debugq. There are other nodes on Zeus such as copyq which is another partition queue that can be only used for specific purposes. Zeus also contains one 
+large-memory node known as Zythos, which is an SGI UV2000 system and Zythos can be accessed from the front end login node of
+Zeus. 
+
+The getexample tool also provided some examples for Zeus which were also mainly based on parallel programming tasks. The SLURM and README scripts
+contained the same design as the ones for Magnus with only differing commands for running the task on Zeus, compiling the source codes and loading the
+correct compiler modules. 
+ 
