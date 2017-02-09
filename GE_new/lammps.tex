@@ -1,8 +1,10 @@
-\subsection{lammps}
+\subsubsection{Lammps MPI}
 
-\begin{Verbatim}[fontsize=\stripsize]
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
 LAMMPS <is a traditional molecular dynamics code
 \end{Verbatim} 
+\end{tcolorbox}
 
 It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator. It has potentials
 for solid state materials which include metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also
@@ -16,29 +18,29 @@ The LAMMPS example done in the getexample tool was specifically run on Magnus. T
 properties and potentials. The existing SLURM file of the MPI tasks of Magnus was utilized and modified to request a total of 2 nodes. The partition
 remained as debugq as it is the correct partition for Magnus. The time was changed to 20 minutes as an increase in time would be better because it gives
 sufficient time to run the code. If the time is not long enough, it does not completely run the code and kills the job once the time runs out.
-The two files epm2.lmp  epm2data.lmp  lammps_mpi_gnu.slurm
+The two files epm2.lmp and epm2data.lmp  lammps\_mpi\_gnu.slurm
 
-The following commads show the SLURM directives needed for the LAMMPS task:
+The following commands show the SLURM directives needed for the LAMMPS task:
 
 \begin{tcolorbox}
-\begin{verbatim}
-\hyphenation{#-!-/-bin-/bash -l}
+\begin{Verbatim}[fontsize=\scriptsize]
+#!bin-/bash -l
 #SBATCH --job-name=hostname
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
 #SBATCH --time=00:20:00
 #SBATCH --export=NONE
-\end{verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 The program environment used for this task was GNU, hence the module was swapped from Cray to GNU and and the lammps module was loaded which is required
 to run the source code and the data.
 
 \begin{tcolorbox}
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\scriptsize]
 swap PrgEnv-cray PrgEnv-gnu
 load lammps
-\end{verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the group filenames below:
