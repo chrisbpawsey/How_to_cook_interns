@@ -1,0 +1,61 @@
+\subsubsection(Hybrid Examples}
+
+A hybrid job is a mixed job that is a combination of OpenMP and MPI tasks. It aims to take advantage of the OpenMP in NUMA region which is also known as 
+a socket. The NUMA region was in this case involved with one 12-core chip and ran on 6 threads on each of 8 MPI tasks which dispersed evenly between 
+the NUMA regions.A sum of 2 nodes was required which accomodated 8 MPI tasks and 6 threads. Besides specifying the number of nodes, the time was also shown in the slurm 
+script as done in the previous examples. In this case, we chose 5 minutes as done in most of the examples in the getexample.
+The partition remains the same debugq.
+
+
+\begin{tcolorbox}
+\begin{verbatim}
+#SBATCH --partition=debugq
+#SBATCH --nodes=2
+#SBATCH --time=00:05:00
+#SBATCH --export=NONE
+\end{verbatim}
+\end{tcolorbox}
+
+8 MPI tasks (-n 8) were specified to aprun to launch the job with 4 MPI tasks per node (-N 4), 2 MPI tasks per socket (-S 6) and each of the 8 MPI tasks 
+had 6 OpenMP threads (-d 6). Therefore, the number of OpenMP threads, {OMP\_NUM\_THREADS} was set to 6.
+This full expression is shown as:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\stripsize]
+export OMP_NUM_THREADS=6
+aprun -n 8 -N 4 -S 2 -d 6 ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+Once again, to run on multiple threads with the Intel environment on Cray, AFFINITY should be disabled with the same command used in the OpenMP examples
+just after the aprun command.The source codes used for the hybrid examples were also consisted of both Fortran and c which were hybrid\_hello.f90 and hello\_hybrid.c. The README 
+script contained the compiling commands to compile on Cray as shown below :
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\stripsize]
+ftn -O2 -h omp hybrid_hello.f90 -o hello_hybrid_cray for the Fortran code
+cc -O2 -h omp hybrid_hello.c -o hello_hybrid_cray for the c code
+\end{Verbatim}
+\end{tcolorbox}
+
+To compile with the GNU environment for fortran and c codes respectively, the README had the following compilers:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\stripsize]
+ftn -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
+cc -O2 -fopenmp hybrid_hello.c -o hello_hybrid_gnu
+\end{Verbatim}
+\end{tcolorbox}
+
+For the intel environment, the compiler code changes to:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\stripsize]
+ftn -O2 -openmp hybrid_hello.f90 -o hello_hybrid_intel
+cc -O2 -openmp hybrid_hello.c -o hello_hybrid_intel
+\end{Verbatim}
+\end{tcolorbox}
+
+The same sbatch command as the OpenMP and MPI tasks was used for the hybrid codes to submit them to Magnus. The only difference was the name of the name
+of the SLURM scripts.
+
