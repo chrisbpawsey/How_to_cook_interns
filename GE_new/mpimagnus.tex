@@ -38,24 +38,22 @@ For Magnus, the classified partition is the debugq. Since, there were 2 nodes us
 The generic variables such as the executable, scratch, the results directory and the output file were defined as:
 
 \begin{tcolorbox}
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\stripsize]
 EXECUTABLE=hello_mpi_cray
 SCRATCH=$MYSCRATCH/run_hostname/$SLURM_JOBID
 RESULTS=$MYGROUP/mpifortran_cray_results/$SLURM_JOBID
 OUTPUT=mpifortran_cray.log 
-\end{verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 
 To launch MPI job with fully occupied 2 nodes, the aprun command was used as expressed below:
 
-\begin{strip}
 \begin{tcolorbox}
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\stripsize]
 aprun -n 48 -N 24 ./$EXECUTABLE >> ${OUTPUT}
-\end{verbatim}
+\end{Verbatim}
 \end{tcolorbox}
-\end{strip}
 
 where -n defines the total number of MPI tasks while -N specifies the number of MPI tasks per node as there are 2 nodes.
 
@@ -64,10 +62,10 @@ this environment as the default module was Cray. However, to run on GNU and Inte
 shown below:
 
 \begin{tcolorbox}
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\stripsize]
 module swap PrgEnv-cray PrgEnv-gnu
 module swap PrgEnv-cray PrgEnv-intel
-\end{verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 However, the compiler commands do not change for Cray, GNU and Intel for MPI codes on Magnus, whereas they have distinct differences for other parallel
