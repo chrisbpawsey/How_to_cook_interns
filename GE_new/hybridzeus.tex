@@ -21,8 +21,10 @@ For GNU:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
-mpicc -O2 -fopenmp -O2 hello_hybrid.c -o hello_hybrid_gnu
+mpif90 -O2 -fopenmp hybrid_hello.f90 
+                   -o hello_hybrid_gnu
+mpicc -O2 -fopenmp -O2 hello_hybrid.c 
+                   -o hello_hybrid_gnu
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -31,8 +33,10 @@ For Intel:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-mpif90 -O2 -qopenmp hybrid_hello.f90 -o hello_hybrid_intel
-mpicc -O2 -qopenmp hello_hybrid.c -o hello_hybrid_intel
+mpif90 -O2 -qopenmp hybrid_hello.f90 
+                    -o hello_hybrid_intel
+mpicc -O2 -qopenmp hello_hybrid.c 
+                    -o hello_hybrid_intel
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -40,7 +44,9 @@ For PGI:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-pgf90 -Mmpi=sgimpi -mp hybrid_hello.f90 -o hello_hybrid_pgi
-pgcc -Mmpi=sgimpi -mp hello_hybrid.c -o hello_hybrid_pgi
+pgf90 -Mmpi=sgimpi -mp hybrid_hello.f90 
+                      -o hello_hybrid_pgi
+pgcc -Mmpi=sgimpi -mp hello_hybrid.c 
+                      -o hello_hybrid_pgi
 \end{Verbatim}
 \end{tcolorbox}

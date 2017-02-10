@@ -1,0 +1,20 @@
+\subsection{Zythos}
+As mentioned earlier, Zythos is a large-memory node of Zeus and can be accessed through the front end login node of Zeus. Unlike Zeus, Zythos is a 
+restricted asset and is liable to strict qualification criteria. One of the following criteria must be met for the task to be performed on Zythos:
+
+\begin{itemize}
+\item A vast detailed data should be held in shared memory, and be larger than 512GB.
+\item Gigantic thread-level parallelism, for example,utilizing a large number of CPU cores.
+\end{itemize}
+
+It is more preferrable that the work meets both criteria. If the work does not satisfy either one of these criteria, then Zeus is a better source to
+use.Unlike Magnus and Zeus, there is no direct access to Zythos, all work is facillitated via Zeus. However, the partition queue is no longer workq and it
+changes to zythos for the partition. Additionally, the codes on Zythos does not run properly if the account name is not specified or entered correctly
+as specific accounts are authorized to run on Zythos. For this reason, it is necessary to change account name and put the authorized account, otherwise 
+the job does not run.Therefore, this brings out the challange of having to modify the account name in the SLURM scripts of the getexample tool which means that the
+getexample is not completely automated for Zythos. The users who are interested in running these examples on this resource will not be simply typing
+./README to execute the example but instead will have to replace the account name entered in the examples with their own.
+The examples provided for Zythos were also parallel programming codes such as MPI, OpenMP and hybrid tasks and these jobs were also run with GNU, Intel
+and PGI compilers which utilized exactly the same commands as the Zeus examples. However, to run the jobs on Zythos, the SLURM scripts included
+different commands from srun such as omplace and mpirun. 
+

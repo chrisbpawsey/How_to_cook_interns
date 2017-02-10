@@ -1,0 +1,38 @@
+\subsubsection{MPI Examples}
+
+Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either fotran or c. To compile with the
+correct modules, the compiler modules were also needed to be loaded by using the same commads as Zeus in both the README and SLURM scripts. Unlike Zeus, 
+the partition in the SLURM for Zythos was zythos instead of the debugq. The number of nodes was also specified with the use of --ntasks rather than the 
+command --nodes as compared to the other Pawsey resources. In addition to the SLURM scripts, the number of cores per node was defined with 
+--cpus-per-task.    
+These were included in the SLURM as shown below:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+#SBATCH --job-name=GE-hostname
+#SBATCH --partition=zythos
+#SBATCH --natasks=4
+#SBATCH --cpus-per-task=6
+#SBATCH --account=pawsey0001
+#SBATCH --time=00:10:00
+\end{Verbatim}
+\end{tcolorbox}
+
+As mentioned previously, the authorised account name was inputted to the SLURM to access Zythos and the run the codes successfully. However, if the
+users decide to run the same examples, the only modification required is to change the name of the account.
+When clients run a job on Zythos, for a better memory perfomance they  are recommended to ask for the entire cores on the node as a whole instead of making the SLURM
+allocate cpus at irregular intervals on Zythos. The basic approach to do this is by occupying all of the 6 cores per node at all times. In so doing, 
+the SLURM will be able to allocate the cpu cores successively, rather than having to pick up available cpu cores which may be scattered all over the 
+framework.Therefore to run the MPI task on Zythos, 4 nodes with 6 cores per node were required giving a total of 24 cores. This was implemented in the SLURM as 
+shown below:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+mpirun -np 24 ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+The "mpirun" command is an MPI launcher provided by the SGI message passing toolkit.
+The source codes, hello\_mpi.f90 and hello\_mpi.c were compiled with the default compiler GNU, Intel and PGI respectively by the using the compiler
+commands of Zeus with no modification as the compilers and wrappers are the same since Zythos is a node of Zeus. The only difference was the name of the
+executable as it is special for each example within the getexample library.

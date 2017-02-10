@@ -1,0 +1,29 @@
+\subsubsection{OMP Examples}
+
+For the OpenMP examples, the source codes used were omp\_hello.f90 and omp\_hello.c which were compiled with GNU, Intel and PGI compiler that used similar
+compiling commands as the OpenMP examples of Zeus.The SLURM script for the OpenMP task requests 2 nodes in comparison to the MPI tasks and 6 cores per node with 128 GB of memory each which gives a total 
+of 12 cores. As mentioned previoulsy in the MPI examples, the 2 nodes were specified as --ntasks rather than --nodes in the SLURM directives as shown:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+#SBATCH --partition=zythos
+#SBATCH --ntasks=2
+#SBATCH --cpus-per-task=6
+#SBATCH --account=pawsey0001
+#SBATCH --time=00:10:00
+\end{Verbatim}
+\end{tcolorbox}
+
+To run the job on Zythos, omplace was used for the OpenMP to control thread placement with a default of 6 threads per node which gave a total of 12 
+threads. This was written in the SLURM as:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+export OMP_NUM_THREADS=12
+omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+Since Zythos is a node of Zeus, to compile the source codes and submitting the SLURM script to the Zythos, the same commands as Zeus were used and thus,
+the README and the SLURM scripts for the OpenMP jobs were similar to ones of Zeus.
+
