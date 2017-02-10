@@ -26,7 +26,8 @@ An alternative way of running the same job could be using the omplace command.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE >> ${OUTPUT}
+omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE 
+                                         >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -46,16 +47,16 @@ To compile the omp\_hello.f with the GNU compiler, the following command was use
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
 gfortran -O2 -fopenmp omp_hello.f -o hello_omp_gnu
-\begin{Verbatim}
-\begin{tcolorbox}
+\end{Verbatim}
+\end{tcolorbox}
 
-The omp_hello.c code can be compiled with the GNU as shown below:
+The omp\_hello.c code can be compiled with the GNU as shown below:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
 gcc -O2 -fopenmp omp_hello.c -o hello_omp_gnu
-\begin{Verbatim}
-\begin{tcolorbox}
+\end{Verbatim}
+\end{tcolorbox}
 
 As it can be seen, the only difference between compiling the c code and the FORTRAN code was the gcc and gfortran commands. Both of these codes can be 
 compiled with Intel and PGI compilers, but the wrapper for them was different.
