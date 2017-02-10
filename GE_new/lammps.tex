@@ -1,12 +1,6 @@
-\subsubsection{Lammps MPI}
+\subsubsection{LAMMPS}
 
-\begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
-LAMMPS <is a traditional molecular dynamics code
-\end{Verbatim} 
-\end{tcolorbox}
-
-It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator. It has potentials
+LAMMPS is a traditional molecular dynamics code. It is also an acronym for Large-scale Atomic/Molecular Massively Parallel Simulator. It has potentials
 for solid state materials which include metals and semicoductors. It also has potential for delicate matter i.e biomolecules and polymers and also
 coarse-grained or mesoscopic systems.
 
@@ -18,13 +12,12 @@ The LAMMPS example done in the getexample tool was specifically run on Magnus. T
 properties and potentials. The existing SLURM file of the MPI tasks of Magnus was utilized and modified to request a total of 2 nodes. The partition
 remained as debugq as it is the correct partition for Magnus. The time was changed to 20 minutes as an increase in time would be better because it gives
 sufficient time to run the code. If the time is not long enough, it does not completely run the code and kills the job once the time runs out.
-The two files epm2.lmp and epm2data.lmp  lammps\_mpi\_gnu.slurm
 
-The following commands show the SLURM directives needed for the LAMMPS task:
+The following commads show the SLURM directives needed for the LAMMPS task:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-#!bin-/bash -l
+#!/bin/bash -l
 #SBATCH --job-name=hostname
 #SBATCH --partition=debugq
 #SBATCH --nodes=2
@@ -38,12 +31,13 @@ to run the source code and the data.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-swap PrgEnv-cray PrgEnv-gnu
-load lammps
+module swap PrgEnv-cray PrgEnv-gnu
+module load lammps
 \end{Verbatim}
 \end{tcolorbox}
 
-In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the group filenames below:
+In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the group 
+filenames below:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -57,9 +51,9 @@ Before running the example on the SCRATCH, the files ending with .lmp name which
 obtained in the SLURM as:
 
 \begin{tcolorbox}
-\begin{verbatim}
+\begin{Verbatim}[fontsize=\scriptsize]
 cp *.lmp $SCRATCH
-\end{verbatim}
+\end{Verbatim}
 \end{tcolorbox}
 
 As this LAMMPS example is an MPI task, it was run on Magnus on 2 nodes with 24 MPI tasks per node giving a total of 48 tasks and this was implemented
@@ -67,10 +61,8 @@ with the aprun command to launch:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-\aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
+aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-
 The SLURM was submitted to Magnus by the identical sbatch command used in the README files of all the Magnus examples.
-

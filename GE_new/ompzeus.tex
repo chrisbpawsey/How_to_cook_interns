@@ -1,0 +1,79 @@
+\subsubsection{OMP Examples}
+
+The OpenMP examples used for the Zeus are the same source codes as the ones used for Magnus which are \emph{omp\_hello.c} and \emph{omp\_hello.f}
+However, as mentioned earlier due to the different setups between Magnus and Zeus, the SLURM and the README for these codes are different.
+
+The main difference between the MPI and OpenMP jobs for Zeus is that the compiling command changes for all the different compiler options with OpenMP
+commands as the wrappers are not the same for GNU, Intel and PGI compilers. It is vital to notice that the commands to compile \emph{hello\_mpi.f90} and
+\emph{hello\_mpi.c} were the same for GNU and Intel compilers for the MPI jobs, whereas this is not the same case for OpenMP jobs anymore. However, 
+everytime the compiler is swapped from one to the other, the correct compiler module should be loaded because the default compiler module is gcc. If not, 
+the system will fail to recognize the compiler commands and end up giving mistakes, even if the source codes and the SLURM files work.
+
+In the getexample tool, to run an OpenMP job on Zeus only one node was used just as Magnus, but as diccussed in the MPI example, the workq partition was
+used unlike the debugq partition on Magnus. Therefore, both of the OpenMP examples run one 16-thread OpenMP instance with one node.
+
+To run the \emph{omp\_hello.f} and \emph{omp\_hello.c} code on Zeus with GNU compiler, the number of OpenMP threads were set to 16 on the SLURM and srun 
+command was used to run it as shown:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+export OMP_NUM_THREADS=16
+srun -n 1 -c $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+An alternative way of running the same job could be using the omplace command.
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+The srun command above can be used for both Intel and PGI compilers without requiring modification. However, the omplace command would be different for
+the other compilers. It is essential to note that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
+command will not be identified as the default thread model is intel. Hence, -tm open64 tells that the compiler module is GNU. Therefore, to run this job
+with the Intel compiler, the omplace command in the SLURM would look like:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+To compile the omp\_hello.f with the GNU compiler, the following command was used in the README file:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+gfortran -O2 -fopenmp omp_hello.f -o hello_omp_gnu
+\begin{Verbatim}
+\begin{tcolorbox}
+
+The omp_hello.c code can be compiled with the GNU as shown below:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+gcc -O2 -fopenmp omp_hello.c -o hello_omp_gnu
+\begin{Verbatim}
+\begin{tcolorbox}
+
+As it can be seen, the only difference between compiling the c code and the FORTRAN code was the gcc and gfortran commands. Both of these codes can be 
+compiled with Intel and PGI compilers, but the wrapper for them was different.
+
+For Intel, compiling the Fortran and c codes respectively:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ifort -O2 -qopenmp omp_hello.f -o hello_omp_intel
+icc -O2 -qopenmp omp_hello.c -o hello_omp_intel
+\end{Verbatim}
+\end{tcolorbox}
+
+For PGI, compiling the Fortran and c codes respectively:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+pgfortran -O2 -mp omp_hello.f -o hello_omp_pgi
+pgcc -mp omp_hello.c -o hello_omp_pgi
+\end{Verbatim}
+\end{tcolorbox}
