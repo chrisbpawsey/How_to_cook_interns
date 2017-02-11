@@ -5,15 +5,15 @@ for solid state materials which include metals and semicoductors. It also has po
 coarse-grained or mesoscopic systems.
 
 LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule test simulator at the atomic, meso, or continuum scale. This tool runs on
-single processors or in parallel making the use of message-passing systems (MPI) and a spatial-decomposition of the simulator domain. A significant
+single processors or in parallel, making the use of message-passing systems (MPI) and a spatial-decomposition of the simulator domain. A significant
 number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phi processors.
 
 The LAMMPS example done in the getexample tool was specifically run on Magnus. The source code had been provided with a large number of atoms and their
 properties and potentials. The existing SLURM file of the MPI tasks of Magnus was utilized and modified to request a total of 2 nodes. The partition
-remained as debugq as it is the correct partition for Magnus. The time was changed to 20 minutes as an increase in time would be better because it gives
-sufficient time to run the code. If the time is not long enough, it does not completely run the code and kills the job once the time runs out.
+remained as debugq. The time was changed to 20 minutes as an increase in time would be better because it gives sufficient time to run the code. If the 
+time is not long enough, it kills the job once the time runs out.
 
-The following commads show the SLURM directives needed for the LAMMPS task:
+The following commands show the SLURM directives needed for the LAMMPS task:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -37,13 +37,15 @@ module load lammps
 \end{tcolorbox}
 
 In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the group 
-filenames below:
+with the filenames below:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
 EXECUTABLE=lmp_mpi
 SCRATCH=$MYSCRATCH/run_lammps/$SLURM_JOBID
 RESULTS=$MYGROUP/lmp_mpi_results/$SLURM_JOBID
+
+OUTPUT=lammps_mpi.log
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -66,3 +68,4 @@ aprun -n 48 -N 24 $EXECUTABLE < epm2.lmp >> ${OUTPUT}
 \end{tcolorbox}
 
 The SLURM was submitted to Magnus by the identical sbatch command used in the README files of all the Magnus examples.
+
