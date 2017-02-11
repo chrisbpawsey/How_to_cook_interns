@@ -1,8 +1,8 @@
 \subsubsection{Hybrid Examples}
 
-The OpenMP/MPI hybrid codes used for Zeus were exactly same as the ones for Magnus such as FORTRAN and C code, but they both had
-distinct compiler commands specific to each compiler module. Therefore, it was also necessary to include which module to be loaded in the README files
-of the getexample tool.
+The OpenMP/MPI hybrid codes used for Zeus were exactly same as the ones for Magnus such as the FORTRAN and C codes, but they both had distinct compiler 
+commands specific to each compiler module. Therefore, it was also necessary to include which module to be loaded in the README files of the getexample 
+tool.
 
 This hybrid job requires 2 nodes and runs 1 MPI process with 16 OpenMP threads on each compiled executable. In order to launch the job to Zeus for both 
 of the source codes, the number of OpenMP threads was set to 16 and the srun command was used.
@@ -14,8 +14,8 @@ srun --mpi=pmi2 -n 2 -N 2 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-This command was used for all of the SLURM files with different compilers without making any changes. To compile the hybrid\_hello.f90 and 
-hello\_hybrid.c respectively with various compilers, the following commands were used:
+This command was used for all of the SLURM files with different compilers without making any changes. To compile the \emph{hybrid\_hello.f90} and 
+\emph{hello\_hybrid.c} respectively with various compilers, the following commands were used:
 
 For GNU:
 
