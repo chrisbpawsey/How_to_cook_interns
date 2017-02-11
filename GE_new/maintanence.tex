@@ -3,23 +3,23 @@
 Even though the getexample tool is designed for the latest operating systems of the Pawsey Supercomputing Centre, it may not work properly in the future
 due to the changes and updates made to the advanced computing resources. This means that a previously working example may fail to work and resulting in 
 inconvenience for the users and lose their trust for the getexample. This brings out the issue of how to maintain and curate the getexample so that it 
-continues to be helpful and beneficial for the users. Therefore, in order to prevent the getexample becoming outdated, it is the technical stuff's duty 
+continues to be helpful and beneficial for the users. Therefore, in order to prevent the getexample becoming outdated, it is the technical staff's duty 
 to ensure that all the examples run correctly which requires them to check for updates regularly, change the files in the getexample if necessary and 
 modify the codes to suit the current systems.
 
 However, the getexample tool is a large library with many examples. Thus, it can be really frustruating and hard for the system administrators to run 
 all the examples one by one and having to fix these problems. In order to make this procedure easier for them, a basic bash executable script can be 
-used which runs all the examples at once, checks their status and prints out which example was succesful or went wrong to an output file based on their
+used which runs all the examples at once, checks their status and prints out whether the examples were succesful or not to an output file based on their
 status.
 
 Even though, the script shows which examples manage to run successfully or failed, the challenge for the system administrators is to be having to fix 
-these problems as the getexample consists a large number of examples. Therefore, it crucial to make this less complicated for the stuff members and more
+these problems as the getexample consists a large number of examples. Therefore, it crucial to make this less complicated for the staff members and more
 time efficient as the less time it takes to resolve the issues, the more convenient it is for the users. 
 
 When revising the examples, it was noted that most of the examples use the same source codes such as \emph{hello\_world.f90, helloworld.c, 
 hell0\_mpi.f90, hello\_mpi.c, omp\_hello.f, omp\_hello.c, hybrid\_hello.f90, and hello\_hybrid.c}. This means that if one of these sample codes is
-broken, any examples that rely on this sample code will fail to work and this demands the stuff members to look at all the examples that use the source
-code and fix the same errors one by one. One suggestion to make this more sufficient can be to have all the source codes in one directory rather them
+broken, any examples that rely on this sample code will fail to work and this demands the staff members to look at all the examples that use the source
+code and fix the same errors one by one. One suggestion to make this more effective can be to have all the source codes in one directory rather them
 including them in the example directories initially. This suggests that each example directory will only contain the README and the SLURM scripts where
 the README will include the path to the source codes. When the user requests to use the example and run it by typing ./README, it will automatically
 copy the source code from the directory in which all codes are stored.
@@ -27,10 +27,14 @@ copy the source code from the directory in which all codes are stored.
 It is also significant to make sure that the getexample tool can be easily used to help the users create their own tasks without having to modify them
 much. When reviewing the getexample, it was noticed that for Magnus, all the examples use the debugq partition. This partition is mainly used
 for quick and small jobs. Thus, it is not a major problem for the examples in the getexample as they are basic codes which take less than 10 seconds 
-to execute. However, when the users decide to utilize the SLURM directives for their own tasks which may be quite large and slow to run on Magnus the 
-debugq is not a suitable option. For this reason, it is a better idea to use the workq partition in the SLURM scripts of the getexample for Magnus and
-thus, this requires to a modification in all of the scripts.
+to execute. However, when the users decide to utilize the SLURM directives for their own tasks which may be quite large and slow to run on Magnus, the 
+debugq is not a suitable option. For this reason, it is a better idea to use the workq partition in the SLURM scripts for Magnus andthus, this requires 
+to modifications in all of the scripts.
 
-Once again, as there are many examples located in the getexample, editing the partition manually is quite time consuming for the technical stuff. To do 
+Once again, as there are many examples located in the getexample, editing the partition manually is quite time consuming for the technical staff. To do 
 this procedure in a faster way, a bash script can be written to go through each README and the SLURM scritps of the Magnus examples and modify the 
-partition from debugq to workq automatically. This script can even be used for other purposes whenever the examples need a change in common things.   
+partition from debugq to workq automatically. This script can even be used for other purposes especially curating the getexample whenever the examples 
+need any modification.   
+
+For the future development of the getxample, the key principal that needs to be folloowed is always to keep this tool as user friendly as possible and 
+make it easy to maintain. It is also essential to keep adding more examples to the library to make it more compherensive for the needs of the users.  
