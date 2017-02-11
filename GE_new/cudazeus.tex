@@ -6,8 +6,8 @@ executes kernel functions on the device which are executed by GPU threads in par
 memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
 results from the device to the host.
 
-The getexample tool includes a basic \emph{"Hello world"} CUDA code, hello\_cuda.cu for Zeus. It uses 1 node with any generic GPU card, and this was 
-defined in the SLURM file as:
+The getexample tool includes a basic \emph{"Hello world"} CUDA code, \emph{hello\_cuda.cu} for Zeus. It uses 1 node with any generic GPU card, and this 
+was defined in the SLURM file as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -33,7 +33,7 @@ Then, to submit this task to Zeus, the following command was used:
 \end{Verbatim}
 \end{tcolorbox}
 
-The CUDA code was compiled by using the following compiler line in the README file:
+The CUDA code was compiled by using the NVIDIA compiler in the README file as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
