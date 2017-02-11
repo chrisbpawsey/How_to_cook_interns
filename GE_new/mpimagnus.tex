@@ -1,12 +1,12 @@
 \subsubsection{MPI Examples}
 
-MPI is known as a Message Passing Interface application that is a communication model for moving data between processors. For MPI examples, Fortran and 
-c codes were mainly used and ran on different environments including Cray, GNU and Intel. On Magnus, the default program environment is Cray. Therefore, 
+MPI is known as a Message Passing Interface application that is a communication model for moving data between processors. For MPI examples, FORTRAN and 
+C codes were mainly used and ran on different environments including Cray, GNU and Intel. On Magnus, the default program environment is Cray. Therefore, 
 it was necessary to load each program environment that was intended to work on by doing a:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-module swap PrgEnv-cray PrgEnv-<name of environment>
+module swap PrgEnv-cray PrgEnv-<name of the environment>
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -16,12 +16,12 @@ desired to be as automated as possible to minimise failures on tasks, it was mad
 environment was set back to the default environment, Cray. This prevents the users to manually list the module every time they run something on Magnus
 and modify the codes to swap from one module to the other. 
 
-The very first MPI example performed on Magnus ran on 2 nodes with a total of 48 tasks with a basic \emph{"Hello world"} source code in both c and Fortran. 
-This example consisted of three files as mentioned previously which were README, SLURM and the source codes. The SLURM script included information about
+The very first MPI example performed on Magnus ran on 2 nodes with a total of 48 tasks with a basic \emph{"Hello world"} source code in both C and FORTRAN. 
+This example consisted of three files as mentioned previously which were README, SLURM and the source code. The SLURM script included information about
 the choice in the number of nodes, the partition, the duration of the time it takes to run the job, where to run the task such as on scratch and where
 to store the results, for example the group. It also specified the name of the executable, the results directory and the output file. 
 
-For Magnus, the classified partition is the debugq. Since, there were 2 nodes used, the SLURM directives were given as:
+For the getexample on Magnus, the classified partition is the debugq. Since, there were 2 nodes used, the SLURM directives were given as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -46,7 +46,7 @@ OUTPUT=mpifortran_cray.log
 \end{Verbatim}
 \end{tcolorbox}
 
-To launch MPI job with fully occupied 2 nodes, the aprun command was used as expressed below:
+To launch the MPI job with fully occupied 2 nodes, the aprun command was used as expressed:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -79,14 +79,14 @@ ftn -O2 hello_mpi.f90 -o hello_mpi_cray
 \end{tcolorbox}
 
 -02 is the optimization method, while -o placed after the source code directs to an executable called hello\_mpi\_cray which was previously defined in
-the SLURM and chosen by the user as name. For GNU and Intel, this was called hello\_mpi\_gnu and hello\_mpi\_intel. 
+the SLURM and chosen by the technical staff as a name. For GNU and Intel, this was called hello\_mpi\_gnu and hello\_mpi\_intel. 
 
-When the source code in use was the c code, the SLURM was not different from that of Fortran. However, the README did change. 
-To compile the hello\_mpi.c code, the following command was used: 
+When the source code was in C, the SLURM was not different from that of FORTRAN. However, the README did change. To compile the hello\_mpi.c code, the 
+following command was used: 
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-cc -O2 hello_mpi.c -o hello_mpi_gnu
+cc -O2 hello_mpi.c -o hello_mpi_cray
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -99,11 +99,11 @@ sbatch hello_mpi_cray.slurm
 \end{tcolorbox}
 
 As mentioned earlier, to prevent the users from manually listing the modules to see which modules are loaded and from which module to swap, at the end
-of the SLURM and the README, the program environment was always set back to the default, Cray by:
+of the SLURM and the README, the program environment was always set back to the default by:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
-module swap PrgEnv-<name of environment> PrgEnv-cray
+module swap PrgEnv-<name of the environment> PrgEnv-cray
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -118,5 +118,5 @@ aprun -n 24 -N 12 -S 6 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
--n defines the total number of MPI tasks, -N specifies the number tasks per node while -S defines 6 MPI tasks per socket.
+-n defines the total number of MPI tasks, -N specifies the number tasks per node while -S defines the number of MPI tasks per socket.
 
