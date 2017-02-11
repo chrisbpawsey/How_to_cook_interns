@@ -359,7 +359,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Bare Demo of IEEEtran.cls\\ for IEEE Journals}
+\title{getexample\\Supercomputing with Pawsey Supercomputing Centre Resources}
 %
 %
 % author names and IEEE memberships
@@ -371,11 +371,11 @@
 % was not built to handle multiple paragraphs
 %
 
-\author{Ranganai Mapondera,~\IEEEmembership{Intern,Pawsey Supercomputing Centre}
-and Ozlem Erkilic,~\IEEEmembership{Intern,Pawsey Supercomputing Centre,}%
+\author{Ranganai Mapondera,
+and Ozlem Erkilic,~\IEEEmembership{Interns at Pawsey Supercomputing Centre}%
 \thanks{Pawsey Supercomputing Centre, 26 Dick Perry Ave, Kensington WA 6151}
-\thanks{Curtin University,Perth, Australia, Email:ranganai.mapondera@student.curtin.edu.au}
-\thanks{Curtin University,Perth, Australia, Email:ozlem.erkilic@student.curtin.edu.au}
+\thanks{Curtin University,Australia,Email:ranganai.mapondera@student.curtin.edu.au}
+\thanks{Curtin University,Perth, Australia,Email:ozlem.erkilic@student.curtin.edu.au}
 \thanks{Report received February, 2017}}
 
 %\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
@@ -450,15 +450,15 @@ Therefore, it is hard to tell what the issue is for inexperienced users. Quite o
 the example is correct, but maybe the code requires some adjustments. This is a very common issue encountered by the users of Pawsey Supercomputing 
 Centre. For this reason, this paper provides solutions to how to run and submit examples on different resources such as supercomputers of Pawsey 
 Supercomputing Centre through the use of a simple tool "getexample". The "getexample" is an effective tool that is developed for the supercomputers of 
-Pawsey that are dependent on a command line interface and aims to help their users learn to how to run code mainly parallel programming examples, submit 
+Pawsey that are dependent on a command line interface and aims to help their users learn to how to run codes mainly parallel programming examples, submit 
 these examples to different operating systems of Pawsey such as Magnus, Zeus and Zythos. Although, the getexample is limited to these HPC resources, it 
 has the potential to be expanded to other resources and interfaces. 
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
-\begin{IEEEkeywords}
-IEEE, IEEEtran, journal, \LaTeX, paper, template.
-\end{IEEEkeywords}
+%\begin{IEEEkeywords}
+%IEEE, IEEEtran, journal, \LaTeX, paper, template.
+%\end{IEEEkeywords}
 
 
 
@@ -676,7 +676,7 @@ Appendix one text goes here.
 
 % you can choose not to have a title for an appendix
 % if you want by leaving the argument blank
-\section{}
+%\section{}
 Appendix two text goes here.
 
 
@@ -720,9 +720,16 @@ The authors would like to thank...
 \begin{thebibliography}{1}
 
 \bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+\begin{itemize}
+\item H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
+\item Dirk Colbry, \emph{getexample: Reducing Barriers to Entry on HPC Resources}, \hskip 1em plus 
+0.5em minus 0.4em\relax Michigan State University,2016
+\item Blaise Barney,\emph{website:https://computing.llnl.gov/tutorials/openMP/},\hskip 1em plus
+0.5em minus 0.4em\relax Lawrence Livermore National Laboratory
+\item Pawsey Documentation, \emph{website:https://support.pawsey.org.au/documentation/},\hskip 1em plus
+0.5em minus 0.4em\relax Pawsey Supercomputing Centre 
+\end{itemize}
 \end{thebibliography}
 
 % biography section
@@ -737,7 +744,7 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 %    clip,keepaspectratio]{./pdf/Journal_RCB}}]{Ralph Christopher Bording}
 % or if you just want to reserve a space for a photo:
 
-\begin{IEEEbiography}{Ralph Bording}
+\begin{IEEEbiography}{Ranganai Mapondera}
 Biography text here.
 \end{IEEEbiography}
 
@@ -750,7 +757,7 @@ Biography text here.
 % biographies
 \newpage
 
-\begin{IEEEbiographynophoto}{Jane Doe}
+\begin{IEEEbiographynophoto}{Ozlem Erkilic}
 Biography text here.
 \end{IEEEbiographynophoto}
 
