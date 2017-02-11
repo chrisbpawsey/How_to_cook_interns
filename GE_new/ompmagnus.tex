@@ -5,7 +5,7 @@ it can be thought of one task because of their restrictions to only one node. Un
 for different environments on Magnus with the OpenMP tasks. Thus, it is necessary to swap to the right program environment corresponding to the compiler.
 
 As mentioned previously, the OpenMP jobs use only one node and this node can be fully occupied node or a node occupying a single NUMA region. When it was 
-fully occupied, the slurm script had a choice of only one node with the debugq partition as explained.
+fully occupied, the slurm script had a choice of only one node with the debugq partition as explained previously.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -16,8 +16,8 @@ fully occupied, the slurm script had a choice of only one node with the debugq p
 \end{Verbatim}
 \end{tcolorbox}
 
-The initiation of the job by aprun is done by specifying that there is one task and 24 threads. The number of threads is also called a "depth" and hence,
-the number of threads, OMP\_NUM\_THREADS was set to 24 giving an expression of:
+The initiation of the job by aprun was done by specifying that there was one task and 24 threads. The number of threads is also called a "depth" and 
+hence, the number of threads, OMP\_NUM\_THREADS was set to 24 giving an expression of:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -37,7 +37,7 @@ aprun -n 1 -d 12 -cc 0-11 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-The source codes used for OpenMP jobs were omp\_hello.f and omp\_hello.c. To run these source codes respectively on Cray, the README included the 
+The source codes used for OpenMP jobs were \emph{omp\_hello.f and omp\_hello.c.} To run these source codes respectively on Cray, the README included the 
 following compiling commands:
 
 \begin{tcolorbox}
@@ -47,10 +47,10 @@ cc -O2 -h omp omp_hello.c -o hello_omp_cray
 \end{Verbatim}
 \end{tcolorbox}
 
-Then the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
+Then, the job was also submitted to Magnus by using the same sbatch command in the README file of the MPI examples except replacing the name of the SLURM
 with the correct name for the OpenMP task.
 
-To compile with the GNU environment, the compiler for Fortran and c codes respectively changed to: 
+To compile with the GNU environment, the compiler for FORTRAN and C codes respectively changed to: 
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -68,7 +68,7 @@ export KMP=AFFINITY=disabled
 \end{Verbatim}
 \end{tcolorbox}
 
-For the Intel environment, the compilers used were expressed as:
+For the Intel environment, the compilers used are expressed as below:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -76,3 +76,4 @@ ftn -O2 -openmp omp_hello.f -o omp_hello_intel
 cc -O2 -openmp omp_hello.c -o omp_hello_intel
 \end{Verbatim}
 \end{tcolorbox}
+
