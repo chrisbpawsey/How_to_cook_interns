@@ -1,10 +1,12 @@
 \subsubsection{Hybrid Examples}
 
-The OpenMP/MPI source codes used for Zythos were hybrid\_hello.f90 and hello\_hybrid.c which were exactly the same as Zeus. These codes were compiled with
-all the compilers available on Zythos and before compiling it was made sure that the right module was loaded by using the same commands in the MPI 
-examples of Zeus. Similarly, the compiler commands for Zythos with the hybrid jobs were exactly the same as the ones for the hybrid jobs of Zeus. The
-only difference between the OpenMP/MPI exaples of Zythos and Zeus was running the task on Zyhtos as srun was no longer used, but instead mpirun with 
-omplace was implemented for these examples on Zythos. The characteristic approach to run hybrid jobs on Zythos is by running one MPI task for per 6-core NUMA region. This job script contains a request for 4
+The OpenMP/MPI source codes used for Zythos were \emph{hybrid\_hello.f90} and \emph{hello\_hybrid.c} which were exactly the same as Zeus. These codes 
+were compiled with all the compilers available on Zythos and before compiling it was made sure that the right module was loaded by using the same 
+commands in the MPI examples of Zeus. Similarly, the compiler commands for Zythos with the hybrid jobs were exactly the same as the ones for the hybrid 
+jobs of Zeus. The only difference between the OpenMP/MPI exaples of Zythos and Zeus was running the task on Zyhtos as srun was no longer used, but 
+instead mpirun with omplace was implemented for these examples on Zythos. 
+
+The characteristic approach to run hybrid jobs on Zythos is by running one MPI task for per 6-core NUMA region. This job script contains a request for 4
 nodes and begins 4 MPI tasks by using mpirun that is combined with omplace to place threads.
 
 \begin{tcolorbox}
@@ -17,7 +19,7 @@ nodes and begins 4 MPI tasks by using mpirun that is combined with omplace to pl
 \end{Verbatim}
 \end{tcolorbox}
 
-To run the codes on Zythos, the number of OpenMP threads were given as well as passing the message through the mpirun as:
+To run the codes on Zythos, the number of OpenMP threads were given and passed the message through the mpirun as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -27,22 +29,6 @@ mpirun -np 4 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE
 \end{Verbatim}
 \end{tcolorbox}
 
-These commands remain the same for all the SLURM scripts for Hybrid jobs on Zythos.
+These commands remain the same for all the SLURM scripts with different compilers for the hybrid jobs on Zythos.
 
-%\begin{tcolorbox}
-%\begin{Verbatim}[fontsize=\scriptsize]
-%for GNU to compile the hybrid codes:
-%mpif90 -O2 -fopenmp hybrid_hello.f90 -o hello_hybrid_gnu
-%gcc -fopenmp omp_hello.c -o hello_omp_gnu
-%\end{Verbatim}
-%\end{tcolorbox}
 
-%GNU must be loaded
-
-%\begin{tcolorbox}
-%\begin{Verbatim}[fontsize=\scriptsize]
-%module load gcc
-%module load mpt
-%module list
-%\end{Verbatim}
-%\end{tcolorbox}
