@@ -1,0 +1,56 @@
+\section{How to implement the getexample command for Pawsey Centre Resources}
+
+Due to the different operating systems of the Pawsey supercomputers, each individual supercomputer had seperate examples that could display the same
+function, but with different commands. Therefore when implementing the getexample command, the key principal was to ensure that it only displayed the
+examples related to the supercomputer in use. For example, if the user logins from Zeus, when one types the command \emph{getexample}, it should only
+show the examples that can be performed on Zeus. This prevents the users from forcing to run examples that are not applicable for that particular 
+supercomputer. For example, if the user logins from Magnus and tries to run an example taken from Zeus that compiles with GNU, on Magnus with the GNU 
+environment the code will fail to run. Even though the program environment on Magnus was set to GNU, the compiler commands as well as the commands to
+run the task on Magnus differ from the ones of Zeus.
+
+In order to follow this design specification, the getexample command was developed by using the following BASH script that determines which examples to
+list based on the \emph{hostid} of the supercomputer.    
+
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+#!/bin/bash
+#DESCRIPTION Download user examples
+#LABEL Files
+hostid=`echo $HOST | cut -d "." -f 1`
+echo ${hostid}
+if [ ${hostid} == "magnus" ]; then 
+  location=/group/interns2016/getexample/magnus_examples
+elif [ ${hostid} == "zeus" ]; then
+  location=/group/interns2016/getexample/zeus_examples
+fi
+
+#TODO Make a list of users downloading examples?
+
+#Display help message if no example is given
+if [ "$1" == "" ]
+then
+	echo "Download an HPC example:"
+	echo "usage:"
+	echo "   getexample <examplename>"
+	echo ""
+	echo "Where <examplename> is the name of the 
+	example you want to "
+	echo "download.  This will create a directory 
+	named examplename which"
+	echo "you can cd into and hopefully read the 
+	README file (if one is"
+	echo "avaliable) or just submit the *.qsub file."
+	echo ""
+	echo "For Example:"
+	echo "  getexample helloworld"
+	echo ""
+	echo "Possible example names:"
+	ls $location 
+	exit 0
+fi
+
+#TODO Check to see if folder already exists
+cp -r -v -u ${location}/$1 .
+\end{Verbatim}
+\end{tcolorbox}
