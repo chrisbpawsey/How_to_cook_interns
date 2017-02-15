@@ -70,7 +70,7 @@ module swap PrgEnv-cray PrgEnv-intel
 However, the compiler commands do not change for Cray, GNU and Intel for MPI codes on Magnus, whereas they have distinct differences for other parallel
 programming tasks such as OpenMP.
 
-To compile the \emph{"Hello world"} MPI Fortan code, hello\_mpi.f90 on Cray, GNU and Intel environments:
+To compile the \emph{"Hello world"} MPI FORTRAN code, hello\_mpi.f90 on Cray, GNU and Intel environments:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -78,7 +78,7 @@ ftn -O2 hello_mpi.f90 -o hello_mpi_cray
 \end{Verbatim}
 \end{tcolorbox}
 
--02 is the optimization method, while -o placed after the source code directs to an executable called hello\_mpi\_cray which was previously defined in
+-O2 is the optimization method, while -o placed after the source code directs to an executable called hello\_mpi\_cray which was previously defined in
 the SLURM and chosen by the technical staff as a name. For GNU and Intel, this was called hello\_mpi\_gnu and hello\_mpi\_intel. 
 
 When the source code was in C, the SLURM was not different from that of FORTRAN. However, the README did change. To compile the hello\_mpi.c code, the 

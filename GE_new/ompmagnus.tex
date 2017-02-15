@@ -26,7 +26,7 @@ aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-For a node occupying a single NUMA region, the code are more efficient when threads are limited to one NUMA region containing 12 cores. The expression 
+For a node occupying a single NUMA region, the code is more efficient when threads are limited to one NUMA region containing 12 cores. The expression 
 (-d) 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
 illustrated below as:
 
@@ -37,7 +37,7 @@ aprun -n 1 -d 12 -cc 0-11 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-The source codes used for OpenMP jobs were \emph{omp\_hello.f and omp\_hello.c.} To run these source codes respectively on Cray, the README included the 
+The source codes used for OpenMP jobs were \emph{omp\_hello.f} and \emph{omp\_hello.c.} To run these source codes respectively on Cray, the README included the 
 following compiling commands:
 
 \begin{tcolorbox}
