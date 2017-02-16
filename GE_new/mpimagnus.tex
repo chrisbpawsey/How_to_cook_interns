@@ -46,7 +46,7 @@ OUTPUT=mpifortran_cray.log
 \end{Verbatim}
 \end{tcolorbox}
 
-To launch the MPI job with fully occupied 2 nodes, the aprun command was used as expressed:
+To launch the MPI job with fully occupied 2 nodes, the \emph{aprun} command was used as expressed:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -110,7 +110,7 @@ module swap PrgEnv-<name of the environment> PrgEnv-cray
 Another example on MPI was to run the same sources but on partially occupied nodes which means that instead of having 24 tasks per node, each node could
 only have 12 tasks. When running this example on Magnus, the README remained unchanged, but there were minor changes to the SLURM.
 
-The number of OpenMP threads was set to 1 to prevent from inadvertent OpenMP threading and the aprun command was changed to:
+The number of OpenMP threads was set to 1 to prevent from inadvertent OpenMP threading and the \emph{aprun} command was changed to:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
