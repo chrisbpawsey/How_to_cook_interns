@@ -17,7 +17,7 @@ these problems as the getexample consists a large number of examples. Therefore,
 time efficient as the less time it takes to resolve the issues, the more convenient it is for the users. 
 
 When revising the examples, it was noted that most of the examples use the same source codes such as \emph{hello\_world.f90, helloworld.c, 
-hello\_mpi.f90, hello\_mpi.c, omp\_hello.f, omp\_hello.c, hybrid\_hello.f90, and hello\_hybrid.c}. This means that if one of these sample codes is
+hello\_mpi.f90, hello\_mpi.c, omp\_hello.f, omp\_hello.c, hybrid\_hello.f90,} and \emph{hello\_hybrid.c}. This means that if one of these sample codes is
 broken, any examples that rely on this sample code will fail to work and this demands the staff members to look at all the examples that use the source
 code and fix the same errors one by one. One suggestion to make this more effective can be to have all the source codes in one directory rather them
 including them in the example directories initially. This suggests that each example directory will only contain the README and the SLURM scripts where
@@ -25,16 +25,16 @@ the README will include the path to the source codes. When the user requests to 
 copy the source code from the directory in which all codes are stored.
 
 It is also significant to make sure that the getexample tool can be easily used to help the users create their own tasks without having to modify them
-much. When reviewing the getexample, it was noticed that for Magnus, all the examples use the debugq partition. This partition is mainly used
+much. When reviewing the getexample, it was noticed that for Magnus, all the examples use the \emph{debugq} partition. This partition is mainly used
 for quick and small jobs. Thus, it is not a major problem for the examples in the getexample as they are basic codes which take less than 10 seconds 
 to execute. However, when the users decide to utilize the SLURM directives for their own tasks which may be quite large and slow to run on Magnus, the 
-debugq is not a suitable option. For this reason, it is a better idea to use the workq partition in the SLURM scripts for Magnus and thus, this requires 
-modifications in all of the scripts.
+\emph{debugq} is not a suitable option. For this reason, it is a better idea to use the \emph{workq} partition in the SLURM scripts for Magnus and thus,
+this requires modifications in all of the scripts.
 
 Once again, as there are many examples located in the getexample, editing the partition manually is quite time consuming for the technical staff. To do 
 this procedure in a faster way, a bash script can be written to go through each README and the SLURM scritps of the Magnus examples and modify the 
-partition from debugq to workq automatically. This script can be even used for other purposes especially curating the getexample whenever the examples 
-need any modification.   
+partition from the \emph{debugq} to \emph{workq} automatically. This script can be even used for other purposes especially curating the \emph{getexample} 
+whenever the examples need any modification.   
 
 Thus, for the future development of the getxample, the key principal that needs to be followed is always to keep this tool as user friendly as possible 
 and make it easy to maintain. It is also essential to keep adding more examples such as applications to the library to make it more compherensive for 

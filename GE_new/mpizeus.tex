@@ -4,14 +4,14 @@ The \emph{getexample} tool also includes MPI examples for Zeus with the GNU, Int
 and hence, the same MPI example needs to handled differently on Zeus. It is necessary to realise that the MPI source codes used for Zeus are the same
 as Magnus, but the commands to run the same source codes are different on Zeus as compared to Magnus. Additionally, when the same code is run 
 with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded. These descriptions were included in
-the README and SLURM files of each example within the getexample tool and the required module for the specific compiler was already loaded within these 
+the README and SLURM files of each example within the \emph{getexample} tool and the required module for the specific compiler was already loaded within these 
 files so that the user is not asked to download them manually to prevent any errors while running the code.
 
 The two common source codes used for the MPI examples were \emph{hello\_mpi.f90} and \emph{hello\_mpi.c}. These codes were used with GNU, Intel and PGI 
 compiler options on Zeus to assist the users on how to run the same code on Zeus with different modules.
 
-As mentioned earlier, both codes were run on both Magnus and Zeus on 2 nodes. However, the partition in the SLURM was changed to workq from debugq.
-These were defined in the SLURM script of the MPI examples as shown: 
+As mentioned earlier, both codes were run on both Magnus and Zeus on 2 nodes. However, the partition in the SLURM was changed to the \emph{workq} from 
+the \emph{debugq.} These were defined in the SLURM script of the MPI examples as shown: 
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
