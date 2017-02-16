@@ -9,11 +9,11 @@ submitted to the queue system on the front-end from the sbatch command. When it 
 which are the login nodes of Magnus. The aprun keeps running on these login nodes until the application gets completed. Once aprun finishes, the SLURM 
 job also completes.
 
-As mentioned previously, the focus of the getexample tool was not only to provide working examples to the users but also assist them on how to run jobs
-on their scratch directories. Therefore, whenever the batch job was submitted to Magnus, it was ran on the scracth directory and once the job was 
+As mentioned previously, the focus of the \emph{getexample} tool was not only to provide working examples to the users, but also assist them on how to run jobs
+on their scratch directories. Therefore, whenever the Batch job was submitted to Magnus, it was ran on the scracth directory and once the job was 
 completed, the results were carried to the group directory. In the end, the scracth was removed. The examples used for Magnus were mainly parallel
 programming examples such as MPI, OpenMP and hybrid codes which is a combination of OpenMP and MPI tasks and some applications such as LAMMPS and GROMACS.
-The source codes used for these examples were written in C or FORTRAN were basic \emph{"Hello world"} codes with the exception of the application codes.
+The source codes used for these examples were written in C or FORTRAN which were basic \emph{"Hello world"} codes with the exception of the application codes.
 Each example was displayed in different environments on Magnus such as GNU, Intel and more importantly the default environment, Cray with the compiler
 options of ftn, mpif90 and cc. When using these environments, it was important to load the actual programming environment before compiling the source
 codes and running them as each environment has specific compiler commands with distinct wrappers.
