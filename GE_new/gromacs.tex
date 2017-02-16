@@ -1,0 +1,115 @@
+\subsubsection{GROMACS}
+
+GROMACS is also known as GROningen MAchine for Chemical Simulations which is a molecular dynamics package. It is designed for simulations of proteins, 
+lipids, and nucleic acids. It contains a script to convert molecular coordinates from Protein Data Bank (PDB) files into formats. The simulation starts 
+running when a configuration file for the simulation of the molecules is created. This produces a trajectory file which then can be analysed with various 
+tools.
+
+GROMACS can run on Central Processing Units known as CPUs as well as Graphics Processing Units called as GPUs. It can be executed in parallel, using 
+Message Passing Interface (MPI) or threads. For the \emph{getexample} tool, GROMACS example was run utilizing MPI similar to LAMMPS example, but it was 
+more complicated to implement.
+
+This example requested 2 nodes with 24 MPI tasks per node with a time allocation of 40 minutes, as it is a relatively big task to run. These changes
+were shown in the SLURM directives as:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+#!/bin/bash -l
+#SBATCH --job-name=hostname
+#SBATCH --partition=debugq
+#SBATCH --nodes=2
+#SBATCH --time=00:40:00
+#SBATCH --export=NONE
+\end{Verbatim}
+\end{tcolorbox}
+
+This code was also run on the GNU environment, and hence it was necessary to change the program environment from Cray to the GNU and load the gromacs
+module. This module is needed to compile the source code and access the original gromacs data set.
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+module swap PrgEnv-cray PrgEnv-gnu
+module load gromacs/5.1.1
+\end{Verbatim}
+\end{tcolorbox}
+
+The generic variables for this job were defined in the SLURM just like the other examples, but with the addition of the input and GROMACS data 
+directories as shown below:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+EXECUTABLE=gmx 
+SCRATCH=$MYSCRATCH/run_gromacs/$SLURM_JOBID
+RESULTS=$MYGROUP/gromacs_results/$SLURM_JOBID
+INPUT_DATA_DIR=${SLURM_SUBMIT_DIR}/gromacs_mpi
+GROMACS_DATA_DIR=${SLURM_SUBMIT_DIR}
+OUTFILE=1AKI_processed.gro
+PDB_FILE=1AKI.pdb
+\end{Verbatim}
+\end{tcolorbox}
+
+For this example, all of the gromacs and input data files were copied to the scratch.
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize] 
+cp $GROMACS_DATA_DIR/*.pdb $SCRATCH
+cp $INPUT_DATA_DIR/posre.itp $SCRATCH
+cp $INPUT_DATA_DIR/1AKI_processed.gro $SCRATCH
+cp $INPUT_DATA_DIR/topol.top $SCRATCH
+cp $INPUT_DATA_DIR/*.mdp $SCRATCH
+\end{Verbatim}
+\end{tcolorbox}
+
+Unlike the LAMMPS example, GROMACS consisted of many serial tasks which had to be performed first, before running the actual MPI tasks. These serial 
+tasks were basically the pre-processing for the MPI tasks and this was done as demonstrated below:
+  
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize] 
+aprun -n 1 -N 1 $EXECUTABLE pdb2gmx -f ${PDB_FILE} -o 
+			$OUTFILE -water spce << EOF
+29
+0
+EOF
+aprun -n 1 -N 1 gmx_d editconf -f 1AKI_processed.gro -o 
+	1AKI_newbox.gro -c -d 1.0 -bt cubic  > ${OUTPUT}
+
+aprun -n 1 -N 1 gmx_d solvate -cp 1AKI_newbox.gro -cs 
+spc216.gro -o 1AKI_solv.gro -p topol.top >> ${OUTPUT}
+
+#Adding Ions
+aprun -n 1 -N 1 gmx_d grompp -f ions.mdp -c 
+1AKI_solv.gro -p topol.top -o ions.tpr >> ${OUTPUT}
+
+aprun -n 1 -N 1 gmx_d genion -s ions.tpr -o 
+1AKI_solv_ions.gro -p topol.top  -pname NA 
+		-nname CL -nn 8 << EOF 
+13
+EOF
+
+# Energy Minimization
+aprun -n 1 -N 1 gmx_d grompp -f minim.mdp -c 
+1AKI_solv_ions.gro -p topol.top -o 
+		em.tpr >> ${OUTPUT}
+
+aprun -n 48 -N 24 mdrun_mpi_d  -v -deffnm em -g 
+			energy.log >> ${OUTPUT}
+\end{Verbatim}
+\end{tcolorbox}
+
+The README script of GROMACS was very similar to the previous examples. However, the only difference was that it included many links to download the mdp
+files that the SLURM script required for the input data sets. Therefore when ./README was typed, the README automatically downloaded these files with
+the help of \emph{wget} as shown below:
+
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+wget http://www.bevanlab.biochem.vt.edu/Pages/
+Personal/justin/gmx-tutorials/lysozyme/Files/ions.mdp
+
+wget http://www.bevanlab.biochem.vt.edu/Pages/
+Personal/justin/gmx-tutorials/lysozyme/Files/minim.mdp
+
+wget http://www.bevanlab.biochem.vt.edu/Pages/
+Personal/justin/gmx-tutorials/lysozyme/Files/nvt.mdp
+\end{Verbatim}
+\end{tcolorbox}
+
