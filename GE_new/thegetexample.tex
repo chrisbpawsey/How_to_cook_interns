@@ -1,14 +1,14 @@
 \section{How to Implement the Getexample Command}
 
 Due to the different operating systems of the Pawsey supercomputers, each individual supercomputer had seperate examples that could display the same
-function, but with different commands. Therefore when implementing the getexample command, the key principal was to ensure that it only displayed the
+function, but with different commands. Therefore when implementing the \emph{getexample} command, the key principal was to ensure that it only displayed the
 examples related to the supercomputer in use. For example, if the user logins from Zeus, when one types the command \emph{getexample}, it should only
 show the examples that can be performed on Zeus. This prevents the users from forcing to run examples that are not applicable for that particular 
-supercomputer. For example, if the user logins from Magnus and tries to run an example taken from Zeus that compiles with GNU, on Magnus with the GNU 
-environment the code will fail to run. Even though the program environment on Magnus was set to GNU, the compiler commands as well as the commands to
+supercomputer. For example, if the user logins from Magnus and tries to run an example taken from Zeus that compiles with GNU, the code will fail to run
+on Magnus with the GNU environment. Even though the program environment on Magnus was set to GNU, the compiler commands as well as the commands to
 run the task on Magnus differ from the ones of Zeus.
 
-In order to follow this design specification, the getexample command was developed by using the following Bash script that determines which examples to
+In order to follow this design specification, the \emph{getexample} command was developed by using the following Bash script that determines which examples to
 list based on the \emph{hostid} of the supercomputer.    
 
 
