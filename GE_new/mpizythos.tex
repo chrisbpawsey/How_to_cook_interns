@@ -2,9 +2,9 @@
 
 Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either FORTRAN or C. To compile with the
 correct modules, the compiler modules were also needed to be loaded by using the same commads as Zeus in both the README and SLURM scripts. Unlike Zeus, 
-the partition in the SLURM for Zythos was zythos instead of the workq. The number of nodes was also specified with the use of --ntasks rather than the 
-command --nodes as compared to the other Pawsey resources. In addition to the SLURM scripts, the number of cores per node was defined with 
---cpus-per-task. These were included in the SLURM as shown below:
+the partition in the SLURM for Zythos was \emph{zythos} instead of the \emph{workq.} The number of nodes was also specified with the use of 
+\emph{--ntasks} rather than the command \emph{--nodes} as compared to the other Pawsey resources. In addition to the SLURM scripts, the number of cores 
+per node was defined with \emph{--cpus-per-task.} These were included in the SLURM as shown below:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -34,8 +34,8 @@ mpirun -np 24 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-The "mpirun" command is an MPI launcher provided by the SGI message passing toolkit.
+The \emph{mpirun} command is an MPI launcher provided by the SGI message passing toolkit.
 
 The source codes, \emph{hello\_mpi.f90} and \emph{hello\_mpi.c} were compiled with the default compiler GNU, Intel and PGI respectively by the using the 
 compiler commands of Zeus with no modification as the compilers and wrappers are the same since Zythos is a node of Zeus. The only difference was the 
-name of the executables as they are special to each example within the getexample library.
+name of the executables as they are special to each example within the \emph{getexample} library.
