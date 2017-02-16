@@ -13,7 +13,7 @@ In the \emph{getexample} tool, to run an OpenMP job on Zeus, only one node was u
 partition was used unlike the \emph{debugq} partition. Therefore, both of the OpenMP examples ran one 16-thread OpenMP instance with one node.
 
 To run the \emph{omp\_hello.f} and \emph{omp\_hello.c} codes on Zeus with the GNU compiler, the number of OpenMP threads was set to 16 on the SLURM and 
-the srun command was used to run it as shown:
+the \emph{srun} command was used to run it as shown:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -22,7 +22,7 @@ srun -n 1 -c $OMP_NUM_THREADS ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-An alternative way of running the same job could be using the omplace command.
+An alternative way of running the same job could be using the \emph{omplace} command.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -31,10 +31,10 @@ omplace -nt $OMP_NUM_THREADS -tm open64 ./$EXECUTABLE
 \end{Verbatim}
 \end{tcolorbox}
 
-The srun command above can be used for both Intel and PGI compilers without requiring modification. However, the omplace command would be different for
-the other compilers. It is essential to note that -tm open64 should be included above in the omplace command because when compiling with GNU, this 
-command will not be identified, as the default thread model is intel. Hence, -tm open64 tells that the compiler module is GNU. Therefore, to run this job
-with the Intel compiler, the omplace command in the SLURM would look like:
+The \emph{srun} command above can be used for both Intel and PGI compilers without requiring modification. However, the \emph{omplace} command would be 
+different for the other compilers. It is essential to note that \emph{-tm open64} should be included above in the \emph{omplace} command because when 
+compiling with GNU, this command will not be identified, as the default thread model is intel. Hence, \emph{-tm open64} tells that the compiler module is GNU. Therefore, to run this job
+with the Intel compiler, the \emph{omplace} command in the SLURM would look like:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
