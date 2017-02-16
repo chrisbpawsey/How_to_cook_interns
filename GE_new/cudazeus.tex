@@ -2,12 +2,12 @@
 
 The CUDA programming is a heterogeneous model where both CPU and GPU nodes are used. In CUDA, the host refers to the CPU and its memory, whereas the 
 device refers to the GPU an its memory. Therefore, a CUDA code running on the host have access to the memory on the host as well as the device. It also 
-executes kernel functions on the device which are executed by GPU threads in parallel. A basic CUDA works by declaring and allocating host and device 
+executes kernel functions on the device which are executed by GPU threads in parallel. A basic CUDA works by declaring and allocating the host and device 
 memory. Then, it initializes the host data and transfers the data from the host to the device. Once it executes the kernel function, it transfers the 
 results from the device to the host.
 
-The getexample tool includes a basic \emph{"Hello world"} CUDA code, \emph{hello\_cuda.cu} for Zeus. It uses 1 node with any generic GPU card, and this 
-was defined in the SLURM file as:
+The \emph{getexample} tool includes a basic \emph{"Hello world"} CUDA code, \emph{hello\_cuda.cu,} for Zeus. It uses 1 node with any generic GPU card, 
+and this was defined in the SLURM file as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
