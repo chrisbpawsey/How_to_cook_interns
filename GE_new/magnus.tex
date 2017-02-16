@@ -5,9 +5,9 @@ of them has 2 sockets and each of these has 12 cores. Magnus is also specified t
 the 1488 nodes. 
 
 On Magnus, jobs run on the back-end of the system with the help of SLURM and ALPS (the Cray Application Level Placement Scheduler). A batch job is 
-submitted to the queue system on the front-end from the sbatch command. When it runs, it executes the launch command aprun on the MOM nodes 
-which are the login nodes of Magnus. The aprun keeps running on these login nodes until the application gets completed. Once aprun finishes, the SLURM 
-job also completes.
+submitted to the queue system on the front-end from the sbatch command. When it runs, it executes the launch command \emph{aprun} on the MOM nodes 
+which are the login nodes of Magnus. The \emph{aprun} keeps running on these login nodes until the application gets completed. Once \emph{aprun} finishes, the 
+SLURM job also completes.
 
 As mentioned previously, the focus of the \emph{getexample} tool was not only to provide working examples to the users, but also assist them on how to run jobs
 on their scratch directories. Therefore, whenever the Batch job was submitted to Magnus, it was ran on the scracth directory and once the job was 
