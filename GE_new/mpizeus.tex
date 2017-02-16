@@ -37,7 +37,7 @@ OUTPUT=hello_mpi_gnu.log
 \end{tcolorbox}
 
 On Magnus, a total of 48 MPI tasks could be run whereas this was too much for Zeus and thus, the number of MPI tasks was reduced to 32. To run the job
-on Zeus, instead of using aprun command used in Magnus, srun command was used as srun is specific to Zeus while aprun is designed for Magnus. Therefore,
+on Zeus, instead of using \emph{aprun} command used in Magnus, \emph{srun} command was used as srun is specific to Zeus while \emph{aprun} is designed for Magnus. Therefore,
 to run the code, the following command was used:
 
 \begin{tcolorbox}
@@ -47,7 +47,7 @@ srun -n 32 -N 2 --mpi=pmi2 ./$EXECUTABLE >> ${OUTPUT}
 \end{tcolorbox}
 
 where -n defines the total number of MPI tasks while -N defines the number of nodes used on Zeus which is different from Magnus as -N defines the number
-of MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to srun which wasn't used in aprun where --mpi=pmi2 is the MPI
+of MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to \emph{srun} which wasn't used in \emph{aprun} where --mpi=pmi2 is the MPI
 implementation and must specified to srun for the correct operation.
 
 In the README file, depending on which compiler the source code would be compiled with, the compiler module was included and loaded in the README file 
