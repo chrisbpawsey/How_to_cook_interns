@@ -1,6 +1,6 @@
 \subsubsection{MPI Jobs}
 
-The getexample tool also includes MPI examples for Zeus with GNU, Intel and PGI compilers because both Zeus and Magnus have different operating systems 
+The \emph{getexample} tool also includes MPI examples for Zeus with the GNU, Intel and PGI compilers because both Zeus and Magnus have different operating systems 
 and hence, the same MPI example needs to handled differently on Zeus. It is necessary to realise that the MPI source codes used for Zeus are the same
 as Magnus, but the commands to run the same source codes are different on Zeus as compared to Magnus. Additionally, when the same code is run 
 with different compilers such as GNU, Intel and PGI, the compiler module for the required compiler must be loaded. These descriptions were included in
@@ -20,10 +20,10 @@ These were defined in the SLURM script of the MPI examples as shown:
 \end{Verbatim}
 \end{tcolorbox}
 
-Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and gives many errors. For this reason, this line was
+Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and it gives many errors. For this reason, this line was
 excluded in the SLURM files of Zeus to compile the codes correctly.
 
-To run the code with a given executable on scratch, and store the results in a directory within the GROUP directory to an output file, the generic 
+To run the code with a given executable on scratch, and store the results in a directory within the group directory to an output file, the generic 
 variables were created in the SLURM as shown:
 
 \begin{tcolorbox}
@@ -85,7 +85,7 @@ module load mpt
 
 The mpt module needs to be loaded whenever an MPI or OpenMP/MPI task is submitted to Zeus as it provides the SGI message to access the MPI library.
 
-Additionally, the README file contained the command to compile the FORTRAN 90, \emph{hello\_mpi.f90} code and \emph{hello\_mpi.c}, the C code with the 
+Additionally, the README file contained the command to compile the \emph{hello\_mpi.f90} code and \emph{hello\_mpi.c} code with the 
 GNU or Intel compiler as shown:
 
 \begin{tcolorbox}
@@ -101,6 +101,6 @@ Hence to compile the basic \emph{hello\_mpi.f90} and \emph{hello\_mpi.c} code, t
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
 pgf90 -Mmpi=sgimpi hello_mpi.f90 -o hello_mpi_pgi
-pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_c 
+pgcc -Mmpi=sgimpi hello_mpi.c -o hello_mpi_pgi 
 \end{Verbatim}
 \end{tcolorbox}
