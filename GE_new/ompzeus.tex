@@ -9,7 +9,7 @@ commands as the wrappers are not the same for GNU, Intel and PGI compilers. It i
 everytime the compiler is swapped from one to the other, the correct compiler module should be loaded because the default compiler module is gcc. If not, 
 the system will fail to recognize the compiler commands and end up giving many errors, even if the source codes and the SLURM files work.
 
-In the \emph{getexample} tool, to run an OpenMP job on Zeus, only one node was used just as Magnus, but as diccussed in the MPI example, the \emph{workq} 
+In the \emph{getexample} tool, to run an OpenMP job on Zeus, only one node was used just as Magnus, but as discussed in the MPI example, the \emph{workq} 
 partition was used unlike the \emph{debugq} partition. Therefore, both of the OpenMP examples ran one 16-thread OpenMP instance with one node.
 
 To run the \emph{omp\_hello.f} and \emph{omp\_hello.c} codes on Zeus with the GNU compiler, the number of OpenMP threads was set to 16 on the SLURM and 
