@@ -11,8 +11,8 @@ module swap PrgEnv-cray PrgEnv-<name of the environment>
 \end{tcolorbox}
 
 It is also very important to notice that if the right program environment is not loaded, the code will fail as each environment have different commands 
-for compilers. However, on Magnus, swapping from one environment to the other might be very challenging for the new users. As the getexample tool is
-desired to be as automated as possible to minimise failures on tasks, it was made sure that after running each job on Intel and GNU environments, the
+for compilers. However, on Magnus, swapping from one environment to the other may be very challenging for the new users. As the \emph{getexample} tool is
+desired to be as automated as possible to minimise failures on tasks, it was made sure that after running each job on the Intel and GNU environments, the
 environment was set back to the default environment, Cray. This prevents the users to manually list the module every time they run something on Magnus
 and modify the codes to swap from one module to the other. 
 
@@ -21,7 +21,7 @@ This example consisted of three files as mentioned previously which were README,
 the choice in the number of nodes, the partition, the duration of the time it takes to run the job, where to run the task such as on scratch and where
 to store the results, for example the group. It also specified the name of the executable, the results directory and the output file. 
 
-For the getexample on Magnus, the classified partition is the debugq. Since, there were 2 nodes used, the SLURM directives were given as:
+For the \emph{getexample} on Magnus, the classified partition was the debugq. Since, there were 2 nodes used, the SLURM directives were given as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -54,9 +54,9 @@ aprun -n 48 -N 24 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
-where -n defines the total number of MPI tasks while -N specifies the number of MPI tasks per node as there are 2 nodes.
+where -n defines the total number of MPI tasks while -N specifies the number of MPI tasks per node.
 
-In the README file, the correct program environment should be included for the codes to run well. For compiling on Cray, there was no need to load
+In the README file, the correct program environment should be included for the codes to run correctly. For compiling on Cray, there was no need to load
 this environment as the default module was Cray. However, to run on GNU and Intel, the program environment was changed from Cray to GNU or Intel as
 shown below:
 
@@ -70,7 +70,7 @@ module swap PrgEnv-cray PrgEnv-intel
 However, the compiler commands do not change for Cray, GNU and Intel for MPI codes on Magnus, whereas they have distinct differences for other parallel
 programming tasks such as OpenMP.
 
-To compile the \emph{"Hello world"} MPI FORTRAN code, hello\_mpi.f90 on Cray, GNU and Intel environments:
+To compile the \emph{hello\_mpi.f90} on Cray, GNU and Intel environments:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -78,10 +78,10 @@ ftn -O2 hello_mpi.f90 -o hello_mpi_cray
 \end{Verbatim}
 \end{tcolorbox}
 
--O2 is the optimization method, while -o placed after the source code directs to an executable called hello\_mpi\_cray which was previously defined in
-the SLURM and chosen by the technical staff as a name. For GNU and Intel, this was called hello\_mpi\_gnu and hello\_mpi\_intel. 
+\emph{-O2} is the optimization method, while \emph{-o} placed after the source code directs to an executable called \emph{hello\_mpi\_cray} which was 
+previously defined in the SLURM and chosen by the technical staff as a name. For GNU and Intel, this was called \emph{hello\_mpi\_gnu} and emph{hello\_mpi\_intel.} 
 
-When the source code was in C, the SLURM was not different from that of FORTRAN. However, the README did change. To compile the hello\_mpi.c code, the 
+When the source code was in C, the SLURM was not different from that of FORTRAN. However, the README did change. To compile the \emph{hello\_mpi.c code}, the 
 following command was used: 
 
 \begin{tcolorbox}
@@ -98,7 +98,7 @@ sbatch hello_mpi_cray.slurm
 \end{Verbatim}
 \end{tcolorbox}
 
-As mentioned earlier, to prevent the users from manually listing the modules to see which modules are loaded and from which module to swap, at the end
+As mentioned earlier, to prevent the users from manually listing the modules to see which modules are loaded and which module to swap from, at the end
 of the SLURM and the README, the program environment was always set back to the default by:
 
 \begin{tcolorbox}
@@ -118,5 +118,5 @@ aprun -n 24 -N 12 -S 6 ./$EXECUTABLE >> ${OUTPUT}
 \end{Verbatim}
 \end{tcolorbox}
 
--n defines the total number of MPI tasks, -N specifies the number tasks per node while -S defines the number of MPI tasks per socket.
+where -n defines the total number of MPI tasks, -N specifies the number tasks per node while -S defines the number of MPI tasks per socket.
 
