@@ -17,7 +17,7 @@ fully occupied, the SLURM script had a choice of only one node with the \emph{de
 \end{Verbatim}
 \end{tcolorbox}
 
-The initiation of the job by aprun was done by specifying that there was one task and 24 threads. The number of threads is also called a "depth" and 
+The initiation of the job by \emph{aprun} was done by specifying that there was one task and 24 threads. The number of threads is also called a "depth" and 
 hence, the number of threads, \emph{OMP\_NUM\_THREADS}, was set to 24 giving an expression of:
 
 \begin{tcolorbox}
@@ -61,7 +61,7 @@ cc -O2 -fopenmp omp_hello.c -o omp_hello_gnu
 \end{tcolorbox}
 
 To run the OpenMP code correctly on Cray with the Intel environment, the affinity should be disabled. If it is not disabled, the code runs on only one
-thread rather than running on multiple threads and this was done by adding the following command before the aprun:
+thread rather than running on multiple threads and this was done by adding the following command before the \emph{aprun:}
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
