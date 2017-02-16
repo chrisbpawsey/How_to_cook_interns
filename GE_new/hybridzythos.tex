@@ -3,11 +3,11 @@
 The OpenMP/MPI source codes used for Zythos were \emph{hybrid\_hello.f90} and \emph{hello\_hybrid.c} which were exactly the same as Zeus. These codes 
 were compiled with all the compilers available on Zythos and before compiling, it was made sure that the right module was loaded by using the same 
 commands in the MPI examples of Zeus. Similarly, the compiler commands for Zythos with the hybrid jobs were exactly the same as the ones for the hybrid 
-jobs of Zeus. The only difference between the OpenMP/MPI exaples of Zythos and Zeus was running the task on Zyhtos as srun was no longer used, but 
-instead mpirun with omplace was implemented for these examples on Zythos. 
+jobs of Zeus. The only difference between the OpenMP/MPI examples of Zythos and Zeus was running the task on Zyhtos, as \emph{srun} was no longer used, 
+but instead \emph{mpirun} with \emph{omplace} was implemented for these examples on Zythos. 
 
-The characteristic approach to run hybrid jobs on Zythos is by running one MPI task for per 6-core NUMA region. This job script contains a request for 4
-nodes and begins 4 MPI tasks by using mpirun that is combined with omplace to place threads.
+The characteristic approach to run the hybrid jobs on Zythos is to run one MPI task for per 6-core NUMA region. This job script contains a request for 4
+nodes and begins 4 MPI tasks by using \emph{mpirun} that is combined with \emph{omplace} to place threads.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -19,7 +19,7 @@ nodes and begins 4 MPI tasks by using mpirun that is combined with omplace to pl
 \end{Verbatim}
 \end{tcolorbox}
 
-To run the codes on Zythos, the number of OpenMP threads were given and passed the message through the mpirun as:
+To run the codes on Zythos, the number of OpenMP threads were given and passed the message through the \emph{mpirun} as:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -29,7 +29,7 @@ mpirun -np 4 omplace -nt $OMP_NUM_THREADS ./$EXECUTABLE
 \end{Verbatim}
 \end{tcolorbox}
 
-The rest of the SLURM and the README files remain the same as the hybrid examples of Zeus, since the compilers and wrappers do not require any changes.
+The rest of the SLURM and the README files remained the same as the hybrid examples of Zeus, since the compilers and wrappers do not require any changes.
 The only modification made to the SLURM and the README was changing the names of the executables, results directories and output files to make them more
 specific to the hybrid jobs of Zythos.
 
