@@ -8,7 +8,7 @@ LAMMPS is an easy tool used to model atoms or rather, as a parallel molecule tes
 single processors or in parallel, making the use of message-passing systems (MPI) and a spatial-decomposition of the simulator domain. A significant
 number of its models have forms that give accelerated performance on CPUs, GPUs, and Intel Xeon Phi processors.
 
-The LAMMPS example done in the getexample tool was specifically run on Magnus. The source code had been provided with a large number of atoms and their
+The LAMMPS example done in the \emph{getexample} tool was specifically run on Magnus. The source code had been provided with a large number of atoms and their
 properties and potentials. The existing SLURM file of the MPI tasks of Magnus was utilized and modified to request a total of 2 nodes. The partition
 remained as debugq. The time was changed to 20 minutes as an increase in time would be better because it gives sufficient time to run the code. If the 
 time is not long enough, it kills the job once the time runs out.
@@ -26,8 +26,8 @@ The following commands show the SLURM directives needed for the LAMMPS task:
 \end{Verbatim}
 \end{tcolorbox}
 
-The program environment used for this task was GNU, hence the module was swapped from Cray to GNU and and lammps module was loaded which is required
-to run the source code and the data.
+The program environment used for this task was GNU, hence the module was swapped from Cray to GNU and and lammps module was loaded which was required
+to compile the source code. 
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -36,7 +36,7 @@ module load lammps
 \end{Verbatim}
 \end{tcolorbox}
 
-In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the group 
+In the template of the SLURM, an executable, a results directory and an output were declared to store the results of the LAMMPS example in the GROUP 
 with the filenames below:
 
 \begin{tcolorbox}
@@ -49,7 +49,7 @@ OUTPUT=lammps_mpi.log
 \end{Verbatim}
 \end{tcolorbox}
 
-Before running the example on the SCRATCH, the files ending with .lmp name which contain the data and code were copied to the SCRATCH and this was
+Before running the example on the SCRATCH, the files ending with .lmp name which contain the input data were copied to the SCRATCH and this was
 obtained in the SLURM as:
 
 \begin{tcolorbox}
@@ -58,8 +58,8 @@ cp *.lmp $SCRATCH
 \end{Verbatim}
 \end{tcolorbox}
 
-As this LAMMPS example is an MPI task, it was run on Magnus on 2 nodes with 24 MPI tasks per node giving a total of 48 tasks and this was implemented
-with the aprun command to launch:
+As this LAMMPS example is an MPI task, it was run on Magnus on 2 nodes with 24 MPI tasks per node giving a total of 48 tasks with the executable working
+on the data set called \emph{emp2.lmp} and this was implemented with the aprun command to launch the job:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
