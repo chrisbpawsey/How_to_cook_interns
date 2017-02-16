@@ -1,28 +1,28 @@
 \section{Creating Examples for the Getexample Library}
 
-The examples included in the getexample library were created by the internship students at Pawsey with their supervisor while the source codes within the
-getexample were obtained from some wiki pages and websites which were acknowledged in the examples. Some of the examples were also created due to the
-needs of research students for their internship projects at Pawsey. The examples obtained in the getexample are mainly for teaching the users how to work
-with parallel programming including MPI, OpenMP and hybrid jobs such as OpenMP/MPI which utilise basic source codes similar to \emph{"Hello world"} 
+The examples included in the \emph{getexample} library were created by the internship students at Pawsey with their supervisor while the source codes within the
+\emph{getexample} were obtained from some wiki pages and websites which were acknowledged in the examples. Some of the examples were also created due to the
+needs of research students for their internship projects at Pawsey. The examples obtained in the \emph{getexample} are mainly for teaching the users how to work
+with parallel programming including MPI, OpenMP and hybrid jobs consisting of OpenMP/MPI which utilise basic source codes similar to \emph{"Hello world"} 
 program and submit these jobs to different supercomputers such as Magnus, Zeus and Zythos using different program environments and compiler modules. 
 
-Each individual example on the getexample occupies a directory that is reserved for them and each example consists of three files listed below:
+Each individual example on the \emph{getexample} occupies a directory that is reserved for them and each example consists of three files listed below:
 
 \begin{itemize}    
-\item SLURM (Simple Linux Utility for Resource Management) : This allows the users to submit batch jobs to the supercomputers, check on their status and 
+\item SLURM (Simple Linux Utility for Resource Management): This allows the users to submit batch jobs to the supercomputers, check on their status and 
 cancel them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and 
 the jobID. It also allows the users to edit how many nodes the code requires to run on the HPC systems, the duration of the task that it takes, which 
 partition to be used and their account name. The SLURM initially creates a scracth directory for the example to run in and the results are outputted to 
 a log file. Then, it creates a group directory in which the results directory is located for that example. Once the output file is completed within the 
 scratch, the output file is then moved to the results directory located in the group directory and the scratch directory then gets removed.
-\item Source Code : This is usually a source code in C or FORTRAN and taken from some wiki pages to run the example.
-\item README : This file is an executable Bash script which can be read and run by the users. It provides details about what the source code does,
+\item Source Code: This is usually a source code in C or FORTRAN and taken from some wiki pages to run the example.
+\item README: This file is an executable Bash script which can be read and run by the users. It provides details about what the source code does,
 how to compile the source code depending on the program environment such as Cray, Intel, GNU or compilers like PGI, what can be modified in the SLURM 
 directives, and a set of instruction on how to submit the SLURM to the supercomputers including which specific commands to use for particular 
 supercomputers. It can be executed by simply typing ./README which then compiles the source code and submits the batch job to the chosen supercomputer.
 \end{itemize}
 
-For the examples in the getexample tool to be user friendly, helpful and efficient for working with Pawsey Centre resources, there are many design 
+For the examples in the \emph{getexample} tool to be user friendly, helpful and efficient for working with Pawsey Centre resources, there are many design 
 considerations to be held as listed below:
 
 \begin{itemize}
@@ -40,8 +40,8 @@ know where to change it from.
  
 Even though, the examples in the getexample tool are designed in a such way that once they are downloaded, the user should be able to run them without
 having to modify them. However, this is not always the case as some of the supercomputers in Pawsey Supercomputing Centre such as Zythos due to
-different set ups require the account name which is customized for each user and without the correct account name in the SLURM, the code fails to run. 
-Therefore, the examples in the getexample tool ensures that the users are informed on how to change their account name located in the SLURM file.
+different set ups, require the account name which is customized for each user and without the correct account name in the SLURM, the code fails to run. 
+Therefore, the examples in the \emph{getexample} tool ensures that the users are informed on how to change their account name located in the SLURM file.
 Furthermore, they assist the users on how to change number of nodes used within the supercomputers and increase or reduce the number of cores used
 based on the user's preferences.
 
