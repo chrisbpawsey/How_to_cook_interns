@@ -17,7 +17,7 @@ script as done in the previous examples. The partition used was also \emph{debug
 \end{tcolorbox}
 
 
-8 MPI tasks (-n 8) were specified to aprun to launch the job with 4 MPI tasks per node (-N 4), 2 MPI tasks per socket (-S 2) and each of the 8 MPI tasks 
+8 MPI tasks (-n 8) were specified to \emph{aprun} to launch the job with 4 MPI tasks per node (-N 4), 2 MPI tasks per socket (-S 2) and each of the 8 MPI tasks 
 had 6 OpenMP threads (-d 6). Therefore, the number of OpenMP threads, \emph{OMP\_NUM\_THREADS}, was set to 6. This full expression is shown as:
 
 \begin{tcolorbox}
@@ -28,7 +28,7 @@ aprun -n 8 -N 4 -S 2 -d 6 ./$EXECUTABLE >> ${OUTPUT}
 \end{tcolorbox}
 
 Once again, to run on multiple threads with the Intel environment on Cray, AFFINITY should be disabled with the same command used in the OpenMP examples
-just before the aprun command.
+just before the \emph{aprun} command.
 
 The source codes used for the hybrid examples were also consisted of both FORTRAN and C which were \emph{hybrid\_hello.f90} and \emph{hello\_hybrid.c.} 
 The README script contained the compiling commands to compile on Cray as shown below:
