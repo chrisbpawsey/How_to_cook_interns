@@ -1,8 +1,8 @@
 \subsubsection{Hybrid Examples}
 
-The OpenMP/MPI hybrid codes used for Zeus were exactly same as the ones for Magnus such as the FORTRAN and C codes, but they both had distinct compiler 
-commands specific to each compiler module. Therefore, it was also necessary to include which module to be loaded in the README files of the getexample 
-tool.
+The OpenMP/MPI codes used for Zeus were exactly the same as the ones for Magnus such as the FORTRAN and C codes, but they both had distinct compiler 
+commands specific to each compiler module. Therefore, it was also necessary to include which module to be loaded in the README files of Zeus in the 
+\emph{getexample} tool.
 
 This hybrid job requires 2 nodes and runs 1 MPI process with 16 OpenMP threads on each compiled executable. In order to launch the job to Zeus for both 
 of the source codes, the number of OpenMP threads was set to 16 and the srun command was used.
