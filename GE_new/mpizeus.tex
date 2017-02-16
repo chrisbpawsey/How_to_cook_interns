@@ -48,7 +48,7 @@ srun -n 32 -N 2 --mpi=pmi2 ./$EXECUTABLE >> ${OUTPUT}
 
 where -n defines the total number of MPI tasks while -N defines the number of nodes used on Zeus which is different from Magnus as -N defines the number
 of MPI tasks per node. Once again, in comparison to Magnus --mpi=pmi2 was added to \emph{srun} which wasn't used in \emph{aprun} where --mpi=pmi2 is the MPI
-implementation and must specified to srun for the correct operation.
+implementation and must specified to \emph{srun} for the correct operation.
 
 In the README file, depending on which compiler the source code would be compiled with, the compiler module was included and loaded in the README file 
 when it ran. For example, if the GNU compiler module was to be used, the gcc module was loaded with the mpt module as shown below:
