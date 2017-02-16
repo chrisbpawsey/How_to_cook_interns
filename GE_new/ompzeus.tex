@@ -1,6 +1,6 @@
 \subsubsection{OMP Examples}
 
-The OpenMP examples used for the Zeus had the same source codes as the ones used for Magnus which were \emph{omp\_hello.c} and \emph{omp\_hello.f}
+The OpenMP examples used for Zeus had the same source codes as the ones used for Magnus which were \emph{omp\_hello.c} and \emph{omp\_hello.f}
 However, as mentioned earlier due to the different setups between Magnus and Zeus, the SLURM and the README for these codes are different.
 
 The main difference between the MPI and OpenMP jobs for Zeus is that the compiling command changes for all the different compiler options with OpenMP
@@ -12,7 +12,7 @@ the system will fail to recognize the compiler commands and end up giving many e
 In the getexample tool, to run an OpenMP job on Zeus, only one node was used just as Magnus, but as diccussed in the MPI example, the workq partition was
 used unlike the debugq partition. Therefore, both of the OpenMP examples ran one 16-thread OpenMP instance with one node.
 
-To run the \emph{omp\_hello.f} and \emph{omp\_hello.c} codes on Zeus with the GNU compiler, the number of OpenMP threads were set to 16 on the SLURM and 
+To run the \emph{omp\_hello.f} and \emph{omp\_hello.c} codes on Zeus with the GNU compiler, the number of OpenMP threads was set to 16 on the SLURM and 
 the srun command was used to run it as shown:
 
 \begin{tcolorbox}
@@ -59,7 +59,7 @@ gcc -O2 -fopenmp omp_hello.c -o hello_omp_gnu
 \end{tcolorbox}
 
 As it can be seen, the only difference between compiling the C code and the FORTRAN code was the gcc and gfortran commands. Both of these codes can be 
-compiled with Intel and PGI compilers, but the wrapper for them was different.
+compiled with Intel and PGI compilers, but the wrappers for them are different.
 
 For Intel, compiling the FORTRAN and C codes respectively:
 
