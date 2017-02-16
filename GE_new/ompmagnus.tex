@@ -2,10 +2,11 @@
 
 OpenMP (Open Multi-Processing) is known as a common shared memory model in which the threads work in parallel and access all shared memory. Therefore,
 it can be thought of one task because of their restrictions to only one node. Unlike the MPI examples, the compiler commands and the wrappers do change 
-for different environments on Magnus with the OpenMP tasks. Thus, it is necessary to swap to the right program environment corresponding to the compiler.
+for the different environments on Magnus with the OpenMP tasks. Thus, it is necessary to swap to the right program environment corresponding to the 
+compiler in use.
 
 As mentioned previously, the OpenMP jobs use only one node and this node can be fully occupied node or a node occupying a single NUMA region. When it was 
-fully occupied, the slurm script had a choice of only one node with the debugq partition as explained previously.
+fully occupied, the SLURM script had a choice of only one node with the debugq partition as explained previously.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -17,7 +18,7 @@ fully occupied, the slurm script had a choice of only one node with the debugq p
 \end{tcolorbox}
 
 The initiation of the job by aprun was done by specifying that there was one task and 24 threads. The number of threads is also called a "depth" and 
-hence, the number of threads, OMP\_NUM\_THREADS was set to 24 giving an expression of:
+hence, the number of threads, \emph{OMP\_NUM\_THREADS}, was set to 24 giving an expression of:
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -27,7 +28,7 @@ aprun -n 1 -d 24 ./$EXECUTABLE >> ${OUTPUT}
 \end{tcolorbox}
 
 For a node occupying a single NUMA region, the code is more efficient when threads are limited to one NUMA region containing 12 cores. The expression 
-(-d) 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
+-d 12 ensures that threads are bound correctly and this can be clearly done by specifying this via -cc which specifies the cores used. This is all 
 illustrated below as:
 
 \begin{tcolorbox}
