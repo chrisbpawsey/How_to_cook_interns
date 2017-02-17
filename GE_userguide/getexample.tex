@@ -1,0 +1,54 @@
+\section{How to Use the \emph{Getexample} on Pawsey Supercomputing Centre Resources}
+
+The \emph{getexample} tool currently provides examples for Magnus and Zeus which are easily accessible from both of the resources. However, it provides
+examples that are applicable to the supercomputer in use. Therefore, if you login from Magnus, you can only display the Magnus examples. To view the
+Zeus examples, you need to login with your Zeus account.
+
+To use the \emph{getexample}, follow the steps listed below:
+
+\begin{enumerate}
+\item To have access to the examples, login from either Magnus or Zeus, using the following commands respectively.
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ssh -X myusername@magnus.pawsey.org.au
+ssh -X myusername@zeus.pawsey.org.au
+\end{Verbatim}
+\end{tcolorbox}
+If you are using a Windows machine, you need to use ssh -X (a relaxed security mode). If you are a Mac user, you need to specify ssh -Y instead.
+\item To view the examples within the \emph{getexample}, simply type:
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+getexample
+\end{Verbatim}
+\end{tcolorbox} 
+This lists all the examples available for the supercomputer you are utilising.
+\item To require one of the examples, simply type: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+getexample <name of the example>
+\end{Verbatim}
+\end{tcolorbox} 
+This creates a directory with the same as the example on where you access the \emph{getexample} from and copies the files of the example into this 
+directory.
+\item To see the example, change your directory from your current directory to the new directory created by typing: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+cd <name of the example>
+\end{Verbatim}
+\end{tcolorbox}
+\item To list the files located in this example directory, type: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ls
+\end{Verbatim}
+\end{tcolorbox}
+\item To run the example, simply type: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+./README
+\end{Verbatim}
+\end{tcolorbox}
+To understand what the README does, we recommend you to read the descriptions located with the README script.
+\end{enumerate}
+
+
