@@ -7,19 +7,48 @@ Zeus examples, you need to login with your Zeus account.
 To use the \emph{getexample}, follow the steps listed below:
 
 \begin{enumerate}
-\item Login from either Magnus or Zeus. To login to Magnus or Zeus, use the following commands respectively. If you are using a Windows machine, you
-need to use ssh -X. If you are a Mac user, you need to specify ssh -Y instead.  
-\begin{enumerate}
-\item ssh -X myusername@magnus.pawsey.org.au
-\item ssh -X myusername@zeus.pawsey.org.au
-\end{enumerate}
-\item To access the examples within the \emph{getexample}, simply type: getexample. This lists all the examples available for the supercomputer you are
-utilising.
-\item To require one of the examples, simply type: getexample \<name of the example\>. This creates a directory with the same as the example on where you
-access the getexample from and copies the files of the example into this directory.
-\item To view the example, change your directory from your current directory to the new directory created. To do this, type: cd \<name of the example\>
-\item To list the files located in this example directory, type: ls
-\item If you wish to run the example, you need to use: ./README.
+\item To have access to the examples, login from either Magnus or Zeus, using the following commands respectively.
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ssh -X myusername@magnus.pawsey.org.au
+ssh -X myusername@zeus.pawsey.org.au
+\end{Verbatim}
+\end{tcolorbox}
+If you are using a Windows machine, you need to use ssh -X (a relaxed security mode). If you are a Mac user, you need to specify ssh -Y instead.
+\item To view the examples within the \emph{getexample}, simply type:
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+getexample
+\end{Verbatim}
+\end{tcolorbox} 
+This lists all the examples available for the supercomputer you are utilising.
+\item To require one of the examples, simply type: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+getexample <name of the example>
+\end{Verbatim}
+\end{tcolorbox} 
+This creates a directory with the same as the example on where you access the \emph{getexample} from and copies the files of the example into this 
+directory.
+\item To see the example, change your directory from your current directory to the new directory created by typing: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+cd <name of the example>
+\end{Verbatim}
+\end{tcolorbox}
+\item To list the files located in this example directory, type: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+ls
+\end{Verbatim}
+\end{tcolorbox}
+\item To run the example, simply type: 
+\begin{tcolorbox}
+\begin{Verbatim}[fontsize=\scriptsize]
+./README
+\end{Verbatim}
+\end{tcolorbox}
+To understand what the README does, we recommend you to read the descriptions located with the README script.
 \end{enumerate}
 
 
