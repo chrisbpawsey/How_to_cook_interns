@@ -23,8 +23,8 @@ were shown in the SLURM directives as:
 \end{Verbatim}
 \end{tcolorbox}
 
-This code was also run on the GNU environment, and hence it was necessary to change the program environment from Cray to the GNU and load the gromacs
-module. This module is needed to compile the source code and access the original gromacs data set.
+This code was also run on the GNU environment and hence, it was necessary to change the program environment from Cray to the GNU and load the gromacs
+module. This module was needed to compile the source code and access the original gromacs data set.
 
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize]
@@ -60,8 +60,8 @@ cp $INPUT_DATA_DIR/*.mdp $SCRATCH
 \end{Verbatim}
 \end{tcolorbox}
 
-Unlike the LAMMPS example, GROMACS consisted of many serial tasks which had to be performed first, before running the actual MPI tasks. These serial 
-tasks were basically the pre-processing for the MPI tasks and this was done as demonstrated below:
+Unlike the LAMMPS example, GROMACS consisted of many serial tasks which had to be performed first, before running the actual MPI task. These serial 
+tasks were basically the pre-processing data for the MPI task and this was done as demonstrated below:
   
 \begin{tcolorbox}
 \begin{Verbatim}[fontsize=\scriptsize] 
