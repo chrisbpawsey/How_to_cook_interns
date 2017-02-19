@@ -160,9 +160,9 @@ MPI is known as a Message Passing Interface application that is a communication 
 c codes were mainly used and ran on different environments including Cray, GNU and Intel. On Magnus, the default program environment is Cray. Therefore, 
 it was necessary to load each program environment that was intended to work on by doing a:
 
-\begin{verbatim*}
-\mbox{module swap PrgEnv-cray PrgEnv-<name of environment>} 
-\end{verbatim*}
+\begin{verbatim}
+module swap PrgEnv-cray PrgEnv-<name of environment> 
+\end{verbatim}
 
 It is also very important to notice that if the right program environment is not loaded, the code will fail as each environment have different commands 
 for compilers. However, on Magnus, swapping from one environment to the other might be very challenging for the new users. As the getexample tool is
