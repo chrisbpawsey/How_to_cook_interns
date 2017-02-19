@@ -13,7 +13,7 @@ Each individual example on the \emph{getexample} occupies a directory that is re
 cancel them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and 
 the jobID. It also allows the users to edit how many nodes the code requires to run on the HPC systems, the duration of the task that it takes, which 
 partition to be used and their account name. The SLURM initially creates a scracth directory for the example to run in and the results are outputted to 
-a log file. Then, it creates a group directory in which the results directory is located for that example. Once the output file is completed within the 
+a log file. Then, it creates a group directory in which the results directory is located for that example. Once the job finishes running within the 
 scratch, the output file is then moved to the results directory located in the group directory and the scratch directory then gets removed.
 \item Source Code: This is usually a source code in C or FORTRAN and taken from some wiki pages to run the example.
 \item README: This file is an executable Bash script which can be read and run by the users. It provides details about what the source code does,
