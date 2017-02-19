@@ -1,4 +1,4 @@
-\subsubsection{MPI Jobs}
+\subsubsection{MPI Examples}
 
 The \emph{getexample} tool also includes MPI examples for Zeus with the GNU, Intel and PGI compilers because both Zeus and Magnus have different operating systems 
 and hence, the same MPI example needs to handled differently on Zeus. It is necessary to realise that the MPI source codes used for Zeus are the same
@@ -20,7 +20,7 @@ the \emph{debugq.} These were defined in the SLURM script of the MPI examples as
 \end{Verbatim}
 \end{tcolorbox}
 
-Unlike Magnus, when --export=NONE is included in the SLURM for Zeus, the code does not compile and it gives many errors. For this reason, this line was
+Unlike Magnus, when \emph{--export=NONE} is included in the SLURM for Zeus, the code does not compile and it gives many errors. For this reason, this line was
 excluded in the SLURM files of Zeus to compile the codes correctly.
 
 To run the code with a given executable on scratch, and store the results in a directory within the group directory to an output file, the generic 
