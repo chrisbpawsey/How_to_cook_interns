@@ -1,54 +1,61 @@
-\section{How to Use the \emph{Getexample} on Pawsey Supercomputing Centre Resources}
+\section{How to Use the Getexample on Pawsey Supercomputing Centre Resources}
 
-The \emph{getexample} tool currently provides examples for Magnus and Zeus which are easily accessible from both of the resources. However, it provides
-examples that are applicable to the supercomputer in use. Therefore, if you login from Magnus, you can only display the Magnus examples. To view the
-Zeus examples, you need to login with your Zeus account.
+The \emph{getexample} tool currently provides examples for Magnus and Zeus which are easily accessible from both of the resources. However, it only 
+provides examples that are applicable to the supercomputer in use. Therefore, if you log in from Magnus, you can only display the Magnus examples. To 
+view the Zeus examples, you need to log in with your Zeus account.
 
 To use the \emph{getexample}, follow the steps listed below:
 
 \begin{enumerate}
-\item To have access to the examples, login from either Magnus or Zeus, using the following commands respectively.
+\item To have access to the examples, log in from either Magnus or Zeus, using the following commands respectively.
 \begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
+\begin{Verbatim}[fontsize=\small]
 ssh -X myusername@magnus.pawsey.org.au
 ssh -X myusername@zeus.pawsey.org.au
 \end{Verbatim}
 \end{tcolorbox}
-If you are using a Windows machine, you need to use ssh -X (a relaxed security mode). If you are a Mac user, you need to specify ssh -Y instead.
+If you are using a Windows machine, you need to use ssh -X to get a reliable X connection. If you are a Mac user, you need to specify ssh -Y (a relaxed
+security mode) instead.
 \item To view the examples within the \emph{getexample}, simply type:
 \begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
+\begin{Verbatim}[fontsize=\small]
 getexample
 \end{Verbatim}
 \end{tcolorbox} 
 This lists all the examples available for the supercomputer you are utilising.
 \item To require one of the examples, simply type: 
 \begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
+\begin{Verbatim}[fontsize=\small]
 getexample <name of the example>
 \end{Verbatim}
 \end{tcolorbox} 
-This creates a directory with the same as the example on where you access the \emph{getexample} from and copies the files of the example into this 
-directory.
+You will see a feedback after entering this command which tells you that it creates a directory with the same name as the example on where you access the 
+\emph{getexample} from and copies all the files of the example into this directory.
 \item To see the example, change your directory from your current directory to the new directory created by typing: 
 \begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
+\begin{Verbatim}[fontsize=\small]
 cd <name of the example>
 \end{Verbatim}
 \end{tcolorbox}
 \item To list the files located in this example directory, type: 
 \begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
+\begin{Verbatim}[fontsize=\small]
 ls
 \end{Verbatim}
 \end{tcolorbox}
-\item To run the example, simply type: 
+You will see 2 files as mentioned previously. We recommend you to read the descriptions located within the README and the SLURM scripts to understand 
+what the example does and how it is performed on the supercomputer that you are using.
+\item To run the example, type: 
 \begin{tcolorbox}
-\begin{Verbatim}[fontsize=\scriptsize]
+\begin{Verbatim}[fontsize=\small]
 ./README
 \end{Verbatim}
 \end{tcolorbox}
-To understand what the README does, we recommend you to read the descriptions located with the README script.
+This command copies the source code into the directory of the example, then compiles the source code and submits the SLURM script to the supercomputer
+you are currently logged in.
+
+Once you run the README, you will see some feedback on the terminal screen. This tells you how to check the status of the job submitted, and where to
+find the results of the job. You can follow the information appeared on your screen to view results. 
 \end{enumerate}
 
 
