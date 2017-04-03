@@ -3,7 +3,7 @@
 The examples included in the \emph{getexample} library were created by the internship students at Pawsey with their supervisor while the source codes within the
 \emph{getexample} were obtained from some wiki pages and websites which were acknowledged in the examples. Some of the examples were also created due to the
 needs of research students for their internship projects at Pawsey. The examples obtained in the \emph{getexample} are mainly for teaching the users how to work
-with parallel programming including MPI, OpenMP and hybrid jobs consisting of OpenMP/MPI which utilise basic source codes similar to \emph{"Hello world"} 
+with parallel programming including MPI, OpenMP and hybrid jobs consisting of OpenMP/MPI which utilize basic source codes similar to \emph{"Hello world"} 
 program and submit these jobs to different supercomputers such as Magnus, Zeus and Zythos using different program environments and compiler modules. 
 
 Each individual example on the \emph{getexample} occupies a directory that is reserved for them and each example consists of three files listed below:
@@ -12,7 +12,7 @@ Each individual example on the \emph{getexample} occupies a directory that is re
 \item SLURM (Simple Linux Utility for Resource Management): This allows the users to submit batch jobs to the supercomputers, check on their status and 
 cancel them if needed. It contains the necessary information about the name of the executable, the results directory, the name of the output file and 
 the jobID. It also allows the users to edit how many nodes the code requires to run on the HPC systems, the duration of the task that it takes, which 
-partition to be used and their account name. The SLURM initially creates a scracth directory for the example to run in and the results are outputted to 
+partition to be used and their account name. The SLURM initially creates a scratch directory for the example to run in and the results are outputted to 
 a log file. Then, it creates a group directory in which the results directory is located for that example. Once the job finishes running within the 
 scratch, the output file is then moved to the results directory located in the group directory and the scratch directory then gets removed.
 \item Source Code: This is usually a source code in C or FORTRAN and taken from some wiki pages to run the example.
@@ -30,7 +30,7 @@ considerations to be held as listed below:
 they should be suitable for the current operating systems with the use of correct commands for the different compiler modules such as Intel, GNU,
 and PGI or different program environments such as Cray.
 \item All the files to run the example should be included with the example.
-\item To minimise confusion on how to perform the example on the supercomputers, the example should be executed with a single command. For example, 
+\item To minimize confusion on how to perform the example on the supercomputers, the example should be executed with a single command. For example, 
 if a simple Bash script is used, it should be run as ./README.
 \item The examples should have enough instructions on what each command does and which parts of the SLURM and the README file can be modified so that
 all the files and the scripts should be able to edited easily by the users for their preferences. These instructions should be understandable by the new 
