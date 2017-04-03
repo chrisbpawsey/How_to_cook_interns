@@ -1,4 +1,4 @@
-\section{Maintanence and Future Work}
+\section{Maintenance and Future Work}
 
 Even though the \emph{getexample} tool is designed for the latest operating systems of the Pawsey Supercomputing Centre, it may not work properly in the future
 due to the changes and updates made to the advanced computing resources. This means that a previously working example may fail to work and resulting in 
@@ -9,7 +9,7 @@ modify the codes to suit the current systems.
 
 However, the \emph{getexample} tool is a large library with many examples. Thus, it can be really frustrating and hard for the system administrators to run 
 all the examples one by one and having to fix these problems. In order to make this procedure easier for them, a basic Bash executable script can be 
-used which runs all the examples at once, checks their status and prints out whether the examples were succesful or not to an output file based on their
+used which runs all the examples at once, checks their status and prints out whether the examples were successful or not to an output file based on their
 status.
 
 Even though, the script shows which examples manage to run successfully or failed, the challenge for the system administrators is having to fix 
@@ -32,7 +32,7 @@ to execute. However, when the users decide to utilize the SLURM directives for t
 this requires modifications in all of the scripts.
 
 Once again, as there are many examples located in the \emph{getexample,} editing the partition manually is quite time consuming for the technical staff. To do 
-this procedure in a faster way, a Bash script can be written to go through each README and the SLURM scritps of the Magnus examples and modify the 
+this procedure in a faster way, a Bash script can be written to go through each README and the SLURM scripts of the Magnus examples and modify the 
 partition from the \emph{debugq} to \emph{workq} automatically. This script can be even used for other purposes especially curating the \emph{getexample} 
 whenever the examples need any modification.   
 

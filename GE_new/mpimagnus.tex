@@ -12,7 +12,7 @@ module swap PrgEnv-cray PrgEnv-<name of the environment>
 
 It is also very important to notice that if the right program environment is not loaded, the code will fail as each environment have different commands 
 for compilers. However, on Magnus, swapping from one environment to the other may be very challenging for the new users. As the \emph{getexample} tool is
-desired to be as automated as possible to minimise failures on tasks, it was made sure that after running each job on the Intel and GNU environments, the
+desired to be as automated as possible to minimize failures on tasks, it was made sure that after running each job on the Intel and GNU environments, the
 environment was set back to the default environment, Cray. This prevents the users to manually list the module every time they run something on Magnus
 and modify the codes to swap from one module to the other. 
 

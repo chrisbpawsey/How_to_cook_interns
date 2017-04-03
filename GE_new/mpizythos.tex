@@ -1,7 +1,7 @@
 \subsubsection{MPI Examples}
 
 Similarly, the MPI examples used for Zythos also utilized the same source codes as Zeus and Magnus which were either FORTRAN or C. To compile with the
-correct modules, the compiler modules were also needed to be loaded by using the same commads as Zeus in both the README and SLURM scripts. Unlike Zeus, 
+correct modules, the compiler modules were also needed to be loaded by using the same commands as Zeus in both the README and SLURM scripts. Unlike Zeus, 
 the partition in the SLURM for Zythos was \emph{zythos} instead of the \emph{workq.} The number of nodes was also specified with the use of 
 \emph{--ntasks} rather than the command \emph{--nodes} as compared to the other Pawsey resources. In addition to the SLURM scripts, the number of cores 
 per node was defined with \emph{--cpus-per-task.} These were included in the SLURM as shown below:
@@ -17,10 +17,10 @@ per node was defined with \emph{--cpus-per-task.} These were included in the SLU
 \end{Verbatim}
 \end{tcolorbox}
 
-As mentioned previously, the authorised account name was inputted to the SLURM to access Zythos and to run the codes successfully. However, if the
+As mentioned previously, the authorized account name was inputted to the SLURM to access Zythos and to run the codes successfully. However, if the
 users decide to run the same examples, the only modification required is to change the name of the account.
 
-When clients run a job on Zythos, for a better memory perfomance they are recommended to ask for the entire cores on the node as a whole instead of 
+When clients run a job on Zythos, for a better memory performance they are recommended to ask for the entire cores on the node as a whole instead of 
 making the SLURM allocate cpus at irregular intervals on Zythos. The basic approach to do this is by occupying all of the 6 cores per node at all times.
 In so doing, the SLURM will be able to allocate the cpu cores successively, rather than having to pick up available cpu cores which may be scattered all 
 over the framework. 
